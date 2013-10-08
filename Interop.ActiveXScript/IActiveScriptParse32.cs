@@ -139,7 +139,7 @@
             [In] uint sourceContext,
             [In] uint startingLineNumber,
             [In] ScriptTextFlags flags,
-            [Out] IntPtr pVarResult,
+            [Out] object pVarResult,
             [Out] out EXCEPINFO excepInfo
         );
     }
