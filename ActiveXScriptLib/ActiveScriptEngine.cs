@@ -44,25 +44,17 @@
 
         public void AddCode(string code)
         {
-            EXCEPINFO exceptionInfo = new EXCEPINFO();
-
-            parser.ParseScriptText(
-                code: code,
-                itemName: null,
-                context: null,
-                delimiter: null,
-                sourceContext: 0u,
-                startingLineNumber: 1u,
-                flags: ScriptTextFlags.IsVisible,
-                pVarResult: IntPtr.Zero,
-                excepInfo: out exceptionInfo);
+            AddCode(code, null);
         }
 
         public void AddCode(string code, string alias)
         {
             EXCEPINFO exceptionInfo = new EXCEPINFO();
 
-            activeScript.AddNamedItem(alias,ScriptItemFlags.IsVisible | ScriptItemFlags.GlobalMembers);
+            if (alias != null)
+            {
+                activeScript.AddNamedItem(alias, ScriptItemFlags.CodeOnly | ScriptItemFlags.IsVisible);
+            }
 
             parser.ParseScriptText(
                 code: code,
@@ -70,13 +62,13 @@
                 context: null,
                 delimiter: null,
                 sourceContext: 0u,
-                startingLineNumber: 1u,
+                startingLineNumber: 100u,
                 flags: ScriptTextFlags.IsVisible,
                 pVarResult: IntPtr.Zero,
                 excepInfo: out exceptionInfo);
         }
 
-        public void Run()
+        public void Start()
         {
             activeScript.SetScriptState(ScriptState.Started);
             activeScript.SetScriptState(ScriptState.Connected);
@@ -108,14 +100,15 @@
 
         public void GetLCID(out uint lcid)
         {
+            // TODO: What should we do here?
             lcid = (uint)Thread.CurrentThread.CurrentUICulture.LCID;
         }
 
         public void GetItemInfo(string name, ScriptInfoFlags mask, ref IntPtr pUnkItem, ref IntPtr pTypeInfo)
         {
-            //object disp;
-            //activeScript.GetScriptDispatch(name, out disp);
-            //pUnkItem = Marshal.GetIUnknownForObject(disp);
+            object disp;
+            activeScript.GetScriptDispatch(name, out disp);
+            pUnkItem = Marshal.GetIUnknownForObject(disp);
         }
 
         public void GetDocVersionString(out string version)
@@ -133,6 +126,12 @@
 
         public void OnScriptError(IActiveScriptError error)
         {
+            EXCEPINFO excep;
+            error.GetExceptionInfo(out excep);
+
+            // This throws on certain errrors?
+            //string line;
+            //error.GetSourceLineText(out line);
         }
 
         public void OnEnterScript()
