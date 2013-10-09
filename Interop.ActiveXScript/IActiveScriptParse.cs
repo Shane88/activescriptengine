@@ -15,7 +15,7 @@
     [ComImport]
     [Guid("bb1a2ae2-a4f9-11cf-8f20-00805f2cd064")]
     [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
-    public interface IActiveScriptParse32
+    public interface IActiveScriptParse
     {
         /// <summary>
         /// Initializes the scripting engine.

@@ -70,9 +70,11 @@
 
                 scriptEngine.AddCode(addCode);
 
-                script.AddCode();
+                //script.AddCode();
 
                 //MessageBox.Show(scriptEngine.Eval("Add 1, 2").ToString());
+
+                scriptEngine.Dispose();
             }
             catch (Exception ex)
             {

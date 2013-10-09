@@ -15,14 +15,13 @@
     [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
     public interface IActiveScriptError
     {
+
         /// <summary>
         /// Retrieves information about an error that occurred while the scripting engine was running a script.
         /// <see cref="http://msdn.microsoft.com/en-us/library/0fdy4f25(v=vs.94).aspx"/>
         /// </summary>
-        /// <param name="excepInfo">Address of an EXCEPINFO structure that receives error information.</param>
-        void GetExceptionInfo(
-            [Out] out EXCEPINFO excepInfo
-        );
+        /// <returns>An EXCEPINFO structure that receives error information.</returns>
+        EXCEPINFO GetExceptionInfo();
 
         /// <summary>
         /// Retrieves the location in the source code where an error occurred while the scripting 
@@ -36,8 +35,8 @@
         /// <param name="position">Address of a variable that receives the character position 
         /// in the line where the error occurred.</param>
         void GetSourcePosition(
-            [Out] out uint sourceContext,
-            [Out] out uint lineNumber,
+            [Out] out int sourceContext,
+            [Out] out int lineNumber,
             [Out] out int position
         );
 
@@ -46,10 +45,7 @@
         /// was running a script.
         /// <see cref="http://msdn.microsoft.com/en-us/library/dwy967hz(v=vs.94).aspx"/>
         /// </summary>
-        /// <param name="sourceLine">Address of a buffer that receives the line of source code in 
-        /// which the error occurred.</param>
-        void GetSourceLineText(
-            [Out] [MarshalAs(UnmanagedType.BStr)] out string sourceLine
-        );
+        /// <returns>The line of source code in which the error occurred.</returns>
+        string GetSourceLineText();
     }
 }

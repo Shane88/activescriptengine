@@ -9,11 +9,13 @@
     using Interop.ActiveXScript;
     using EXCEPINFO = System.Runtime.InteropServices.ComTypes.EXCEPINFO;
 
-    public class ActiveScriptEngine : IActiveScriptSite
+    public class ActiveScriptEngine : IActiveScriptSite, IDisposable
     {
         private IActiveScript activeScript;
-        private IActiveScriptParse32 parser;
+        private IActiveScriptParse parser;
         private Dictionary<string, object> hostObjects;
+
+        public ScriptExceptionInfo LastError { get; private set; }
 
         public ActiveScriptEngine(string progID)
         {
@@ -29,7 +31,7 @@
                 throw new Exception("Unable to create an IActiveScript from " + progID);
             }
             
-            parser = activeScript as IActiveScriptParse32;
+            parser = activeScript as IActiveScriptParse;
 
             if (parser == null) 
             {
@@ -85,6 +87,8 @@
 
         public object Eval(string expression)
         {
+            // TODO: Not working.
+
             EXCEPINFO exceptionInfo;
             object pResult = new object();
 
@@ -131,6 +135,8 @@
             return default(T);
         }
 
+        #region IActiveScriptSite Interface
+
         public void GetLCID(out uint lcid)
         {
             // TODO: What should we do here?
@@ -165,21 +171,12 @@
         }
 
         public void OnStateChange(ScriptState state)
-        {            
+        {
         }
 
         public void OnScriptError(IActiveScriptError error)
         {
-            EXCEPINFO excep;
-            error.GetExceptionInfo(out excep);
-
-            if (excep.bstrDescription != null)
-            {
-            }
-
-            // This throws on certain errrors?
-            //string line;
-            //error.GetSourceLineText(out line);
+            this.LastError = new ScriptExceptionInfo(error);
         }
 
         public void OnEnterScript()
@@ -188,6 +185,31 @@
 
         public void OnLeaveScript()
         {
+        }
+
+        #endregion IActiveScriptSite Interface
+
+        public void Dispose()
+        {
+            if (activeScript != null)
+            {
+                try
+                {
+                    activeScript.Close();
+                }
+                catch
+                {
+                }
+                finally
+                {
+                    activeScript = null;
+                }
+            }
+
+            if (parser != null)
+            {
+                parser = null;
+            }
         }
     }
 }
