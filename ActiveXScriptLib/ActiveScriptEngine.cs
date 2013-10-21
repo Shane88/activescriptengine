@@ -42,8 +42,6 @@
 
             activeScript.SetScriptSite(this);
 
-            activeScript.SetScriptState(ScriptState.Initialized);
-
             hostObjects = new Dictionary<string, object>();
         }
 
@@ -79,16 +77,34 @@
                 excepInfo: out exceptionInfo);
         }
 
+        /// <summary>
+        /// Puts the scripting engine into the initialized state.
+        /// At this point all script text will be checked for syntax errors, but no code will be
+        /// executed.
+        /// </summary>
+        public void Initialize()
+        {
+            activeScript.SetScriptState(ScriptState.Initialized);
+        }
+
+        /// <summary>
+        /// Puts the scripting engine into the Started state.
+        /// At this point any code not within functions, subs, or classes will be executed.
+        /// Code will be executed in the order they were added to the script engine.
+        /// </summary>
         public void Start()
         {
             activeScript.SetScriptState(ScriptState.Started);
             activeScript.SetScriptState(ScriptState.Connected);
         }
 
+        /// <summary>
+        /// TODO: Not working.
+        /// </summary>
+        /// <param name="expression"></param>
+        /// <returns></returns>
         public object Eval(string expression)
         {
-            // TODO: Not working.
-
             EXCEPINFO exceptionInfo;
             object pResult = new object();
 

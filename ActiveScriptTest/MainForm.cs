@@ -54,6 +54,8 @@
 
                 scriptEngine.AddCode(echo);
 
+                scriptEngine.Initialize();
+
                 scriptEngine.Start();
 
                 dynamic script = scriptEngine.GetScriptHandle();
