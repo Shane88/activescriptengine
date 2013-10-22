@@ -2,20 +2,18 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-    using System.Runtime.InteropServices;
-    using System.Threading;
     using Interop.ActiveXScript;
-    using EXCEPINFO = System.Runtime.InteropServices.ComTypes.EXCEPINFO;
+    using EXCEPINFO = System.Runtime.InteropServices.ComTypes.EXCEPINFO;    
 
-    public class ActiveScriptEngine : IActiveScriptSite, IDisposable
+    public class ActiveScriptEngine : IDisposable
     {
-        private IActiveScript activeScript;
-        private IActiveScriptParse parser;
-        private Dictionary<string, object> hostObjects;
+        public event ScriptErrorOccurredDelegate ScriptErrorOccurred;
+        public ScriptErrorInfo LastError { get; internal set; }
 
-        public ScriptExceptionInfo LastError { get; private set; }
+        private ActiveScriptParse parser;
+        internal IActiveScript activeScript;
+        internal Dictionary<string, object> hostObjects;
+        private ActiveScriptSite scriptSite;
 
         public ActiveScriptEngine(string progID)
         {
@@ -30,17 +28,13 @@
             {
                 throw new Exception("Unable to create an IActiveScript from " + progID);
             }
-            
-            parser = activeScript as IActiveScriptParse;
 
-            if (parser == null) 
-            {
-                throw new Exception("Unable to obtain IActiveScriptParse32 interface from script engine");
-            }
+            parser = ActiveScriptParse.MakeActiveScriptParse(activeScript);
 
             parser.InitNew();
 
-            activeScript.SetScriptSite(this);
+            scriptSite = new ActiveScriptSite(this);
+            activeScript.SetScriptSite(scriptSite);
 
             hostObjects = new Dictionary<string, object>();
         }
@@ -73,7 +67,7 @@
                 sourceContext: 0u,
                 startingLineNumber: 1u,
                 flags: ScriptTextFlags.IsVisible,
-                pVarResult: null,
+                pVarResult: IntPtr.Zero,
                 excepInfo: out exceptionInfo);
         }
 
@@ -96,30 +90,6 @@
         {
             activeScript.SetScriptState(ScriptState.Started);
             activeScript.SetScriptState(ScriptState.Connected);
-        }
-
-        /// <summary>
-        /// TODO: Not working.
-        /// </summary>
-        /// <param name="expression"></param>
-        /// <returns></returns>
-        public object Eval(string expression)
-        {
-            EXCEPINFO exceptionInfo;
-            object pResult = new object();
-
-            parser.ParseScriptText(
-                code: expression,
-                itemName: null,
-                context: null,
-                delimiter: null,
-                sourceContext: 0u,
-                startingLineNumber: 1u,
-                flags: ScriptTextFlags.IsExpression,
-                pVarResult: pResult,
-                excepInfo: out exceptionInfo);
-
-            return pResult;
         }
 
         public object GetScriptHandle()
@@ -151,59 +121,17 @@
             return default(T);
         }
 
-        #region IActiveScriptSite Interface
-
-        public void GetLCID(out uint lcid)
+        internal void OnScriptError(IActiveScriptError error)
         {
-            // TODO: What should we do here?
-            lcid = (uint)Thread.CurrentThread.CurrentUICulture.LCID;
-        }
+            this.LastError = new ScriptErrorInfo(error);
 
-        public void GetItemInfo(string name, ScriptInfoFlags mask, ref IntPtr pUnkItem, ref IntPtr pTypeInfo)
-        {
-            if (mask == ScriptInfoFlags.IUnknown)
+            var errorOccurred = this.ScriptErrorOccurred;
+
+            if (errorOccurred != null)
             {
-                // Look up list of host objects.
-                if (hostObjects.ContainsKey(name))
-                {
-                    pUnkItem = Marshal.GetIUnknownForObject(hostObjects[name]);
-                }
-                else
-                {
-                    object disp;
-                    activeScript.GetScriptDispatch(name, out disp);
-                    pUnkItem = Marshal.GetIUnknownForObject(disp);
-                }
+                errorOccurred(this, this.LastError);
             }
         }
-
-        public void GetDocVersionString(out string version)
-        {
-            version = "1.0.0.0";
-        }
-
-        public void OnScriptTerminate(IntPtr pVarResult, ref EXCEPINFO excepInfo)
-        {
-        }
-
-        public void OnStateChange(ScriptState state)
-        {
-        }
-
-        public void OnScriptError(IActiveScriptError error)
-        {
-            this.LastError = new ScriptExceptionInfo(error);
-        }
-
-        public void OnEnterScript()
-        {
-        }
-
-        public void OnLeaveScript()
-        {
-        }
-
-        #endregion IActiveScriptSite Interface
 
         public void Dispose()
         {

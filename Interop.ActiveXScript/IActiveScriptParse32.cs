@@ -15,7 +15,7 @@
     [ComImport]
     [Guid("bb1a2ae2-a4f9-11cf-8f20-00805f2cd064")]
     [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
-    public interface IActiveScriptParse
+    public interface IActiveScriptParse32
     {
         /// <summary>
         /// Initializes the scripting engine.
@@ -139,7 +139,7 @@
             [In] uint sourceContext,
             [In] uint startingLineNumber,
             [In] ScriptTextFlags flags,
-            [Out] object pVarResult,
+            [Out] IntPtr pVarResult,
             [Out] out EXCEPINFO excepInfo
         );
     }

@@ -47,7 +47,7 @@
     <Compile Include="IActiveScriptError.cs" />
     <Compile Include="IActiveScriptError64.cs" />
     <Compile Include="IActiveScriptGarbageCollector.cs" />
-    <Compile Include="IActiveScriptParse.cs" />
+    <Compile Include="IActiveScriptParse32.cs" />
     <Compile Include="IActiveScriptParse64.cs" />
     <Compile Include="IActiveScriptSite.cs" />
     <Compile Include="IActiveScriptSiteInterruptPoll.cs" />

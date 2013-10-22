@@ -10,6 +10,7 @@
     using System.Windows.Forms;
     using ActiveXScriptLib;
     using System.Runtime.InteropServices;
+    using System.Diagnostics;
 
     public partial class MainForm : Form
     {
@@ -42,7 +43,7 @@
 
             try
             {
-                ActiveScriptEngine scriptEngine = new ActiveScriptEngine("VBScript");
+                ActiveScriptEngine scriptEngine = new ActiveScriptEngine("VBScript");                
 
                 scriptEngine.AddCode(addFunc, "Math");
                 scriptEngine.AddCode(subtract, "Math");
@@ -60,21 +61,11 @@
 
                 dynamic script = scriptEngine.GetScriptHandle();
 
-                MessageBox.Show(script.Math.Subtract(script.Add(1, 3), 2).ToString());
+                Log(script.Math.Subtract(script.Add(1, 3), 2));
 
                 scriptEngine.AddObject("WScript", new HostObject());
 
                 script.SayHello();
-
-                ImportDelegate importCodeAction = new ImportDelegate(ImportCode);
-
-                scriptEngine.AddObject("Import", importCodeAction);
-
-                scriptEngine.AddCode(addCode);
-
-                //script.AddCode();
-
-                //MessageBox.Show(scriptEngine.Eval("Add 1, 2").ToString());
 
                 scriptEngine.Dispose();
             }
@@ -84,15 +75,10 @@
             }
         }
 
-        [ComVisible(true)]
-        public void ImportCode(string filePath)
+        public static void Log(object text)
         {
-
+            Debug.WriteLine(text);
         }
-
-        [ComVisible(true)]
-        public delegate void ImportDelegate(string filePath);
-
     }
 
     [ComVisible(true)]
@@ -100,7 +86,7 @@
     {
         public void Echo(string text)
         {
-            
+            MainForm.Log(text);
         }
     }
 }

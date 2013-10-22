@@ -35,8 +35,8 @@
         /// <param name="position">Address of a variable that receives the character position 
         /// in the line where the error occurred.</param>
         void GetSourcePosition(
-            [Out] out int sourceContext,
-            [Out] out int lineNumber,
+            [Out] out uint sourceContext,
+            [Out] out uint lineNumber,
             [Out] out int position
         );
 
