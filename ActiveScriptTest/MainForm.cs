@@ -41,38 +41,56 @@
                 "   Import \"MyFile.vbs\" " + Environment.NewLine +
                 "End Sub";
 
+            string codeWithError =
+                "Dim a : a = 1 / 0";
+
+            ActiveScriptEngine scriptEngine = new ActiveScriptEngine(VBScript.ProgID);
+
+            scriptEngine.ScriptErrorOccurred += new ScriptErrorOccurredDelegate(scriptEngine_ScriptErrorOccurred);
+
+            scriptEngine.AddCode(addFunc, "Math");
+            scriptEngine.AddCode(subtract, "Math");
+
+            scriptEngine.AddCode(
+                "Public Function Add(a, b) " + Environment.NewLine +
+                "   Add = Math.Add(a, b) " + Environment.NewLine +
+                "End Function");
+
+            scriptEngine.AddCode(echo);
+
+            scriptEngine.Initialize();
+
+            scriptEngine.Start();
+
+            dynamic script = scriptEngine.GetScriptHandle();
+
+            Log(script.Math.Subtract(script.Add(1, 3), 2));
+
+            scriptEngine.AddObject("WScript", new HostObject());
+
+            script.SayHello();
+
             try
             {
-                ActiveScriptEngine scriptEngine = new ActiveScriptEngine("VBScript");                
+                scriptEngine.AddCode(codeWithError);
+            }
+            catch
+            {
+                ScriptErrorInfo error = scriptEngine.LastError;
 
-                scriptEngine.AddCode(addFunc, "Math");
-                scriptEngine.AddCode(subtract, "Math");
-
-                scriptEngine.AddCode(
-                    "Public Function Add(a, b) " + Environment.NewLine +
-                    "   Add = Math.Add(a, b) " + Environment.NewLine +
-                    "End Function");
-
-                scriptEngine.AddCode(echo);
-
-                scriptEngine.Initialize();
-
-                scriptEngine.Start();
-
-                dynamic script = scriptEngine.GetScriptHandle();
-
-                Log(script.Math.Subtract(script.Add(1, 3), 2));
-
-                scriptEngine.AddObject("WScript", new HostObject());
-
-                script.SayHello();
-
+                Log("Catch block");
+                Log(error.Description);
+            }
+            finally
+            {
                 scriptEngine.Dispose();
             }
-            catch (Exception ex)
-            {
+        }
 
-            }
+        private void scriptEngine_ScriptErrorOccurred(ActiveScriptEngine sender, ScriptErrorInfo error)
+        {
+            Log("event block");
+            Log(error.Description);
         }
 
         public static void Log(object text)

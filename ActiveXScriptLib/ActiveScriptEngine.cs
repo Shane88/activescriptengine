@@ -3,16 +3,17 @@
     using System;
     using System.Collections.Generic;
     using Interop.ActiveXScript;
-    using EXCEPINFO = System.Runtime.InteropServices.ComTypes.EXCEPINFO;    
+    using EXCEPINFO = System.Runtime.InteropServices.ComTypes.EXCEPINFO;
 
     public class ActiveScriptEngine : IDisposable
     {
         public event ScriptErrorOccurredDelegate ScriptErrorOccurred;
         public ScriptErrorInfo LastError { get; internal set; }
 
-        private ActiveScriptParse parser;
         internal IActiveScript activeScript;
         internal Dictionary<string, object> hostObjects;
+
+        private ActiveScriptParse parser;
         private ActiveScriptSite scriptSite;
 
         public ActiveScriptEngine(string progID)
