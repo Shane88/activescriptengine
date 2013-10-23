@@ -6,7 +6,7 @@
     using Interop.ActiveXScript;
     using EXCEPINFO = System.Runtime.InteropServices.ComTypes.EXCEPINFO;
 
-    public class ActiveScriptSite : IActiveScriptSite
+    internal class ActiveScriptSite : IActiveScriptSite
     {
         private ActiveScriptEngine scriptEngine;
 
@@ -17,8 +17,7 @@
 
         public void GetLCID(out uint lcid)
         {
-            // TODO: What should we do here?
-            lcid = (uint)Thread.CurrentThread.CurrentUICulture.LCID;
+            lcid = 0;
         }
 
         public void GetItemInfo(string name, ScriptInfoFlags mask, ref IntPtr pUnkItem, ref IntPtr pTypeInfo)

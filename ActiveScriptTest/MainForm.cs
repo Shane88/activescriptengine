@@ -23,12 +23,12 @@
         {
             string addFunc =
                 "Public Function Add(a, b) " + Environment.NewLine +
-                    "   Add = a + b " + Environment.NewLine +
+                    "   Add = a + b" + Environment.NewLine +
                 "End Function";
 
             string subtract =
                 "Public Function Subtract(a, b) " + Environment.NewLine +
-                    "   Subtract = a - b " + Environment.NewLine +
+                    "   Subtract = a - b" + Environment.NewLine +
                 "End Function";
 
             string echo =
@@ -48,15 +48,15 @@
 
             scriptEngine.ScriptErrorOccurred += new ScriptErrorOccurredDelegate(scriptEngine_ScriptErrorOccurred);
 
-            scriptEngine.AddCode(addFunc, "Math");
-            scriptEngine.AddCode(subtract, "Math");
+            scriptEngine.AddCode(addFunc, "Math", "Add.vbs");
+            scriptEngine.AddCode(subtract, "Math" , "Subtract.vbs");
 
             scriptEngine.AddCode(
                 "Public Function Add(a, b) " + Environment.NewLine +
                 "   Add = Math.Add(a, b) " + Environment.NewLine +
-                "End Function");
+                "End Function", null, "Main.vbs");
 
-            scriptEngine.AddCode(echo);
+            scriptEngine.AddCode(echo, null, "Echo.vbs");
 
             scriptEngine.Initialize();
 
@@ -79,7 +79,7 @@
                 ScriptErrorInfo error = scriptEngine.LastError;
 
                 Log("Catch block");
-                Log(error.Description);
+                Log(error.DebugDump());
             }
             finally
             {
@@ -90,7 +90,7 @@
         private void scriptEngine_ScriptErrorOccurred(ActiveScriptEngine sender, ScriptErrorInfo error)
         {
             Log("event block");
-            Log(error.Description);
+            Log(error.DebugDump());
         }
 
         public static void Log(object text)

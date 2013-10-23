@@ -5,6 +5,14 @@
     using Interop.ActiveXScript;
     using EXCEPINFO = System.Runtime.InteropServices.ComTypes.EXCEPINFO;
 
+    internal class ScriptInfo
+    {
+        public string ScriptName { get; set; }
+        public string Code { get; set; }
+        public uint Cookie { get; set; }
+        public uint StartingLineNumber { get; set; }
+    }
+
     public class ActiveScriptEngine : IDisposable
     {
         public event ScriptErrorOccurredDelegate ScriptErrorOccurred;
@@ -15,6 +23,8 @@
 
         private ActiveScriptParse parser;
         private ActiveScriptSite scriptSite;
+
+        private Dictionary<uint, ScriptInfo> scripts;
 
         public ActiveScriptEngine(string progID)
         {
@@ -38,10 +48,12 @@
             activeScript.SetScriptSite(scriptSite);
 
             hostObjects = new Dictionary<string, object>();
+            scripts = new Dictionary<uint, ScriptInfo>();
         }
 
         public void AddObject(string name, object obj)
         {
+            // TODO: Remove duplicate entries.
             hostObjects.Add(name, obj);
             activeScript.AddNamedItem(name, ScriptItemFlags.GlobalMembers | ScriptItemFlags.IsVisible);
         }
@@ -53,6 +65,11 @@
 
         public void AddCode(string code, string namespaceName)
         {
+            AddCode(code, namespaceName, null);
+        }
+
+        public void AddCode(string code, string namespaceName, string fileName)
+        {
             EXCEPINFO exceptionInfo = new EXCEPINFO();
 
             if (namespaceName != null)
@@ -60,16 +77,28 @@
                 activeScript.AddNamedItem(namespaceName, ScriptItemFlags.CodeOnly | ScriptItemFlags.IsVisible);
             }
 
+            uint cookie = (uint)scripts.Count;
+
             parser.ParseScriptText(
                 code: code,
                 itemName: namespaceName,
                 context: null,
                 delimiter: null,
-                sourceContext: 0u,
+                sourceContext: cookie,
                 startingLineNumber: 1u,
                 flags: ScriptTextFlags.IsVisible,
                 pVarResult: IntPtr.Zero,
                 excepInfo: out exceptionInfo);
+
+            ScriptInfo si = new ScriptInfo()
+            {
+                Code = code,
+                ScriptName = fileName,
+                StartingLineNumber = 1u,
+                Cookie = cookie
+            };
+
+            scripts.Add(cookie, si);
         }
 
         /// <summary>
@@ -79,6 +108,7 @@
         /// </summary>
         public void Initialize()
         {
+            // TODO: Syntax checking appears to be happening before this is called
             activeScript.SetScriptState(ScriptState.Initialized);
         }
 
@@ -93,47 +123,9 @@
             activeScript.SetScriptState(ScriptState.Connected);
         }
 
-        public object GetScriptHandle()
-        {
-            return GetScriptHandle(null);
-        }
-
-        public object GetScriptHandle(string namespaceName)
-        {
-            object IDispatchInstance;
-            activeScript.GetScriptDispatch(namespaceName, out IDispatchInstance);
-            return IDispatchInstance;
-        }
-
-        private T CreateInstanceFromProgID<T>(string progID) where T : class
-        {
-            Type type = Type.GetTypeFromProgID(progID);
-
-            if (type != null)
-            {
-                object obj = Activator.CreateInstance(type);
-
-                if (obj != null)
-                {
-                    return obj as T;
-                }
-            }
-
-            return default(T);
-        }
-
-        internal void OnScriptError(IActiveScriptError error)
-        {
-            this.LastError = new ScriptErrorInfo(error);
-
-            var errorOccurred = this.ScriptErrorOccurred;
-
-            if (errorOccurred != null)
-            {
-                errorOccurred(this, this.LastError);
-            }
-        }
-
+        /// <summary>
+        /// Stops and disposes this ActiveScriptEngine.
+        /// </summary>
         public void Dispose()
         {
             if (activeScript != null)
@@ -155,6 +147,57 @@
             {
                 parser = null;
             }
+        }
+
+        /// <summary>
+        /// Gets the IDispatch handle for the root namespace.
+        /// </summary>
+        /// <returns>An IDispatch handle for the root namespace.</returns>
+        public object GetScriptHandle()
+        {
+            return GetScriptHandle(null);
+        }
+
+        /// <summary>
+        /// Gets the IDispatch handle for the specified namespace.
+        /// </summary>
+        /// <param name="namespaceName">The namespace of the IDispatch handle to get, or null
+        /// to get the root namespace.</param>
+        /// <returns>An IDispatch handle.</returns>
+        public object GetScriptHandle(string namespaceName)
+        {
+            object IDispatchInstance;
+            activeScript.GetScriptDispatch(namespaceName, out IDispatchInstance);
+            return IDispatchInstance;
+        }
+
+        internal void OnScriptError(IActiveScriptError error)
+        {
+            this.LastError = new ScriptErrorInfo(this.scripts, error);
+
+            var errorOccurred = this.ScriptErrorOccurred;
+
+            if (errorOccurred != null)
+            {
+                errorOccurred(this, this.LastError);
+            }
+        }
+
+        private T CreateInstanceFromProgID<T>(string progID) where T : class
+        {
+            Type type = Type.GetTypeFromProgID(progID);
+
+            if (type != null)
+            {
+                object obj = Activator.CreateInstance(type);
+
+                if (obj != null)
+                {
+                    return obj as T;
+                }
+            }
+
+            return default(T);
         }
     }
 }
