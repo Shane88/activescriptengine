@@ -46,6 +46,7 @@
 
             scriptSite = new ActiveScriptSite(this);
             activeScript.SetScriptSite(scriptSite);
+            //activeScript.SetScriptState(ScriptState.Uninitialized);
 
             hostObjects = new Dictionary<string, object>();
             scripts = new Dictionary<uint, ScriptInfo>();
@@ -68,16 +69,38 @@
             AddCode(code, namespaceName, null);
         }
 
-        public void AddCode(string code, string namespaceName, string fileName)
+        /// <summary>
+        /// Adds the specified code to the scripting engine.
+        /// </summary>
+        /// <param name="code"></param>
+        /// <param name="namespaceName"></param>
+        /// <param name="scriptName"></param>
+        public void AddCode(string code, string namespaceName, string scriptName)
         {
-            EXCEPINFO exceptionInfo = new EXCEPINFO();
+            ScriptState ss = activeScript.GetScriptState();
+
+            if (code == null)
+            {
+                throw new ArgumentNullException("code");
+            }
+
+            if (string.IsNullOrEmpty(code))
+            {
+                throw new ArgumentException("code parameter must contain code", "code");
+            }
 
             if (namespaceName != null)
             {
+                // TODO: What if theres already a named item by this name?
                 activeScript.AddNamedItem(namespaceName, ScriptItemFlags.CodeOnly | ScriptItemFlags.IsVisible);
             }
 
             uint cookie = (uint)scripts.Count;
+
+            // TODO: If this lines fails because of syntax error then the script name on the error info
+            // will not be populated because we haven't stored the cookie for it yet.
+
+            EXCEPINFO exceptionInfo = new EXCEPINFO();
 
             parser.ParseScriptText(
                 code: code,
@@ -93,7 +116,7 @@
             ScriptInfo si = new ScriptInfo()
             {
                 Code = code,
-                ScriptName = fileName,
+                ScriptName = scriptName,
                 StartingLineNumber = 1u,
                 Cookie = cookie
             };

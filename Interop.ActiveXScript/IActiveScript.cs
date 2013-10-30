@@ -58,9 +58,7 @@
         /// <param name="state">Address of a variable that receives a value defined in the 
         /// SCRIPTSTATE Enumeration enumeration. The value indicates the current state of the 
         /// scripting engine associated with the calling thread.</param>
-        void GetScriptState(
-            [Out] out ScriptState state
-        );
+        ScriptState GetScriptState();
 
         /// <summary>
         /// Causes the scripting engine to abandon any currently loaded script, lose its state, 
