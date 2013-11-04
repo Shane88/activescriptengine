@@ -30,12 +30,11 @@
         /// Retrieves the site object associated with the Windows Script engine.
         /// <see cref="http://msdn.microsoft.com/en-us/library/876ah4t1(v=vs.94).aspx"/>
         /// </summary>
-        /// <param name="iid">Identifier of the requested interface.</param>
-        /// <param name="site">Address of the location that receives the interface pointer to the 
-        /// host's site object.</param>
-        void GetScriptSite(
-            [In] ref Guid iid,
-            [Out] [MarshalAs(UnmanagedType.IUnknown, IidParameterIndex = 0)] out object site
+        /// <param name="iid">Identifier of the requested interface.</param>        
+        /// <returns>The interface pointer to the host's site object.</returns>
+        [return: MarshalAs(UnmanagedType.IUnknown, IidParameterIndex = 0)]
+        object GetScriptSite(
+            [In] ref Guid iid
         );
 
         /// <summary>
@@ -117,12 +116,11 @@
         /// object contains as its members all of the global methods and properties defined by the script.
         /// Through the IDispatch interface and the associated ITypeInfo interface, the host can 
         /// invoke script methods or view and modify script variables.</param>
-        /// <param name="dispatch">Address of a variable that receives a pointer to the object 
-        /// associated with the script's global methods and properties. If the scripting engine 
-        /// does not support such an object, NULL is returned.</param>
-        void GetScriptDispatch(
-            [In] [MarshalAs(UnmanagedType.LPWStr)] string itemName,
-            [Out] [MarshalAs(UnmanagedType.IDispatch)] out object dispatch
+        /// <returns>The object associated with the script's global methods and properties. 
+        /// If the scripting engine does not support such an object, NULL is returned.</returns>
+        [return: MarshalAs(UnmanagedType.IDispatch)]
+        object GetScriptDispatch(
+            [In] [MarshalAs(UnmanagedType.LPWStr)] string itemName
         );
 
         /// <summary>
@@ -133,14 +131,11 @@
         /// to host objects or to the IActiveScriptSite interface.
         /// <see cref="http://msdn.microsoft.com/en-us/library/7weths74(v=vs.94).aspx"/>
         /// </summary>
-        /// <param name="scriptThreadID">Address of a variable that receives the script thread 
-        /// identifier associated with the current thread. The interpretation of this identifier is
-        /// left to the scripting engine, but it can be just a copy of the Windows thread identifier.
-        /// If the Win32 thread terminates, this identifier becomes unassigned and can subsequently
-        /// be assigned to another thread.</param>
-        void GetCurrentScriptThreadID(
-            [Out] out uint scriptThreadID
-        );
+        /// <returns>The script thread identifier associated with the current thread. 
+        /// The interpretation of this identifier is left to the scripting engine, but it can be 
+        /// just a copy of the Windows thread identifier. If the Win32 thread terminates, 
+        /// this identifier becomes unassigned and can subsequently be assigned to another thread.</returns>
+        uint GetCurrentScriptThreadID();
 
         /// <summary>
         /// Retrieves a scripting-engine-defined identifier for the thread associated with the given Win32 thread.
@@ -153,14 +148,13 @@
         /// <param name="win32ThreadID">Thread identifier of a running Win32 thread in the current process.
         /// Use the IActiveScript::GetCurrentScriptThreadID function to retrieve the thread identifier
         /// of the currently executing thread.</param>
-        /// <param name="scriptThreadID">Address of a variable that receives the script thread identifier
-        /// associated with the given Win32 thread. The interpretation of this identifier is left to
-        /// the scripting engine, but it can be just a copy of the Windows thread identifier. 
+        /// <returns>The script thread identifier associated with the given Win32 thread. 
+        /// The interpretation of this identifier is left to the scripting engine, 
+        /// but it can be just a copy of the Windows thread identifier. 
         /// Note that if the Win32 thread terminates, this identifier becomes unassigned and may 
-        /// subsequently be assigned to another thread.</param>
-        void GetScriptThreadID(
-            [In] uint win32ThreadID,
-            [Out] out uint scriptThreadID
+        /// subsequently be assigned to another thread.</returns>
+        uint GetScriptThreadID(
+            [In] uint win32ThreadID
         );
 
         /// <summary>
@@ -175,13 +169,12 @@
         /// The base thread; that is, the thread in which the scripting engine was instantiated.
         /// SCRIPTTHREADID_CURRENT
         /// The currently executing thread.</param>
-        /// <param name="state">Address of a variable that receives the state of the indicated thread.
+        /// <returns>The state of the indicated thread.
         /// The state is indicated by one of the named constant values defined by the SCRIPTTHREADSTATE
         /// Enumeration enumeration. If this parameter does not identify the current thread, 
-        /// the state may change at any time.</param>
-        void GetScriptThreadState(
-            [In] uint scriptThreadID,
-            [Out] out ScriptThreadState state
+        /// the state may change at any time.</returns>
+        ScriptThreadState GetScriptThreadState(
+            [In] uint scriptThreadID
         );
 
         /// <summary>
@@ -228,12 +221,10 @@
         /// state and creating a new instance of the scripting engine with an IPersist* interface.
         /// This method can be called from non-base threads without resulting in a non-base callout
         /// to host objects or to the IActiveScriptSite interface.</remarks>
-        /// <param name="script">Address of a variable that receives a pointer to the IActiveScript
-        /// interface of the cloned scripting engine. The host must create a site and call the 
-        /// IActiveScript::SetScriptSite method on the new scripting engine before it will be in the
-        /// initialized state and, therefore, usable.</param>
-        void Clone(
-            [Out] [MarshalAs(UnmanagedType.Interface)] out IActiveScript script
-        );
+        /// <returns>The IActiveScript interface of the cloned scripting engine. 
+        /// The host must create a site and call the IActiveScript::SetScriptSite method on the
+        /// new scripting engine before it will be in the initialized state and, therefore, usable.</returns>
+        [return: MarshalAs(UnmanagedType.Interface)]
+        IActiveScript Clone();
     }
 }

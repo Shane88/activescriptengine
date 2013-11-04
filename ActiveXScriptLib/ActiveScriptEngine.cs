@@ -1,21 +1,23 @@
 ﻿namespace ActiveXScriptLib
 {
+    using Interop.ActiveXScript;
     using System;
     using System.Collections.Generic;
-    using Interop.ActiveXScript;
+    using System.Runtime.InteropServices;
     using EXCEPINFO = System.Runtime.InteropServices.ComTypes.EXCEPINFO;
 
     internal class ScriptInfo
     {
         public string ScriptName { get; set; }
         public string Code { get; set; }
-        public uint Cookie { get; set; }
+        public ulong Cookie { get; set; }
         public uint StartingLineNumber { get; set; }
     }
 
     public class ActiveScriptEngine : IDisposable
     {
         public event ScriptErrorOccurredDelegate ScriptErrorOccurred;
+
         public ScriptErrorInfo LastError { get; internal set; }
 
         internal IActiveScript activeScript;
@@ -24,13 +26,19 @@
         private ActiveScriptParse parser;
         private ActiveScriptSite scriptSite;
 
-        private Dictionary<uint, ScriptInfo> scripts;
+        private Dictionary<ulong, ScriptInfo> scripts;
+        private string scriptToParse;
 
         public ActiveScriptEngine(string progID)
         {
+            if (progID == null)
+            {
+                throw new ArgumentNullException("progID");
+            }
+
             if (string.IsNullOrWhiteSpace(progID))
             {
-                throw new ArgumentException("Argument must not be null or blank");
+                throw new ArgumentException("progID must not be empty or whitespace");
             }
 
             activeScript = CreateInstanceFromProgID<IActiveScript>(progID);
@@ -46,10 +54,9 @@
 
             scriptSite = new ActiveScriptSite(this);
             activeScript.SetScriptSite(scriptSite);
-            //activeScript.SetScriptState(ScriptState.Uninitialized);
 
             hostObjects = new Dictionary<string, object>();
-            scripts = new Dictionary<uint, ScriptInfo>();
+            scripts = new Dictionary<ulong, ScriptInfo>();
         }
 
         public void AddObject(string name, object obj)
@@ -77,8 +84,6 @@
         /// <param name="scriptName"></param>
         public void AddCode(string code, string namespaceName, string scriptName)
         {
-            ScriptState ss = activeScript.GetScriptState();
-
             if (code == null)
             {
                 throw new ArgumentNullException("code");
@@ -95,44 +100,47 @@
                 activeScript.AddNamedItem(namespaceName, ScriptItemFlags.CodeOnly | ScriptItemFlags.IsVisible);
             }
 
-            uint cookie = (uint)scripts.Count;
-
-            // TODO: If this lines fails because of syntax error then the script name on the error info
-            // will not be populated because we haven't stored the cookie for it yet.
-
-            EXCEPINFO exceptionInfo = new EXCEPINFO();
-
-            parser.ParseScriptText(
-                code: code,
-                itemName: namespaceName,
-                context: null,
-                delimiter: null,
-                sourceContext: cookie,
-                startingLineNumber: 1u,
-                flags: ScriptTextFlags.IsVisible,
-                pVarResult: IntPtr.Zero,
-                excepInfo: out exceptionInfo);
-
-            ScriptInfo si = new ScriptInfo()
+            try
             {
-                Code = code,
-                ScriptName = scriptName,
-                StartingLineNumber = 1u,
-                Cookie = cookie
-            };
+                /*
+                 * In the event that the passed in script is not valid syntax
+                 * an error will be thrown by the script engine. This will be 
+                 * handled by the OnScriptError event before the exception
+                 * is thrown here so we need to set this variable to use
+                 * in the OnScriptError block to figure out the script name
+                 * since it won't have been added to the script list.
+                 */
+                scriptToParse = scriptName;
 
-            scripts.Add(cookie, si);
-        }
+                EXCEPINFO exceptionInfo = new EXCEPINFO();
 
-        /// <summary>
-        /// Puts the scripting engine into the initialized state.
-        /// At this point all script text will be checked for syntax errors, but no code will be
-        /// executed.
-        /// </summary>
-        public void Initialize()
-        {
-            // TODO: Syntax checking appears to be happening before this is called
-            activeScript.SetScriptState(ScriptState.Initialized);
+                ulong cookie = (ulong)scripts.Count;
+
+                parser.ParseScriptText(
+                    code: code,
+                    itemName: namespaceName,
+                    context: null,
+                    delimiter: null,
+                    sourceContext: cookie,
+                    startingLineNumber: 1u,
+                    flags: ScriptTextFlags.IsVisible,
+                    pVarResult: IntPtr.Zero,
+                    excepInfo: out exceptionInfo);
+
+                ScriptInfo si = new ScriptInfo()
+                {
+                    Code = code,
+                    ScriptName = scriptName,
+                    StartingLineNumber = 1u,
+                    Cookie = cookie
+                };
+
+                scripts.Add(cookie, si);
+            }
+            finally
+            {
+                scriptToParse = null;
+            }
         }
 
         /// <summary>
@@ -189,14 +197,17 @@
         /// <returns>An IDispatch handle.</returns>
         public object GetScriptHandle(string namespaceName)
         {
-            object IDispatchInstance;
-            activeScript.GetScriptDispatch(namespaceName, out IDispatchInstance);
-            return IDispatchInstance;
+            return activeScript.GetScriptDispatch(namespaceName);
         }
 
         internal void OnScriptError(IActiveScriptError error)
         {
-            this.LastError = new ScriptErrorInfo(this.scripts, error);
+            this.LastError = new ScriptErrorInfo(error, this.scripts);
+
+            if (this.LastError.ScriptName == null && scriptToParse != null)
+            {
+                this.LastError.ScriptName = scriptToParse;
+            }
 
             var errorOccurred = this.ScriptErrorOccurred;
 

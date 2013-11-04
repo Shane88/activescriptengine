@@ -7,40 +7,78 @@
 
     public class ScriptErrorInfo
     {
+        public ScriptErrorInfo()
+        {
+        }
+
+        internal ScriptErrorInfo(IActiveScriptError error, IDictionary<ulong, ScriptInfo> scripts)
+        {
+            ExtractExcepInfo(error);
+            ulong cookie = ExtractSourcePosition<uint>(error.GetSourcePosition);
+            ExtractSourceText(error, cookie, scripts);
+        }
+
+        internal ScriptErrorInfo(IActiveScriptError64 error, IDictionary<ulong, ScriptInfo> scripts)
+        {
+            ExtractExcepInfo(error);
+            ulong cookie = ExtractSourcePosition<ulong>(error.GetSourcePosition64);
+            ExtractSourceText(error, cookie, scripts);
+        }
+
         public int LineNumber { get; set; }
         public int ColumnNumber { get; set; }
         public string LineText { get; set; }
         public string Description { get; set; }
         public string Source { get; set; }
         public int ErrorNumber { get; set; }
-        public int ErrorNumberShort { get; set; }
         public string HelpFile { get; set; }
         public int HelpContext { get; set; }
         public string ScriptName { get; set; }
 
-        public ScriptErrorInfo()
+        // TODO: Remove from this class.
+        public string DebugDump()
         {
+            return string.Format(
+                "Error in {0} on Ln {1} Col {2}, {3}{4}Error Code:{5}, Text:{6}",
+                ScriptName ?? "Unnamed Script", LineNumber, ColumnNumber, Description,
+                Environment.NewLine, ErrorNumber, LineText);
         }
 
-        internal ScriptErrorInfo(IDictionary<uint, ScriptInfo> scripts, IActiveScriptError error)
+        public override string ToString()
+        {
+            return this.Description;
+        }
+
+        private void ExtractExcepInfo(IActiveScriptError error)
         {
             EXCEPINFO excep;
             excep = error.GetExceptionInfo();
 
-            Description      = excep.bstrDescription;
-            ErrorNumber      = excep.scode;
-            ErrorNumberShort = excep.wCode;
-            Source           = excep.bstrSource;
-            HelpFile         = excep.bstrHelpFile;
-            HelpContext      = excep.dwHelpContext;
+            /*
+             * http://msdn.microsoft.com/en-us/library/windows/desktop/ms221133(v=vs.85).aspx
+             * 
+             * wCode
+             * The error code. Error codes should be greater than 1000. 
+             * Either this field or the scode field must be filled in; the other must be set to 0.
+             * 
+             * scode
+             * A return value that describes the error. Either this field or wCode (but not both) must be filled in; 
+             * the other must be set to 0. (16-bit Windows versions only.)
+             * 
+             */
+            ErrorNumber = excep.scode != 0 ? excep.scode : excep.wCode;
+            Source = excep.bstrSource;
+            HelpFile = excep.bstrHelpFile;
+            HelpContext = excep.dwHelpContext;
+            Description = excep.bstrDescription;
+        }
 
-            uint cookie  = 0;
-            uint lineNum = 0;
-            int colNum   = 0;
-            error.GetSourcePosition(out cookie, out lineNum, out colNum);
-
-            LineNumber = (int)lineNum;
-            ColumnNumber = colNum < 0 ? 0 : colNum;
+        private void ExtractSourceText(IActiveScriptError error, ulong cookie, IDictionary<ulong, ScriptInfo> scripts)
+        {
+            if (error == null || scripts == null)
+            {
+                return;
+            }
 
             ScriptInfo scriptInfo = null;
 
@@ -56,7 +94,7 @@
             }
             catch
             {
-                if (scriptInfo != null) 
+                if (scriptInfo != null)
                 {
                     string[] lines = scriptInfo.Code.Split(new string[] { Environment.NewLine },
                         StringSplitOptions.None);
@@ -69,46 +107,22 @@
             }
         }
 
-        internal ScriptErrorInfo(IActiveScriptError64 error)
+        private TCookie ExtractSourcePosition<TCookie>(GetSourcePositionDelegate<TCookie> getSourcePosition) 
+            where TCookie : struct
         {
-            EXCEPINFO excep;
-            excep = error.GetExceptionInfo();
+            TCookie cookie;
+            uint lineNum;
+            int colNum;
 
-            Description = excep.bstrDescription;
-            ErrorNumber = excep.scode;
-            ErrorNumberShort = excep.wCode;
-            Source = excep.bstrSource;
-            HelpFile = excep.bstrHelpFile;
-            HelpContext = excep.dwHelpContext;
-
-            ulong cookie = 0;
-            uint lineNum = 0;
-            int colNum = 0;
-            error.GetSourcePosition64(out cookie, out lineNum, out colNum);
+            getSourcePosition(out cookie, out lineNum, out colNum);
 
             LineNumber = (int)lineNum;
             ColumnNumber = colNum < 0 ? 0 : colNum;
 
-            try
-            {
-                LineText = error.GetSourceLineText();
-            }
-            catch
-            {
-            }
+            return cookie;
         }
 
-        public string DebugDump()
-        {
-            return string.Format(
-                "Error in {0} on Ln {1} Col {2}, {3}{4}Error Code:{5}, Text:{6}",
-                ScriptName ?? "Unnamed Script", LineNumber, ColumnNumber, Description, 
-                Environment.NewLine, ErrorNumber, LineText);
-        }
-
-        public override string ToString()
-        {
-            return this.Description;
-        }
+        private delegate void GetSourcePositionDelegate<TCookie>(out TCookie cookie, out uint lineNum, out int columnNumber)
+            where TCookie : struct;
     }
 }

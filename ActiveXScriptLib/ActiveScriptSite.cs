@@ -1,9 +1,8 @@
 ﻿namespace ActiveXScriptLib
 {
+    using Interop.ActiveXScript;
     using System;
     using System.Runtime.InteropServices;
-    using System.Threading;
-    using Interop.ActiveXScript;
     using EXCEPINFO = System.Runtime.InteropServices.ComTypes.EXCEPINFO;
 
     internal class ActiveScriptSite : IActiveScriptSite
@@ -31,17 +30,15 @@
                 }
                 else
                 {
-                    object disp;
-                    scriptEngine.activeScript.GetScriptDispatch(name, out disp);
+                    object disp = scriptEngine.activeScript.GetScriptDispatch(name);
                     pUnkItem = Marshal.GetIUnknownForObject(disp);
                 }
             }
         }
 
-        public void GetDocVersionString(out string version)
+        public string GetDocVersionString()
         {
-            // TODO: What should this be?
-            version = "1.0.0.0";
+            throw new NotImplementedException();
         }
 
         public void OnScriptTerminate(IntPtr pVarResult, ref EXCEPINFO excepInfo)

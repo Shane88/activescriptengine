@@ -51,7 +51,9 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="ActiveScriptEngineTests.cs" />
+    <Compile Include="TestBase.cs" />
+    <Compile Include="VBScriptAddObjectTests.cs" />
+    <Compile Include="VBScriptBasicTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SimpleHostObject.cs" />
   </ItemGroup>

@@ -72,10 +72,8 @@
         /// If E_NOTIMPL is returned, the scripting engine should assume that the script is in sync with the document.
         /// <see cref="http://msdn.microsoft.com/en-us/library/a80a8e1d(v=vs.94).aspx"/>
         /// </summary>
-        /// <param name="version">Address of the host-defined document version string.</param>
-        void GetDocVersionString(
-            [Out] [MarshalAs(UnmanagedType.BStr)] out string version
-        );
+        /// <returns>The host-defined document version string.</returns>
+        string GetDocVersionString();
 
         /// <summary>
         /// Informs the host that the script has completed execution.

@@ -58,8 +58,6 @@
 
             scriptEngine.AddCode(echo, null, "Echo.vbs");
 
-            scriptEngine.Initialize();
-
             scriptEngine.Start();
 
             dynamic script = scriptEngine.GetScriptHandle();
