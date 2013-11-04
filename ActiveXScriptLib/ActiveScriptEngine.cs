@@ -63,7 +63,14 @@
         {
             // TODO: Remove duplicate entries.
             hostObjects.Add(name, obj);
-            activeScript.AddNamedItem(name, ScriptItemFlags.GlobalMembers | ScriptItemFlags.IsVisible);
+            activeScript.AddNamedItem(name, ScriptItemFlags.IsSource | ScriptItemFlags.IsVisible);
+        }
+
+        public void AddGlobalMemberObject(string name, object obj)
+        {
+            // TODO: Remove duplicate entries.
+            hostObjects.Add(name, obj);
+            activeScript.AddNamedItem(name, ScriptItemFlags.IsSource | ScriptItemFlags.IsVisible | ScriptItemFlags.GlobalMembers);
         }
 
         public void AddCode(string code)

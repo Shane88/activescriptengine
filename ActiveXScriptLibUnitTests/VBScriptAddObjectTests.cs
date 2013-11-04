@@ -23,10 +23,28 @@
 
             scriptEngine.Start();
 
-            bmo.ExpectedA = 2;
-            bmo.ExpectedB = 7;
+            bmo.ExpectedA = 23;
+            bmo.ExpectedB = 57;
 
-            scriptEngine.AddCode("Add 2, 7"); // TODO: Why does this work?
+            dynamic script = scriptEngine.GetScriptHandle();
+
+            Assert.AreEqual(80, script.Math.Add(23, 57));
+        }
+
+        [TestMethod]
+        public void AddBasicGlobalMemberObject()
+        {
+            BasicMathObject bmo = new BasicMathObject()
+            {
+                ExpectedA = 2,
+                ExpectedB = 7
+            };
+
+            scriptEngine.AddGlobalMemberObject("Math", bmo);
+            scriptEngine.Start();
+
+            // No Math alias used.
+            scriptEngine.AddCode("Add 2, 7");
 
             bmo.ExpectedA = 23;
             bmo.ExpectedB = 57;
