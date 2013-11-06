@@ -2,7 +2,6 @@
 {
     using ActiveXScriptLib;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using System.Diagnostics;
     using System.Runtime.InteropServices;
     using System.Text;
 
@@ -12,42 +11,37 @@
         [TestMethod]
         public void SimpleExecute()
         {
-            scriptEngine.AddCode("WScript.Echo \"Echo from VBScript\"");
+            this.WScript.OnEcho += (text) =>
+            {
+                Assert.AreEqual("Echo from VBScript", text);
+            };
 
-            scriptEngine.Start();
+            scriptEngine.AddCode("WScript.Echo \"Echo from VBScript\"");
+            scriptEngine.Run();
         }
 
         [TestMethod]
         public void SimpleExecuteWithFunction()
         {
-            StringBuilder sb = new StringBuilder();
-            sb.AppendLine("Private Function Add(a, b)");
-            sb.AppendLine("   Add = a + b");
-            sb.AppendLine("End Function");
-            sb.AppendLine();
-            sb.AppendLine("WScript.Echo \"Result of Add = \" & Add(1, 3)");
+            this.WScript.OnEcho += (text) =>
+            {
+                Assert.AreEqual("4", text);
+            };
 
-            scriptEngine.AddCode(sb.ToString());
-
-            scriptEngine.Start();
+            scriptEngine.AddCode(AddFunctionCode);
+            scriptEngine.AddCode("WScript.Echo Add(1, 3)");
+            scriptEngine.Run();
         }
 
         [TestMethod]
         public void SimpleExecuteWithPublicFunction()
         {
-            StringBuilder sb = new StringBuilder();
-            sb.AppendLine("Public Function Add(a, b)");
-            sb.AppendLine("   Add = a + b");
-            sb.AppendLine("End Function");
-            sb.AppendLine();
-
-            scriptEngine.AddCode(sb.ToString());
-
-            scriptEngine.Start();
+            scriptEngine.AddCode(AddFunctionCode);
+            scriptEngine.Run();
 
             dynamic script = scriptEngine.GetScriptHandle();
             int result = script.Add(1, 5);
-            Trace.WriteLine("script.Add(1, 5) = " + result);
+            Assert.AreEqual(6, result);
         }
 
         [TestMethod]
@@ -59,7 +53,7 @@
             };
 
             scriptEngine.AddCode("a = 1 / 0");
-            scriptEngine.Start();
+            scriptEngine.Run();
         }
 
         [TestMethod]
@@ -68,11 +62,13 @@
         {
             this.expectedException = new ScriptErrorInfo()
             {
-                ErrorNumber = -2146827263 // Expected end of statement.
+                ErrorNumber = -2146827263, // Expected end of statement.
+                ScriptName = "SimpleExecuteWithSyntaxError",
+                LineNumber = 1
             };
 
             scriptEngine.AddCode("Dim a = Len(\"a", null, "SimpleExecuteWithSyntaxError");
-            scriptEngine.Start();
+            scriptEngine.Run();
         }
 
         [TestMethod]
@@ -81,11 +77,13 @@
         {
             this.expectedException = new ScriptErrorInfo()
             {
-                ErrorNumber = -2146827244 // Cannot use parentheses when calling a Sub.
+                ErrorNumber = -2146827244, // Cannot use parentheses when calling a Sub.
+                ScriptName = "SimpleExecuteWithSyntaxError2",
+                LineNumber = 1
             };
 
             scriptEngine.AddCode("Thing(a, b)", null, "SimpleExecuteWithSyntaxError2");
-            scriptEngine.Start();
+            scriptEngine.Run();
         }
 
         [TestMethod]
@@ -94,7 +92,9 @@
         {
             this.expectedException = new ScriptErrorInfo()
             {
-                ErrorNumber = -2146828277 // Divide By Zero Error.
+                ErrorNumber = -2146828277, // Divide By Zero Error.
+                ScriptName = "SimpleExecuteWithSyntaxError3_1",
+                LineNumber = 2
             };
 
             StringBuilder sb = new StringBuilder();
@@ -104,7 +104,7 @@
             sb.AppendLine();
 
             scriptEngine.AddCode(sb.ToString(), null, "SimpleExecuteWithSyntaxError3_1");
-            scriptEngine.Start();
+            scriptEngine.Run();
 
             scriptEngine.AddCode("Add 1, 2", null, "SimpleExecuteWithSyntaxError3_2");
         }

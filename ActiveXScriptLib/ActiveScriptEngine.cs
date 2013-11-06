@@ -3,17 +3,8 @@
     using Interop.ActiveXScript;
     using System;
     using System.Collections.Generic;
-    using System.Runtime.InteropServices;
     using EXCEPINFO = System.Runtime.InteropServices.ComTypes.EXCEPINFO;
-
-    internal class ScriptInfo
-    {
-        public string ScriptName { get; set; }
-        public string Code { get; set; }
-        public ulong Cookie { get; set; }
-        public uint StartingLineNumber { get; set; }
-    }
-
+    
     public class ActiveScriptEngine : IDisposable
     {
         public event ScriptErrorOccurredDelegate ScriptErrorOccurred;
@@ -57,6 +48,17 @@
 
             hostObjects = new Dictionary<string, object>();
             scripts = new Dictionary<ulong, ScriptInfo>();
+        }
+
+        /// <summary>
+        /// Gets a value indicating wether the script engine is running.
+        /// </summary>
+        public bool IsRunning
+        {
+            get
+            {
+                return activeScript.GetScriptState() == ScriptState.Started;
+            }
         }
 
         public void AddObject(string name, object obj)
@@ -152,10 +154,9 @@
 
         /// <summary>
         /// Puts the scripting engine into the Started state.
-        /// At this point any code not within functions, subs, or classes will be executed.
-        /// Code will be executed in the order they were added to the script engine.
+        /// At this point code will be executed in the order they were added to the script engine.
         /// </summary>
-        public void Start()
+        public void Run()
         {
             activeScript.SetScriptState(ScriptState.Started);
             activeScript.SetScriptState(ScriptState.Connected);

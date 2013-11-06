@@ -1,9 +1,8 @@
 ﻿namespace ActiveXScriptLibUnitTests
 {
-    using System;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using System.Runtime.InteropServices;
     using System.Diagnostics;
+    using System.Runtime.InteropServices;
 
     [TestClass]
     public class VBScriptAddObjectTests : VBScriptTestBase
@@ -21,14 +20,27 @@
 
             scriptEngine.AddCode("Math.Add 1, 5");
 
-            scriptEngine.Start();
+            scriptEngine.Run();
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(COMException))]
+        public void CallObjectWithNoAlias()
+        {
+            BasicMathObject bmo = new BasicMathObject()
+            {
+                ExpectedA = 1,
+                ExpectedB = 5
+            };
+
+            scriptEngine.AddObject("Math", bmo);
+
+            scriptEngine.AddCode("Add 1, 5");
+
+            scriptEngine.Run();
 
             bmo.ExpectedA = 23;
             bmo.ExpectedB = 57;
-
-            dynamic script = scriptEngine.GetScriptHandle();
-
-            Assert.AreEqual(80, script.Math.Add(23, 57));
         }
 
         [TestMethod]
@@ -41,35 +53,30 @@
             };
 
             scriptEngine.AddGlobalMemberObject("Math", bmo);
-            scriptEngine.Start();
+            scriptEngine.Run();
 
             // No Math alias used.
             scriptEngine.AddCode("Add 2, 7");
 
-            bmo.ExpectedA = 23;
-            bmo.ExpectedB = 57;
-
             dynamic script = scriptEngine.GetScriptHandle();
-
-            Assert.AreEqual(80, script.Math.Add(23, 57));
         }
-    }
 
-    [ComVisible(true)]
-    public class BasicMathObject
-    {
-        public int ExpectedA { get; set; }
-        public int ExpectedB { get; set; }
-
-        public int Add(int a, int b)
+        [ComVisible(true)]
+        public class BasicMathObject
         {
-            Trace.WriteLine("ExpectedA=" + ExpectedA + " Actual=" + a);
-            Trace.WriteLine("ExpectedA=" + ExpectedB + " Actual=" + b);
+            public int ExpectedA { get; set; }
+            public int ExpectedB { get; set; }
 
-            Assert.AreEqual(ExpectedA, a);
-            Assert.AreEqual(ExpectedB, b);
+            public int Add(int a, int b)
+            {
+                Trace.WriteLine("ExpectedA=" + ExpectedA + " Actual=" + a);
+                Trace.WriteLine("ExpectedA=" + ExpectedB + " Actual=" + b);
 
-            return a + b;
+                Assert.AreEqual(ExpectedA, a);
+                Assert.AreEqual(ExpectedB, b);
+
+                return a + b;
+            }
         }
     }
 }
