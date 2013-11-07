@@ -47,7 +47,7 @@
         [TestMethod]
         public void SimpleExecuteWithError()
         {
-            this.expectedException = new ScriptErrorInfo()
+            this.expectedError = new ScriptErrorInfo()
             {
                 ErrorNumber = -2146828277 // Divide By Zero Error.
             };
@@ -57,40 +57,51 @@
         }
 
         [TestMethod]
-        [ExpectedException(typeof(COMException))]
         public void SimpleExecuteWithSyntaxError()
         {
-            this.expectedException = new ScriptErrorInfo()
+            this.expectedError = new ScriptErrorInfo()
             {
                 ErrorNumber = -2146827263, // Expected end of statement.
                 ScriptName = "SimpleExecuteWithSyntaxError",
                 LineNumber = 1
             };
 
-            scriptEngine.AddCode("Dim a = Len(\"a", null, "SimpleExecuteWithSyntaxError");
-            scriptEngine.Run();
+            try
+            {
+                scriptEngine.AddCode("Dim a = Len(\"a", null, "SimpleExecuteWithSyntaxError");
+                scriptEngine.Run();
+            }
+            catch (COMException)
+            {
+                CheckErrors(expectedError, scriptEngine.LastError);
+            }
         }
 
         [TestMethod]
-        [ExpectedException(typeof(COMException))]
         public void SimpleExecuteWithSyntaxError2()
         {
-            this.expectedException = new ScriptErrorInfo()
+            this.expectedError = new ScriptErrorInfo()
             {
                 ErrorNumber = -2146827244, // Cannot use parentheses when calling a Sub.
                 ScriptName = "SimpleExecuteWithSyntaxError2",
                 LineNumber = 1
             };
 
-            scriptEngine.AddCode("Thing(a, b)", null, "SimpleExecuteWithSyntaxError2");
-            scriptEngine.Run();
+            try
+            {
+                scriptEngine.AddCode("Thing(a, b)", null, "SimpleExecuteWithSyntaxError2");
+                scriptEngine.Run();
+            }
+            catch (COMException)
+            {
+                CheckErrors(expectedError, scriptEngine.LastError);
+            }
         }
 
         [TestMethod]
-        [ExpectedException(typeof(COMException))]
         public void SimpleExecuteWithSyntaxError3()
         {
-            this.expectedException = new ScriptErrorInfo()
+            this.expectedError = new ScriptErrorInfo()
             {
                 ErrorNumber = -2146828277, // Divide By Zero Error.
                 ScriptName = "SimpleExecuteWithSyntaxError3_1",
@@ -103,10 +114,17 @@
             sb.AppendLine("End Function");
             sb.AppendLine();
 
-            scriptEngine.AddCode(sb.ToString(), null, "SimpleExecuteWithSyntaxError3_1");
-            scriptEngine.Run();
+            try
+            {
+                scriptEngine.AddCode(sb.ToString(), null, "SimpleExecuteWithSyntaxError3_1");
+                scriptEngine.Run();
 
-            scriptEngine.AddCode("Add 1, 2", null, "SimpleExecuteWithSyntaxError3_2");
+                scriptEngine.AddCode("Add 1, 2", null, "SimpleExecuteWithSyntaxError3_2");
+            }
+            catch (COMException)
+            {
+                CheckErrors(expectedError, scriptEngine.LastError);
+            }
         }
     }
 }

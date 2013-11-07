@@ -8,7 +8,7 @@
     public class TestBase
     {
         protected ActiveScriptEngine scriptEngine;
-        protected ScriptErrorInfo expectedException;
+        protected ScriptErrorInfo expectedError;
         protected SimpleHostObject WScript;
 
         private string progID;
@@ -27,6 +27,8 @@
             this.scriptEngine = new ActiveScriptEngine(VBScript.ProgID);
             this.scriptEngine.ScriptErrorOccurred += scriptEngine_ScriptErrorOccurred;
             this.scriptEngine.AddObject("WScript", this.WScript);
+
+            this.expectedError = null;
         }
 
         [TestCleanup]
@@ -43,31 +45,34 @@
         {
             Trace.WriteLine(error.DebugDump());
 
-            if (expectedException == null)
+            if (expectedError == null)
             {
                 Assert.Fail("Script threw an unexpected error");
             }
             else
             {
-                Assert.AreEqual(expectedException.ErrorNumber, error.ErrorNumber);
+                CheckErrors(expectedError, error);
+            }
+        }
 
-                if (expectedException.ColumnNumber != 0)
-                {
-                    Assert.AreEqual(expectedException.ColumnNumber, error.ColumnNumber);
-                }
+        public static void CheckErrors(ScriptErrorInfo expected, ScriptErrorInfo actual)
+        {
+            Assert.AreEqual(expected.ErrorNumber, actual.ErrorNumber);
 
-                if (expectedException.LineNumber != 0)
-                {
-                    Assert.AreEqual(expectedException.LineNumber, error.LineNumber);
-                }
-
-                if (!string.IsNullOrEmpty(expectedException.ScriptName))
-                {
-                    Assert.AreEqual(expectedException.ScriptName, error.ScriptName);
-                }
+            if (expected.ColumnNumber != 0)
+            {
+                Assert.AreEqual(expected.ColumnNumber, actual.ColumnNumber);
             }
 
-            expectedException = null;
+            if (expected.LineNumber != 0)
+            {
+                Assert.AreEqual(expected.LineNumber, actual.LineNumber);
+            }
+
+            if (!string.IsNullOrEmpty(expected.ScriptName))
+            {
+                Assert.AreEqual(expected.ScriptName, actual.ScriptName);
+            }
         }
     }
 
