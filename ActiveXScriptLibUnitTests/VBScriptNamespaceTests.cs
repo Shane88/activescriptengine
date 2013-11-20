@@ -17,7 +17,7 @@
 
             scriptEngine.AddCode("WScript.Echo Math.Add(1,2)");
 
-            scriptEngine.Run();
+            scriptEngine.Start();
 
             dynamic script = scriptEngine.GetScriptHandle();
 
@@ -36,7 +36,7 @@
 
             scriptEngine.AddCode("Public Sub DoAdd() WScript.Echo Add(100,2) End Sub");
 
-            scriptEngine.Run();
+            scriptEngine.Start();
 
             dynamic script = scriptEngine.GetScriptHandle();
 
@@ -57,7 +57,7 @@
 
             scriptEngine.AddCode("Worker.DoAdd");
 
-            scriptEngine.Run();
+            scriptEngine.Start();
 
             dynamic script = scriptEngine.GetScriptHandle();
 

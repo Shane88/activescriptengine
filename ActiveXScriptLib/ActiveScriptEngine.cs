@@ -3,6 +3,7 @@
     using Interop.ActiveXScript;
     using System;
     using System.Collections.Generic;
+    using System.Runtime.InteropServices;
     using EXCEPINFO = System.Runtime.InteropServices.ComTypes.EXCEPINFO;
     
     public class ActiveScriptEngine : IDisposable
@@ -152,11 +153,55 @@
             }
         }
 
+        public object Eval(string code)
+        {
+            if (code == null)
+            {
+                throw new ArgumentNullException("code");
+            }
+
+            if (string.IsNullOrEmpty(code))
+            {
+                throw new ArgumentException("code parameter must contain code", "code");
+            }
+
+            EXCEPINFO exceptionInfo = new EXCEPINFO();
+
+            ulong cookie = (ulong)scripts.Count;
+
+            IntPtr pResult = Marshal.AllocCoTaskMem(1024);
+
+            try
+            {
+                parser.ParseScriptText(
+                    code: code,
+                    itemName: null,
+                    context: null,
+                    delimiter: null,
+                    sourceContext: cookie,
+                    startingLineNumber: 1u,
+                    flags: ScriptTextFlags.IsExpression,
+                    pVarResult: pResult,
+                    excepInfo: out exceptionInfo);
+
+                if (pResult != IntPtr.Zero)
+                {
+                    return Marshal.GetObjectForNativeVariant(pResult);
+                }
+            }
+            finally
+            {
+                Marshal.FreeCoTaskMem(pResult);
+            }
+
+            return null;
+        }
+
         /// <summary>
         /// Puts the scripting engine into the Started state.
         /// At this point code will be executed in the order they were added to the script engine.
         /// </summary>
-        public void Run()
+        public void Start()
         {
             activeScript.SetScriptState(ScriptState.Started);
             activeScript.SetScriptState(ScriptState.Connected);

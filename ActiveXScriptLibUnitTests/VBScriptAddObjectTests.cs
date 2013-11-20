@@ -20,7 +20,7 @@
 
             scriptEngine.AddCode("Math.Add 1, 5");
 
-            scriptEngine.Run();
+            scriptEngine.Start();
         }
 
         [TestMethod]
@@ -37,7 +37,7 @@
 
             scriptEngine.AddCode("Add 1, 5");
 
-            scriptEngine.Run();
+            scriptEngine.Start();
 
             bmo.ExpectedA = 23;
             bmo.ExpectedB = 57;
@@ -53,7 +53,7 @@
             };
 
             scriptEngine.AddGlobalMemberObject("Math", bmo);
-            scriptEngine.Run();
+            scriptEngine.Start();
 
             // No Math alias used.
             scriptEngine.AddCode("Add 2, 7");

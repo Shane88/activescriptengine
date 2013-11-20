@@ -17,7 +17,15 @@
             };
 
             scriptEngine.AddCode("WScript.Echo \"Echo from VBScript\"");
-            scriptEngine.Run();
+            scriptEngine.Start();
+        }
+
+        [TestMethod]
+        public void TestEval()
+        {
+            scriptEngine.Start();
+
+            Assert.AreEqual((short)2, scriptEngine.Eval("1 + 1"));
         }
 
         [TestMethod]
@@ -30,14 +38,14 @@
 
             scriptEngine.AddCode(AddFunctionCode);
             scriptEngine.AddCode("WScript.Echo Add(1, 3)");
-            scriptEngine.Run();
+            scriptEngine.Start();
         }
 
         [TestMethod]
         public void SimpleExecuteWithPublicFunction()
         {
             scriptEngine.AddCode(AddFunctionCode);
-            scriptEngine.Run();
+            scriptEngine.Start();
 
             dynamic script = scriptEngine.GetScriptHandle();
             int result = script.Add(1, 5);
@@ -53,7 +61,7 @@
             };
 
             scriptEngine.AddCode("a = 1 / 0");
-            scriptEngine.Run();
+            scriptEngine.Start();
         }
 
         [TestMethod]
@@ -69,7 +77,7 @@
             try
             {
                 scriptEngine.AddCode("Dim a = Len(\"a", null, "SimpleExecuteWithSyntaxError");
-                scriptEngine.Run();
+                scriptEngine.Start();
             }
             catch (COMException)
             {
@@ -90,7 +98,7 @@
             try
             {
                 scriptEngine.AddCode("Thing(a, b)", null, "SimpleExecuteWithSyntaxError2");
-                scriptEngine.Run();
+                scriptEngine.Start();
             }
             catch (COMException)
             {
@@ -117,7 +125,7 @@
             try
             {
                 scriptEngine.AddCode(sb.ToString(), null, "SimpleExecuteWithSyntaxError3_1");
-                scriptEngine.Run();
+                scriptEngine.Start();
 
                 scriptEngine.AddCode("Add 1, 2", null, "SimpleExecuteWithSyntaxError3_2");
             }
