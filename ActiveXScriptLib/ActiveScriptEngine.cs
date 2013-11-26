@@ -6,6 +6,7 @@
     using System.Runtime.InteropServices;
     using EXCEPINFO = System.Runtime.InteropServices.ComTypes.EXCEPINFO;
     
+    [ComVisible(true)]
     public class ActiveScriptEngine : IDisposable
     {
         public event ScriptErrorOccurredDelegate ScriptErrorOccurred;
@@ -62,36 +63,105 @@
             }
         }
 
+        /// <summary>
+        /// Adds the specified object into the script context with the specified name.
+        /// </summary>
+        /// <param name="name">The name the object will be referenced as.</param>
+        /// <param name="obj">The object to be added.</param>
+        /// <exception cref="ArgumentException">If the name has been used previously to add an object.</exception>
         public void AddObject(string name, object obj)
         {
-            // TODO: Remove duplicate entries.
+            if (hostObjects.ContainsKey(name))
+            {
+                throw new ArgumentException("object with that name already exists", "name");
+            }
+            
             hostObjects.Add(name, obj);
             activeScript.AddNamedItem(name, ScriptItemFlags.IsSource | ScriptItemFlags.IsVisible);
         }
 
+        /// <summary>
+        /// Adds the specified object into the script context with the specified name.
+        /// The methods on the object can be called without the name as if they were
+        /// native functions availible in the script.
+        /// </summary>
+        /// <param name="name">The name the object can optionally be referenced as.</param>
+        /// <param name="obj">The object to be added.</param>
+        /// <exception cref="ArgumentException">If the name has been used previously to add an object.</exception>
         public void AddGlobalMemberObject(string name, object obj)
         {
-            // TODO: Remove duplicate entries.
+            if (hostObjects.ContainsKey(name))
+            {
+                throw new ArgumentException("object with that name already exists", "name");
+            }
+
             hostObjects.Add(name, obj);
             activeScript.AddNamedItem(name, ScriptItemFlags.IsSource | ScriptItemFlags.IsVisible | ScriptItemFlags.GlobalMembers);
         }
 
+        /// <summary>
+        /// Returns if the script contains a host object of the specified name.
+        /// </summary>
+        /// <param name="name">The name of the object.</param>
+        /// <returns>True if the script contains a host object of the specified name, otherwise false.</returns>
+        public bool ScriptHasHostObject(string name)
+        {
+            return hostObjects.ContainsKey(name);
+        }
+
+        /// <summary>
+        /// Gets the script host object of the specified name.
+        /// </summary>
+        /// <param name="name">The name of the object.</param>
+        /// <returns>The script host object.</returns>
+        /// <exception cref="ArgumentException">If the specified host object did not exist.</exception>
+        public object GetScriptObject(string name)
+        {
+            if (!ScriptHasHostObject(name))
+            {
+                throw new ArgumentException("object with that name does not exist", "name");
+            }
+
+            return hostObjects[name];
+        }
+
+        /// <summary>
+        /// Adds the specified code to the scripting engine.
+        /// </summary>
+        /// <param name="code">The code to be added.</param>
+        /// <exception cref="ArgumentNullException">If code is null.</exception>
+        /// <exception cref="ArgumentException">If code is blank.</exception>
         public void AddCode(string code)
         {
             AddCode(code, null);
         }
 
+        /// <summary>
+        /// Adds the specified code to the scripting engine.
+        /// The code that is added will be availible only under the namespace specified 
+        /// instead of in the global scope of the script. 
+        /// </summary>
+        /// <param name="code">The code to be added.</param>
+        /// <param name="namespaceName">The name of the namespace to add the code to.</param>
+        /// <exception cref="ArgumentNullException">If code is null.</exception>
+        /// <exception cref="ArgumentException">If code is blank.</exception>
         public void AddCode(string code, string namespaceName)
         {
             AddCode(code, namespaceName, null);
         }
 
         /// <summary>
-        /// Adds the specified code to the scripting engine.
+        /// Adds the specified code to the scripting engine under the specified namespace.
+        /// The code that is added will be availible only under the namespace specified 
+        /// instead of in the global scope of the script. The script name will be used
+        /// to provide more useful error information if an error occurs during the exection
+        /// of the code that was added.
         /// </summary>
-        /// <param name="code"></param>
-        /// <param name="namespaceName"></param>
-        /// <param name="scriptName"></param>
+        /// <param name="code">The code to be added.</param>
+        /// <param name="namespaceName">The name of the namespace to add the code to.</param>
+        /// <param name="scriptName">The script name that the code came from.</param>
+        /// <exception cref="ArgumentNullException">If code is null.</exception>
+        /// <exception cref="ArgumentException">If code is blank.</exception>
         public void AddCode(string code, string namespaceName, string scriptName)
         {
             if (code == null)
@@ -106,7 +176,6 @@
 
             if (namespaceName != null)
             {
-                // TODO: What if theres already a named item by this name?
                 activeScript.AddNamedItem(namespaceName, ScriptItemFlags.CodeOnly | ScriptItemFlags.IsVisible);
             }
 
@@ -153,7 +222,15 @@
             }
         }
 
-        public object Eval(string code)
+        /// <summary>
+        /// Evaluates the specified code inside the context of the script and returns
+        /// the result, or null if no result was returned.
+        /// </summary>
+        /// <param name="code">The code to evaluate.</param>
+        /// <returns>The result of the evaluation.</returns>
+        /// <exception cref="ArgumentNullException">If code is null.</exception>
+        /// <exception cref="ArgumentException">If code is blank.</exception>
+        public object Evaluate(string code)
         {
             if (code == null)
             {
@@ -217,9 +294,6 @@
                 try
                 {
                     activeScript.Close();
-                }
-                catch
-                {
                 }
                 finally
                 {

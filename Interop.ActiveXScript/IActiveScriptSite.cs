@@ -26,9 +26,7 @@
         /// </summary>
         /// <param name="lcid">Address of a variable that receives the locale identifier for 
         /// user-interface elements displayed by the scripting engine.</param>
-        void GetLCID(
-            [Out] out uint lcid
-        );
+        uint GetLCID();
 
         /// <summary>
         /// Allows the scripting engine to obtain information about an item added with the IActiveScript::AddNamedItem method.

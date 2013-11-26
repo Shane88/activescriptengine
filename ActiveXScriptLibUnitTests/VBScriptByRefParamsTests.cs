@@ -4,6 +4,7 @@
     using System;
     using System.Collections;
     using System.Collections.Generic;
+    using System.Runtime.ExceptionServices;
     using System.Runtime.InteropServices;
 
     /*
@@ -17,12 +18,11 @@
      * 
      * 
      */
-
-    // TODO: Create tests
     [TestClass]
     public class VBScriptByRefParamsTests : VBScriptTestBase
     {
         [TestMethod]
+        [HandleProcessCorruptedStateExceptions]
         public void DelegateTest()
         {
             scriptEngine.AddCode("Public Function GetTheRef(sFuncName) Set GetTheRef = GetRef(sFuncName) End Function");
@@ -41,8 +41,14 @@
             
             AddDelegate addDel = (AddDelegate)d;
 
-
-            Assert.AreEqual(3, addDel(1, 2));
+            try
+            {
+                Assert.AreEqual(3, addDel(1, 2));
+                Assert.Fail("Expected access violation exception");
+            }
+            catch (AccessViolationException)
+            {
+            }
         }
 
         public delegate int AddDelegate(int a, int b);

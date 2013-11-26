@@ -14,9 +14,9 @@
             this.scriptEngine = scriptEngine;
         }
 
-        public void GetLCID(out uint lcid)
+        public uint GetLCID()
         {
-            lcid = 0;
+            return 0;
         }
 
         public void GetItemInfo(string name, ScriptInfoFlags mask, ref IntPtr pUnkItem, ref IntPtr pTypeInfo)

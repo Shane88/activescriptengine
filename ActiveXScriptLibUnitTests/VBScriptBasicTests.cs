@@ -25,7 +25,7 @@
         {
             scriptEngine.Start();
 
-            Assert.AreEqual((short)2, scriptEngine.Eval("1 + 1"));
+            Assert.AreEqual((short)2, scriptEngine.Evaluate("1 + 1"));
         }
 
         [TestMethod]

@@ -1,10 +1,12 @@
 ﻿namespace ActiveXScriptLib
 {
+    using Interop.ActiveXScript;
     using System;
     using System.Collections.Generic;
-    using Interop.ActiveXScript;
+    using System.Runtime.InteropServices;
     using EXCEPINFO = System.Runtime.InteropServices.ComTypes.EXCEPINFO;
 
+    [ComVisible(true)]
     public class ScriptErrorInfo
     {
         public ScriptErrorInfo()
@@ -34,15 +36,6 @@
         public string HelpFile { get; set; }
         public int HelpContext { get; set; }
         public string ScriptName { get; set; }
-
-        // TODO: Remove from this class.
-        public string DebugDump()
-        {
-            return string.Format(
-                "Error in {0} on Ln {1} Col {2}, {3}{4}Error Code:{5}, Text:{6}",
-                ScriptName ?? "Unnamed Script", LineNumber, ColumnNumber, Description,
-                Environment.NewLine, ErrorNumber, LineText);
-        }
 
         public override string ToString()
         {

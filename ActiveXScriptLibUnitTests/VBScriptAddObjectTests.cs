@@ -1,6 +1,7 @@
 ﻿namespace ActiveXScriptLibUnitTests
 {
     using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using System;
     using System.Diagnostics;
     using System.Runtime.InteropServices;
 
@@ -61,6 +62,27 @@
             dynamic script = scriptEngine.GetScriptHandle();
         }
 
+        [TestMethod]
+        public void AddObjectsWithSameName()
+        {
+            BasicMathObject bmo = new BasicMathObject()
+            {
+                ExpectedA = 2,
+                ExpectedB = 7
+            };
+
+            scriptEngine.AddObject("Math", bmo);
+
+            try
+            {
+                scriptEngine.AddObject("Math", bmo);
+                Assert.Fail("Expected ArgumentException");
+            }
+            catch (ArgumentException)
+            {
+            }
+        }
+
         [ComVisible(true)]
         public class BasicMathObject
         {
@@ -70,7 +92,7 @@
             public int Add(int a, int b)
             {
                 Trace.WriteLine("ExpectedA=" + ExpectedA + " Actual=" + a);
-                Trace.WriteLine("ExpectedA=" + ExpectedB + " Actual=" + b);
+                Trace.WriteLine("ExpectedB=" + ExpectedB + " Actual=" + b);
 
                 Assert.AreEqual(ExpectedA, a);
                 Assert.AreEqual(ExpectedB, b);

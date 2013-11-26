@@ -53,6 +53,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="ActiveScriptExtensions.cs" />
     <Compile Include="TestBase.cs" />
     <Compile Include="VBScriptAddObjectTests.cs" />
     <Compile Include="VBScriptBasicTests.cs" />

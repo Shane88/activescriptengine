@@ -66,5 +66,19 @@
             script = scriptEngine.GetScriptHandle("Worker");
             script.DoAdd();
         }
+
+        [TestMethod]
+        public void SameNamespace()
+        {
+            scriptEngine.AddCode(AddFunctionCode, "Math");
+
+            scriptEngine.AddCode("Public Function Subtract(a, b) Subtract = a - b End Function", "Math");
+
+            scriptEngine.Start();
+
+            dynamic script = scriptEngine.GetScriptHandle();
+
+            Assert.AreEqual(15, (int)script.Math.Add(10, script.Math.Subtract(8, 3)));
+        }
     }
 }
