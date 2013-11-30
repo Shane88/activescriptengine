@@ -29,9 +29,9 @@
                 throw new ArgumentNullException("progID");
             }
 
-            if (string.IsNullOrWhiteSpace(progID))
+            if (string.IsNullOrEmpty(progID))
             {
-                throw new ArgumentException("progID must not be empty or whitespace");
+                throw new ArgumentException("progID must not be empty");
             }
 
             activeScript = CreateInstanceFromProgID<IActiveScript>(progID);
