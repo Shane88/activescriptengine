@@ -24,7 +24,7 @@
             Trace.WriteLine("Environment is " + (Environment.Is64BitProcess ? "64bit" : "32bit"));
 
             this.WScript = new SimpleHostObject();
-            this.scriptEngine = new ActiveScriptEngine(VBScript.ProgID);
+            this.scriptEngine = new ActiveScriptEngine(progID);
             this.scriptEngine.ScriptErrorOccurred += scriptEngine_ScriptErrorOccurred;
             this.scriptEngine.AddObject("WScript", this.WScript);
 
@@ -84,7 +84,21 @@
               "End Function";
 
         public VBScriptTestBase()
-            : base("VBScript")
+            : base(VBScript.ProgID)
+        {
+
+        }
+    }
+
+    public class JScriptTestBase : TestBase
+    {
+        public const string AddFunctionCode
+            = "function Add(a, b) { " +
+              "   return a + b; " +
+              "}";
+
+        public JScriptTestBase()
+            : base(JScript.ProgID)
         {
 
         }
