@@ -1,0 +1,122 @@
+﻿<#@ template debug="false" hostspecific="false" language="C#" #>
+<#@ assembly name="System.Core" #>
+<#@ output extension=".cs" #>
+namespace ActiveXScriptLib.Extensions
+{
+   using System;
+   using System.Runtime.InteropServices;
+
+   [ComVisible(true)]
+   public class FunctionOverrider
+   {
+      private Action<object[]> whenCalledAction;
+      private Func<object[], object> whenCalledFunction;
+
+      public void WhenCalled(Action<object[]> whenCalled)
+      {
+         this.whenCalledAction = whenCalled;
+      }
+
+      public void WhenCalled(Func<object[], object> whenCalled)
+      {
+         this.whenCalledFunction = whenCalled;
+      }
+
+      <# 
+      WriteLine("#region Func Overloads");
+      WriteLine("");
+      PushIndent("      ");
+
+      for (int i = 1; i <= 16; i++)
+      {
+         string methodSigPrefix = "public void WhenCalled<";
+         string methodSigMiddle = "(Func<";
+         string methodSigSuffix = @", object> whenCalled) 
+{";
+
+         string methodBodyPrefix = "   this.whenCalledAction = (args) => whenCalled(";
+         string methodBodyMiddle = "";
+         string methodBodySuffix = @");
+}" + Environment.NewLine;
+         
+         for (int y = 1; y <= i; y++)
+         {
+            methodSigPrefix += "TParam" + y.ToString();
+            methodSigMiddle += "TParam" + y.ToString();
+            methodBodyMiddle += "(TParam" + y.ToString() + ")args[" + (y-1).ToString() + "]";
+
+            if (y < i)
+            {
+               methodSigPrefix += ", ";
+               methodSigMiddle += ", ";
+               methodBodyMiddle += ", ";
+            }
+         }
+         
+         methodSigPrefix += ">";
+         
+      WriteLine(methodSigPrefix + methodSigMiddle + methodSigSuffix);
+      WriteLine(methodBodyPrefix + methodBodyMiddle + methodBodySuffix);
+      }
+      WriteLine("#endregion Func Overloads");
+      #>
+
+      <# 
+      WriteLine("#region Action Overloads");
+      WriteLine("");
+
+      for (int i = 1; i <= 16; i++)
+      {
+         string methodSigPrefix = "public void WhenCalled<";
+         string methodSigMiddle = "(Action<";
+         string methodSigSuffix = @"> whenCalled) 
+{";
+
+         string methodBodyPrefix = "   this.whenCalledAction = (args) => whenCalled(";
+         string methodBodyMiddle = "";
+         string methodBodySuffix = @");
+}" + Environment.NewLine;
+         
+         for (int y = 1; y <= i; y++)
+         {
+            methodSigPrefix += "TParam" + y.ToString();
+            methodSigMiddle += "TParam" + y.ToString();
+            methodBodyMiddle += "(TParam" + y.ToString() + ")args[" + (y-1).ToString() + "]";
+
+            if (y < i)
+            {
+               methodSigPrefix += ", ";
+               methodSigMiddle += ", ";
+               methodBodyMiddle += ", ";
+            }
+         }
+         
+         methodSigPrefix += ">";
+         
+      WriteLine(methodSigPrefix + methodSigMiddle + methodSigSuffix);
+      WriteLine(methodBodyPrefix + methodBodyMiddle + methodBodySuffix);
+      }
+      WriteLine("#endregion Action Overloads");
+
+      #>
+   <# ClearIndent(); #>
+
+      public object this[params object[] args]
+      {
+         get
+         {
+            if (this.whenCalledAction != null)
+            {
+               this.whenCalledAction(args);
+            }
+
+            if (this.whenCalledFunction != null)
+            {
+               return this.whenCalledFunction(args);
+            }
+
+            return null;
+         }
+      }
+   }
+}

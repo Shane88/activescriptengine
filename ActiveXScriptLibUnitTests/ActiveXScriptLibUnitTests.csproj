@@ -37,8 +37,13 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="FluentAssertions">
+      <HintPath>..\packages\FluentAssertions.2.2.0.0\lib\net45\FluentAssertions.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <Choose>
     <When Condition="('$(VisualStudioVersion)' == '10.0' or '$(VisualStudioVersion)' == '') and '$(TargetFrameworkVersion)' == 'v3.5'">
@@ -55,6 +60,7 @@
   <ItemGroup>
     <Compile Include="ActiveScriptExtensions.cs" />
     <Compile Include="JScriptBasicTests.cs" />
+    <Compile Include="FunctionOverrider_Tests.cs" />
     <Compile Include="TestBase.cs" />
     <Compile Include="VBScriptAddObjectTests.cs" />
     <Compile Include="VBScriptBasicTests.cs" />
@@ -64,10 +70,17 @@
     <Compile Include="VBScriptNamespaceTests.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\ActiveScriptEngine.Extensions\ActiveXScriptLib.Extensions.csproj">
+      <Project>{243ba0f8-a0a9-4fa2-8569-acd69da07f72}</Project>
+      <Name>ActiveXScriptLib.Extensions</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ActiveXScriptLib\ActiveXScriptLib.csproj">
       <Project>{55bef42e-813c-4832-955f-99acbd676616}</Project>
       <Name>ActiveXScriptLib</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

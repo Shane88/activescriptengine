@@ -21,6 +21,7 @@
 
         private Dictionary<ulong, ScriptInfo> scripts;
         private string scriptToParse;
+        private string progID;
 
         public ActiveScriptEngine(string progID)
         {
@@ -33,6 +34,8 @@
             {
                 throw new ArgumentException("progID must not be empty");
             }
+
+            this.progID = progID;
 
             activeScript = CreateInstanceFromProgID<IActiveScript>(progID);
 
@@ -50,6 +53,14 @@
 
             hostObjects = new Dictionary<string, object>();
             scripts = new Dictionary<ulong, ScriptInfo>();
+        }
+        
+        public string ProgID
+        {
+           get
+           {
+              return this.progID;
+           }
         }
 
         /// <summary>
