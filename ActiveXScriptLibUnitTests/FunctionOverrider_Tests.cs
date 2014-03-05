@@ -8,6 +8,12 @@
    [TestClass]
    public class FunctionOverrider_Tests : VBScriptTestBase
    {
+      [TestInitialize]
+      public void TestSetup()
+      {
+         scriptEngine.Start();
+      }      
+
       [TestMethod]
       public void When_I_override_a_simple_function()
       {
@@ -26,6 +32,24 @@
 
          // Assert.
          actualText.Should().Be("Hello World from C#");
+      }
+
+      [TestMethod]
+      public void When_I_override_a_global_function_and_call_it_from_script()
+      {
+         // Arrange.
+         scriptEngine.AddCode(
+            @"Public Function Add(a, b)
+                 Err.Raise 1
+              End Function");
+
+         scriptEngine.OverrideGlobalFunction<int, int>("Add", (a, b) => a + b);
+
+         // Act.
+         double result = scriptEngine.Evaluate<double>("Add(1, 3)");
+
+         // Assert.
+         result.Should().Be(4);
       }
 
       [TestMethod]

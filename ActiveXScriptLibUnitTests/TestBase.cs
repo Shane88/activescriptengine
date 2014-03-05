@@ -20,7 +20,7 @@
       }
 
       [TestInitialize]
-      public void TestSetup()
+      public void GlobalTestSetup()
       {
          Trace.WriteLine("Environment is " + (Environment.Is64BitProcess ? "64bit" : "32bit"));
 
@@ -34,7 +34,7 @@
       }
 
       [TestCleanup]
-      public void TestCleanup()
+      public void GlobalTestCleanup()
       {
          if (this.scriptEngine != null)
          {

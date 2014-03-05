@@ -19,5 +19,10 @@
 
          return engine.Evaluate("new " + className + "()");
       }
+
+      public static T Evaluate<T>(this ActiveScriptEngine engine, string code)
+      {
+         return (T)Convert.ChangeType(engine.Evaluate(code), typeof(T));
+      }
    }
 }

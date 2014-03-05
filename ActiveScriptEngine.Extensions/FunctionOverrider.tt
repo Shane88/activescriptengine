@@ -34,7 +34,7 @@ namespace ActiveXScriptLib.Extensions
          string methodSigSuffix = @", object> whenCalled) 
 {";
 
-         string methodBodyPrefix = "   this.whenCalledAction = (args) => whenCalled(";
+         string methodBodyPrefix = "   this.whenCalledFunction = (args) => whenCalled(";
          string methodBodyMiddle = "";
          string methodBodySuffix = @");
 }" + Environment.NewLine;
@@ -43,7 +43,7 @@ namespace ActiveXScriptLib.Extensions
          {
             methodSigPrefix += "TParam" + y.ToString();
             methodSigMiddle += "TParam" + y.ToString();
-            methodBodyMiddle += "(TParam" + y.ToString() + ")args[" + (y-1).ToString() + "]";
+            methodBodyMiddle += "(TParam" + y.ToString() + ")Convert.ChangeType(args[" + (y-1).ToString() + "], typeof(TParam" + y.ToString() + "))";
 
             if (y < i)
             {
@@ -81,7 +81,7 @@ namespace ActiveXScriptLib.Extensions
          {
             methodSigPrefix += "TParam" + y.ToString();
             methodSigMiddle += "TParam" + y.ToString();
-            methodBodyMiddle += "(TParam" + y.ToString() + ")args[" + (y-1).ToString() + "]";
+            methodBodyMiddle += "(TParam" + y.ToString() + ")Convert.ChangeType(args[" + (y-1).ToString() + "], typeof(TParam" + y.ToString() + "))";
 
             if (y < i)
             {

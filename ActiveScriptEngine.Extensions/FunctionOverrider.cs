@@ -23,82 +23,82 @@
 
       public void WhenCalled<TParam1>(Func<TParam1, object> whenCalled) 
       {
-         this.whenCalledAction = (args) => whenCalled((TParam1)args[0]);
+         this.whenCalledFunction = (args) => whenCalled((TParam1)Convert.ChangeType(args[0], typeof(TParam1)));
       }
 
       public void WhenCalled<TParam1, TParam2>(Func<TParam1, TParam2, object> whenCalled) 
       {
-         this.whenCalledAction = (args) => whenCalled((TParam1)args[0], (TParam2)args[1]);
+         this.whenCalledFunction = (args) => whenCalled((TParam1)Convert.ChangeType(args[0], typeof(TParam1)), (TParam2)Convert.ChangeType(args[1], typeof(TParam2)));
       }
 
       public void WhenCalled<TParam1, TParam2, TParam3>(Func<TParam1, TParam2, TParam3, object> whenCalled) 
       {
-         this.whenCalledAction = (args) => whenCalled((TParam1)args[0], (TParam2)args[1], (TParam3)args[2]);
+         this.whenCalledFunction = (args) => whenCalled((TParam1)Convert.ChangeType(args[0], typeof(TParam1)), (TParam2)Convert.ChangeType(args[1], typeof(TParam2)), (TParam3)Convert.ChangeType(args[2], typeof(TParam3)));
       }
 
       public void WhenCalled<TParam1, TParam2, TParam3, TParam4>(Func<TParam1, TParam2, TParam3, TParam4, object> whenCalled) 
       {
-         this.whenCalledAction = (args) => whenCalled((TParam1)args[0], (TParam2)args[1], (TParam3)args[2], (TParam4)args[3]);
+         this.whenCalledFunction = (args) => whenCalled((TParam1)Convert.ChangeType(args[0], typeof(TParam1)), (TParam2)Convert.ChangeType(args[1], typeof(TParam2)), (TParam3)Convert.ChangeType(args[2], typeof(TParam3)), (TParam4)Convert.ChangeType(args[3], typeof(TParam4)));
       }
 
       public void WhenCalled<TParam1, TParam2, TParam3, TParam4, TParam5>(Func<TParam1, TParam2, TParam3, TParam4, TParam5, object> whenCalled) 
       {
-         this.whenCalledAction = (args) => whenCalled((TParam1)args[0], (TParam2)args[1], (TParam3)args[2], (TParam4)args[3], (TParam5)args[4]);
+         this.whenCalledFunction = (args) => whenCalled((TParam1)Convert.ChangeType(args[0], typeof(TParam1)), (TParam2)Convert.ChangeType(args[1], typeof(TParam2)), (TParam3)Convert.ChangeType(args[2], typeof(TParam3)), (TParam4)Convert.ChangeType(args[3], typeof(TParam4)), (TParam5)Convert.ChangeType(args[4], typeof(TParam5)));
       }
 
       public void WhenCalled<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6>(Func<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, object> whenCalled) 
       {
-         this.whenCalledAction = (args) => whenCalled((TParam1)args[0], (TParam2)args[1], (TParam3)args[2], (TParam4)args[3], (TParam5)args[4], (TParam6)args[5]);
+         this.whenCalledFunction = (args) => whenCalled((TParam1)Convert.ChangeType(args[0], typeof(TParam1)), (TParam2)Convert.ChangeType(args[1], typeof(TParam2)), (TParam3)Convert.ChangeType(args[2], typeof(TParam3)), (TParam4)Convert.ChangeType(args[3], typeof(TParam4)), (TParam5)Convert.ChangeType(args[4], typeof(TParam5)), (TParam6)Convert.ChangeType(args[5], typeof(TParam6)));
       }
 
       public void WhenCalled<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7>(Func<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, object> whenCalled) 
       {
-         this.whenCalledAction = (args) => whenCalled((TParam1)args[0], (TParam2)args[1], (TParam3)args[2], (TParam4)args[3], (TParam5)args[4], (TParam6)args[5], (TParam7)args[6]);
+         this.whenCalledFunction = (args) => whenCalled((TParam1)Convert.ChangeType(args[0], typeof(TParam1)), (TParam2)Convert.ChangeType(args[1], typeof(TParam2)), (TParam3)Convert.ChangeType(args[2], typeof(TParam3)), (TParam4)Convert.ChangeType(args[3], typeof(TParam4)), (TParam5)Convert.ChangeType(args[4], typeof(TParam5)), (TParam6)Convert.ChangeType(args[5], typeof(TParam6)), (TParam7)Convert.ChangeType(args[6], typeof(TParam7)));
       }
 
       public void WhenCalled<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8>(Func<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8, object> whenCalled) 
       {
-         this.whenCalledAction = (args) => whenCalled((TParam1)args[0], (TParam2)args[1], (TParam3)args[2], (TParam4)args[3], (TParam5)args[4], (TParam6)args[5], (TParam7)args[6], (TParam8)args[7]);
+         this.whenCalledFunction = (args) => whenCalled((TParam1)Convert.ChangeType(args[0], typeof(TParam1)), (TParam2)Convert.ChangeType(args[1], typeof(TParam2)), (TParam3)Convert.ChangeType(args[2], typeof(TParam3)), (TParam4)Convert.ChangeType(args[3], typeof(TParam4)), (TParam5)Convert.ChangeType(args[4], typeof(TParam5)), (TParam6)Convert.ChangeType(args[5], typeof(TParam6)), (TParam7)Convert.ChangeType(args[6], typeof(TParam7)), (TParam8)Convert.ChangeType(args[7], typeof(TParam8)));
       }
 
       public void WhenCalled<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8, TParam9>(Func<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8, TParam9, object> whenCalled) 
       {
-         this.whenCalledAction = (args) => whenCalled((TParam1)args[0], (TParam2)args[1], (TParam3)args[2], (TParam4)args[3], (TParam5)args[4], (TParam6)args[5], (TParam7)args[6], (TParam8)args[7], (TParam9)args[8]);
+         this.whenCalledFunction = (args) => whenCalled((TParam1)Convert.ChangeType(args[0], typeof(TParam1)), (TParam2)Convert.ChangeType(args[1], typeof(TParam2)), (TParam3)Convert.ChangeType(args[2], typeof(TParam3)), (TParam4)Convert.ChangeType(args[3], typeof(TParam4)), (TParam5)Convert.ChangeType(args[4], typeof(TParam5)), (TParam6)Convert.ChangeType(args[5], typeof(TParam6)), (TParam7)Convert.ChangeType(args[6], typeof(TParam7)), (TParam8)Convert.ChangeType(args[7], typeof(TParam8)), (TParam9)Convert.ChangeType(args[8], typeof(TParam9)));
       }
 
       public void WhenCalled<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8, TParam9, TParam10>(Func<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8, TParam9, TParam10, object> whenCalled) 
       {
-         this.whenCalledAction = (args) => whenCalled((TParam1)args[0], (TParam2)args[1], (TParam3)args[2], (TParam4)args[3], (TParam5)args[4], (TParam6)args[5], (TParam7)args[6], (TParam8)args[7], (TParam9)args[8], (TParam10)args[9]);
+         this.whenCalledFunction = (args) => whenCalled((TParam1)Convert.ChangeType(args[0], typeof(TParam1)), (TParam2)Convert.ChangeType(args[1], typeof(TParam2)), (TParam3)Convert.ChangeType(args[2], typeof(TParam3)), (TParam4)Convert.ChangeType(args[3], typeof(TParam4)), (TParam5)Convert.ChangeType(args[4], typeof(TParam5)), (TParam6)Convert.ChangeType(args[5], typeof(TParam6)), (TParam7)Convert.ChangeType(args[6], typeof(TParam7)), (TParam8)Convert.ChangeType(args[7], typeof(TParam8)), (TParam9)Convert.ChangeType(args[8], typeof(TParam9)), (TParam10)Convert.ChangeType(args[9], typeof(TParam10)));
       }
 
       public void WhenCalled<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8, TParam9, TParam10, TParam11>(Func<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8, TParam9, TParam10, TParam11, object> whenCalled) 
       {
-         this.whenCalledAction = (args) => whenCalled((TParam1)args[0], (TParam2)args[1], (TParam3)args[2], (TParam4)args[3], (TParam5)args[4], (TParam6)args[5], (TParam7)args[6], (TParam8)args[7], (TParam9)args[8], (TParam10)args[9], (TParam11)args[10]);
+         this.whenCalledFunction = (args) => whenCalled((TParam1)Convert.ChangeType(args[0], typeof(TParam1)), (TParam2)Convert.ChangeType(args[1], typeof(TParam2)), (TParam3)Convert.ChangeType(args[2], typeof(TParam3)), (TParam4)Convert.ChangeType(args[3], typeof(TParam4)), (TParam5)Convert.ChangeType(args[4], typeof(TParam5)), (TParam6)Convert.ChangeType(args[5], typeof(TParam6)), (TParam7)Convert.ChangeType(args[6], typeof(TParam7)), (TParam8)Convert.ChangeType(args[7], typeof(TParam8)), (TParam9)Convert.ChangeType(args[8], typeof(TParam9)), (TParam10)Convert.ChangeType(args[9], typeof(TParam10)), (TParam11)Convert.ChangeType(args[10], typeof(TParam11)));
       }
 
       public void WhenCalled<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8, TParam9, TParam10, TParam11, TParam12>(Func<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8, TParam9, TParam10, TParam11, TParam12, object> whenCalled) 
       {
-         this.whenCalledAction = (args) => whenCalled((TParam1)args[0], (TParam2)args[1], (TParam3)args[2], (TParam4)args[3], (TParam5)args[4], (TParam6)args[5], (TParam7)args[6], (TParam8)args[7], (TParam9)args[8], (TParam10)args[9], (TParam11)args[10], (TParam12)args[11]);
+         this.whenCalledFunction = (args) => whenCalled((TParam1)Convert.ChangeType(args[0], typeof(TParam1)), (TParam2)Convert.ChangeType(args[1], typeof(TParam2)), (TParam3)Convert.ChangeType(args[2], typeof(TParam3)), (TParam4)Convert.ChangeType(args[3], typeof(TParam4)), (TParam5)Convert.ChangeType(args[4], typeof(TParam5)), (TParam6)Convert.ChangeType(args[5], typeof(TParam6)), (TParam7)Convert.ChangeType(args[6], typeof(TParam7)), (TParam8)Convert.ChangeType(args[7], typeof(TParam8)), (TParam9)Convert.ChangeType(args[8], typeof(TParam9)), (TParam10)Convert.ChangeType(args[9], typeof(TParam10)), (TParam11)Convert.ChangeType(args[10], typeof(TParam11)), (TParam12)Convert.ChangeType(args[11], typeof(TParam12)));
       }
 
       public void WhenCalled<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8, TParam9, TParam10, TParam11, TParam12, TParam13>(Func<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8, TParam9, TParam10, TParam11, TParam12, TParam13, object> whenCalled) 
       {
-         this.whenCalledAction = (args) => whenCalled((TParam1)args[0], (TParam2)args[1], (TParam3)args[2], (TParam4)args[3], (TParam5)args[4], (TParam6)args[5], (TParam7)args[6], (TParam8)args[7], (TParam9)args[8], (TParam10)args[9], (TParam11)args[10], (TParam12)args[11], (TParam13)args[12]);
+         this.whenCalledFunction = (args) => whenCalled((TParam1)Convert.ChangeType(args[0], typeof(TParam1)), (TParam2)Convert.ChangeType(args[1], typeof(TParam2)), (TParam3)Convert.ChangeType(args[2], typeof(TParam3)), (TParam4)Convert.ChangeType(args[3], typeof(TParam4)), (TParam5)Convert.ChangeType(args[4], typeof(TParam5)), (TParam6)Convert.ChangeType(args[5], typeof(TParam6)), (TParam7)Convert.ChangeType(args[6], typeof(TParam7)), (TParam8)Convert.ChangeType(args[7], typeof(TParam8)), (TParam9)Convert.ChangeType(args[8], typeof(TParam9)), (TParam10)Convert.ChangeType(args[9], typeof(TParam10)), (TParam11)Convert.ChangeType(args[10], typeof(TParam11)), (TParam12)Convert.ChangeType(args[11], typeof(TParam12)), (TParam13)Convert.ChangeType(args[12], typeof(TParam13)));
       }
 
       public void WhenCalled<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8, TParam9, TParam10, TParam11, TParam12, TParam13, TParam14>(Func<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8, TParam9, TParam10, TParam11, TParam12, TParam13, TParam14, object> whenCalled) 
       {
-         this.whenCalledAction = (args) => whenCalled((TParam1)args[0], (TParam2)args[1], (TParam3)args[2], (TParam4)args[3], (TParam5)args[4], (TParam6)args[5], (TParam7)args[6], (TParam8)args[7], (TParam9)args[8], (TParam10)args[9], (TParam11)args[10], (TParam12)args[11], (TParam13)args[12], (TParam14)args[13]);
+         this.whenCalledFunction = (args) => whenCalled((TParam1)Convert.ChangeType(args[0], typeof(TParam1)), (TParam2)Convert.ChangeType(args[1], typeof(TParam2)), (TParam3)Convert.ChangeType(args[2], typeof(TParam3)), (TParam4)Convert.ChangeType(args[3], typeof(TParam4)), (TParam5)Convert.ChangeType(args[4], typeof(TParam5)), (TParam6)Convert.ChangeType(args[5], typeof(TParam6)), (TParam7)Convert.ChangeType(args[6], typeof(TParam7)), (TParam8)Convert.ChangeType(args[7], typeof(TParam8)), (TParam9)Convert.ChangeType(args[8], typeof(TParam9)), (TParam10)Convert.ChangeType(args[9], typeof(TParam10)), (TParam11)Convert.ChangeType(args[10], typeof(TParam11)), (TParam12)Convert.ChangeType(args[11], typeof(TParam12)), (TParam13)Convert.ChangeType(args[12], typeof(TParam13)), (TParam14)Convert.ChangeType(args[13], typeof(TParam14)));
       }
 
       public void WhenCalled<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8, TParam9, TParam10, TParam11, TParam12, TParam13, TParam14, TParam15>(Func<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8, TParam9, TParam10, TParam11, TParam12, TParam13, TParam14, TParam15, object> whenCalled) 
       {
-         this.whenCalledAction = (args) => whenCalled((TParam1)args[0], (TParam2)args[1], (TParam3)args[2], (TParam4)args[3], (TParam5)args[4], (TParam6)args[5], (TParam7)args[6], (TParam8)args[7], (TParam9)args[8], (TParam10)args[9], (TParam11)args[10], (TParam12)args[11], (TParam13)args[12], (TParam14)args[13], (TParam15)args[14]);
+         this.whenCalledFunction = (args) => whenCalled((TParam1)Convert.ChangeType(args[0], typeof(TParam1)), (TParam2)Convert.ChangeType(args[1], typeof(TParam2)), (TParam3)Convert.ChangeType(args[2], typeof(TParam3)), (TParam4)Convert.ChangeType(args[3], typeof(TParam4)), (TParam5)Convert.ChangeType(args[4], typeof(TParam5)), (TParam6)Convert.ChangeType(args[5], typeof(TParam6)), (TParam7)Convert.ChangeType(args[6], typeof(TParam7)), (TParam8)Convert.ChangeType(args[7], typeof(TParam8)), (TParam9)Convert.ChangeType(args[8], typeof(TParam9)), (TParam10)Convert.ChangeType(args[9], typeof(TParam10)), (TParam11)Convert.ChangeType(args[10], typeof(TParam11)), (TParam12)Convert.ChangeType(args[11], typeof(TParam12)), (TParam13)Convert.ChangeType(args[12], typeof(TParam13)), (TParam14)Convert.ChangeType(args[13], typeof(TParam14)), (TParam15)Convert.ChangeType(args[14], typeof(TParam15)));
       }
 
       public void WhenCalled<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8, TParam9, TParam10, TParam11, TParam12, TParam13, TParam14, TParam15, TParam16>(Func<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8, TParam9, TParam10, TParam11, TParam12, TParam13, TParam14, TParam15, TParam16, object> whenCalled) 
       {
-         this.whenCalledAction = (args) => whenCalled((TParam1)args[0], (TParam2)args[1], (TParam3)args[2], (TParam4)args[3], (TParam5)args[4], (TParam6)args[5], (TParam7)args[6], (TParam8)args[7], (TParam9)args[8], (TParam10)args[9], (TParam11)args[10], (TParam12)args[11], (TParam13)args[12], (TParam14)args[13], (TParam15)args[14], (TParam16)args[15]);
+         this.whenCalledFunction = (args) => whenCalled((TParam1)Convert.ChangeType(args[0], typeof(TParam1)), (TParam2)Convert.ChangeType(args[1], typeof(TParam2)), (TParam3)Convert.ChangeType(args[2], typeof(TParam3)), (TParam4)Convert.ChangeType(args[3], typeof(TParam4)), (TParam5)Convert.ChangeType(args[4], typeof(TParam5)), (TParam6)Convert.ChangeType(args[5], typeof(TParam6)), (TParam7)Convert.ChangeType(args[6], typeof(TParam7)), (TParam8)Convert.ChangeType(args[7], typeof(TParam8)), (TParam9)Convert.ChangeType(args[8], typeof(TParam9)), (TParam10)Convert.ChangeType(args[9], typeof(TParam10)), (TParam11)Convert.ChangeType(args[10], typeof(TParam11)), (TParam12)Convert.ChangeType(args[11], typeof(TParam12)), (TParam13)Convert.ChangeType(args[12], typeof(TParam13)), (TParam14)Convert.ChangeType(args[13], typeof(TParam14)), (TParam15)Convert.ChangeType(args[14], typeof(TParam15)), (TParam16)Convert.ChangeType(args[15], typeof(TParam16)));
       }
 
       #endregion Func Overloads
@@ -107,82 +107,82 @@
 
       public void WhenCalled<TParam1>(Action<TParam1> whenCalled) 
       {
-         this.whenCalledAction = (args) => whenCalled((TParam1)args[0]);
+         this.whenCalledAction = (args) => whenCalled((TParam1)Convert.ChangeType(args[0], typeof(TParam1)));
       }
 
       public void WhenCalled<TParam1, TParam2>(Action<TParam1, TParam2> whenCalled) 
       {
-         this.whenCalledAction = (args) => whenCalled((TParam1)args[0], (TParam2)args[1]);
+         this.whenCalledAction = (args) => whenCalled((TParam1)Convert.ChangeType(args[0], typeof(TParam1)), (TParam2)Convert.ChangeType(args[1], typeof(TParam2)));
       }
 
       public void WhenCalled<TParam1, TParam2, TParam3>(Action<TParam1, TParam2, TParam3> whenCalled) 
       {
-         this.whenCalledAction = (args) => whenCalled((TParam1)args[0], (TParam2)args[1], (TParam3)args[2]);
+         this.whenCalledAction = (args) => whenCalled((TParam1)Convert.ChangeType(args[0], typeof(TParam1)), (TParam2)Convert.ChangeType(args[1], typeof(TParam2)), (TParam3)Convert.ChangeType(args[2], typeof(TParam3)));
       }
 
       public void WhenCalled<TParam1, TParam2, TParam3, TParam4>(Action<TParam1, TParam2, TParam3, TParam4> whenCalled) 
       {
-         this.whenCalledAction = (args) => whenCalled((TParam1)args[0], (TParam2)args[1], (TParam3)args[2], (TParam4)args[3]);
+         this.whenCalledAction = (args) => whenCalled((TParam1)Convert.ChangeType(args[0], typeof(TParam1)), (TParam2)Convert.ChangeType(args[1], typeof(TParam2)), (TParam3)Convert.ChangeType(args[2], typeof(TParam3)), (TParam4)Convert.ChangeType(args[3], typeof(TParam4)));
       }
 
       public void WhenCalled<TParam1, TParam2, TParam3, TParam4, TParam5>(Action<TParam1, TParam2, TParam3, TParam4, TParam5> whenCalled) 
       {
-         this.whenCalledAction = (args) => whenCalled((TParam1)args[0], (TParam2)args[1], (TParam3)args[2], (TParam4)args[3], (TParam5)args[4]);
+         this.whenCalledAction = (args) => whenCalled((TParam1)Convert.ChangeType(args[0], typeof(TParam1)), (TParam2)Convert.ChangeType(args[1], typeof(TParam2)), (TParam3)Convert.ChangeType(args[2], typeof(TParam3)), (TParam4)Convert.ChangeType(args[3], typeof(TParam4)), (TParam5)Convert.ChangeType(args[4], typeof(TParam5)));
       }
 
       public void WhenCalled<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6>(Action<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6> whenCalled) 
       {
-         this.whenCalledAction = (args) => whenCalled((TParam1)args[0], (TParam2)args[1], (TParam3)args[2], (TParam4)args[3], (TParam5)args[4], (TParam6)args[5]);
+         this.whenCalledAction = (args) => whenCalled((TParam1)Convert.ChangeType(args[0], typeof(TParam1)), (TParam2)Convert.ChangeType(args[1], typeof(TParam2)), (TParam3)Convert.ChangeType(args[2], typeof(TParam3)), (TParam4)Convert.ChangeType(args[3], typeof(TParam4)), (TParam5)Convert.ChangeType(args[4], typeof(TParam5)), (TParam6)Convert.ChangeType(args[5], typeof(TParam6)));
       }
 
       public void WhenCalled<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7>(Action<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7> whenCalled) 
       {
-         this.whenCalledAction = (args) => whenCalled((TParam1)args[0], (TParam2)args[1], (TParam3)args[2], (TParam4)args[3], (TParam5)args[4], (TParam6)args[5], (TParam7)args[6]);
+         this.whenCalledAction = (args) => whenCalled((TParam1)Convert.ChangeType(args[0], typeof(TParam1)), (TParam2)Convert.ChangeType(args[1], typeof(TParam2)), (TParam3)Convert.ChangeType(args[2], typeof(TParam3)), (TParam4)Convert.ChangeType(args[3], typeof(TParam4)), (TParam5)Convert.ChangeType(args[4], typeof(TParam5)), (TParam6)Convert.ChangeType(args[5], typeof(TParam6)), (TParam7)Convert.ChangeType(args[6], typeof(TParam7)));
       }
 
       public void WhenCalled<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8>(Action<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8> whenCalled) 
       {
-         this.whenCalledAction = (args) => whenCalled((TParam1)args[0], (TParam2)args[1], (TParam3)args[2], (TParam4)args[3], (TParam5)args[4], (TParam6)args[5], (TParam7)args[6], (TParam8)args[7]);
+         this.whenCalledAction = (args) => whenCalled((TParam1)Convert.ChangeType(args[0], typeof(TParam1)), (TParam2)Convert.ChangeType(args[1], typeof(TParam2)), (TParam3)Convert.ChangeType(args[2], typeof(TParam3)), (TParam4)Convert.ChangeType(args[3], typeof(TParam4)), (TParam5)Convert.ChangeType(args[4], typeof(TParam5)), (TParam6)Convert.ChangeType(args[5], typeof(TParam6)), (TParam7)Convert.ChangeType(args[6], typeof(TParam7)), (TParam8)Convert.ChangeType(args[7], typeof(TParam8)));
       }
 
       public void WhenCalled<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8, TParam9>(Action<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8, TParam9> whenCalled) 
       {
-         this.whenCalledAction = (args) => whenCalled((TParam1)args[0], (TParam2)args[1], (TParam3)args[2], (TParam4)args[3], (TParam5)args[4], (TParam6)args[5], (TParam7)args[6], (TParam8)args[7], (TParam9)args[8]);
+         this.whenCalledAction = (args) => whenCalled((TParam1)Convert.ChangeType(args[0], typeof(TParam1)), (TParam2)Convert.ChangeType(args[1], typeof(TParam2)), (TParam3)Convert.ChangeType(args[2], typeof(TParam3)), (TParam4)Convert.ChangeType(args[3], typeof(TParam4)), (TParam5)Convert.ChangeType(args[4], typeof(TParam5)), (TParam6)Convert.ChangeType(args[5], typeof(TParam6)), (TParam7)Convert.ChangeType(args[6], typeof(TParam7)), (TParam8)Convert.ChangeType(args[7], typeof(TParam8)), (TParam9)Convert.ChangeType(args[8], typeof(TParam9)));
       }
 
       public void WhenCalled<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8, TParam9, TParam10>(Action<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8, TParam9, TParam10> whenCalled) 
       {
-         this.whenCalledAction = (args) => whenCalled((TParam1)args[0], (TParam2)args[1], (TParam3)args[2], (TParam4)args[3], (TParam5)args[4], (TParam6)args[5], (TParam7)args[6], (TParam8)args[7], (TParam9)args[8], (TParam10)args[9]);
+         this.whenCalledAction = (args) => whenCalled((TParam1)Convert.ChangeType(args[0], typeof(TParam1)), (TParam2)Convert.ChangeType(args[1], typeof(TParam2)), (TParam3)Convert.ChangeType(args[2], typeof(TParam3)), (TParam4)Convert.ChangeType(args[3], typeof(TParam4)), (TParam5)Convert.ChangeType(args[4], typeof(TParam5)), (TParam6)Convert.ChangeType(args[5], typeof(TParam6)), (TParam7)Convert.ChangeType(args[6], typeof(TParam7)), (TParam8)Convert.ChangeType(args[7], typeof(TParam8)), (TParam9)Convert.ChangeType(args[8], typeof(TParam9)), (TParam10)Convert.ChangeType(args[9], typeof(TParam10)));
       }
 
       public void WhenCalled<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8, TParam9, TParam10, TParam11>(Action<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8, TParam9, TParam10, TParam11> whenCalled) 
       {
-         this.whenCalledAction = (args) => whenCalled((TParam1)args[0], (TParam2)args[1], (TParam3)args[2], (TParam4)args[3], (TParam5)args[4], (TParam6)args[5], (TParam7)args[6], (TParam8)args[7], (TParam9)args[8], (TParam10)args[9], (TParam11)args[10]);
+         this.whenCalledAction = (args) => whenCalled((TParam1)Convert.ChangeType(args[0], typeof(TParam1)), (TParam2)Convert.ChangeType(args[1], typeof(TParam2)), (TParam3)Convert.ChangeType(args[2], typeof(TParam3)), (TParam4)Convert.ChangeType(args[3], typeof(TParam4)), (TParam5)Convert.ChangeType(args[4], typeof(TParam5)), (TParam6)Convert.ChangeType(args[5], typeof(TParam6)), (TParam7)Convert.ChangeType(args[6], typeof(TParam7)), (TParam8)Convert.ChangeType(args[7], typeof(TParam8)), (TParam9)Convert.ChangeType(args[8], typeof(TParam9)), (TParam10)Convert.ChangeType(args[9], typeof(TParam10)), (TParam11)Convert.ChangeType(args[10], typeof(TParam11)));
       }
 
       public void WhenCalled<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8, TParam9, TParam10, TParam11, TParam12>(Action<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8, TParam9, TParam10, TParam11, TParam12> whenCalled) 
       {
-         this.whenCalledAction = (args) => whenCalled((TParam1)args[0], (TParam2)args[1], (TParam3)args[2], (TParam4)args[3], (TParam5)args[4], (TParam6)args[5], (TParam7)args[6], (TParam8)args[7], (TParam9)args[8], (TParam10)args[9], (TParam11)args[10], (TParam12)args[11]);
+         this.whenCalledAction = (args) => whenCalled((TParam1)Convert.ChangeType(args[0], typeof(TParam1)), (TParam2)Convert.ChangeType(args[1], typeof(TParam2)), (TParam3)Convert.ChangeType(args[2], typeof(TParam3)), (TParam4)Convert.ChangeType(args[3], typeof(TParam4)), (TParam5)Convert.ChangeType(args[4], typeof(TParam5)), (TParam6)Convert.ChangeType(args[5], typeof(TParam6)), (TParam7)Convert.ChangeType(args[6], typeof(TParam7)), (TParam8)Convert.ChangeType(args[7], typeof(TParam8)), (TParam9)Convert.ChangeType(args[8], typeof(TParam9)), (TParam10)Convert.ChangeType(args[9], typeof(TParam10)), (TParam11)Convert.ChangeType(args[10], typeof(TParam11)), (TParam12)Convert.ChangeType(args[11], typeof(TParam12)));
       }
 
       public void WhenCalled<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8, TParam9, TParam10, TParam11, TParam12, TParam13>(Action<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8, TParam9, TParam10, TParam11, TParam12, TParam13> whenCalled) 
       {
-         this.whenCalledAction = (args) => whenCalled((TParam1)args[0], (TParam2)args[1], (TParam3)args[2], (TParam4)args[3], (TParam5)args[4], (TParam6)args[5], (TParam7)args[6], (TParam8)args[7], (TParam9)args[8], (TParam10)args[9], (TParam11)args[10], (TParam12)args[11], (TParam13)args[12]);
+         this.whenCalledAction = (args) => whenCalled((TParam1)Convert.ChangeType(args[0], typeof(TParam1)), (TParam2)Convert.ChangeType(args[1], typeof(TParam2)), (TParam3)Convert.ChangeType(args[2], typeof(TParam3)), (TParam4)Convert.ChangeType(args[3], typeof(TParam4)), (TParam5)Convert.ChangeType(args[4], typeof(TParam5)), (TParam6)Convert.ChangeType(args[5], typeof(TParam6)), (TParam7)Convert.ChangeType(args[6], typeof(TParam7)), (TParam8)Convert.ChangeType(args[7], typeof(TParam8)), (TParam9)Convert.ChangeType(args[8], typeof(TParam9)), (TParam10)Convert.ChangeType(args[9], typeof(TParam10)), (TParam11)Convert.ChangeType(args[10], typeof(TParam11)), (TParam12)Convert.ChangeType(args[11], typeof(TParam12)), (TParam13)Convert.ChangeType(args[12], typeof(TParam13)));
       }
 
       public void WhenCalled<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8, TParam9, TParam10, TParam11, TParam12, TParam13, TParam14>(Action<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8, TParam9, TParam10, TParam11, TParam12, TParam13, TParam14> whenCalled) 
       {
-         this.whenCalledAction = (args) => whenCalled((TParam1)args[0], (TParam2)args[1], (TParam3)args[2], (TParam4)args[3], (TParam5)args[4], (TParam6)args[5], (TParam7)args[6], (TParam8)args[7], (TParam9)args[8], (TParam10)args[9], (TParam11)args[10], (TParam12)args[11], (TParam13)args[12], (TParam14)args[13]);
+         this.whenCalledAction = (args) => whenCalled((TParam1)Convert.ChangeType(args[0], typeof(TParam1)), (TParam2)Convert.ChangeType(args[1], typeof(TParam2)), (TParam3)Convert.ChangeType(args[2], typeof(TParam3)), (TParam4)Convert.ChangeType(args[3], typeof(TParam4)), (TParam5)Convert.ChangeType(args[4], typeof(TParam5)), (TParam6)Convert.ChangeType(args[5], typeof(TParam6)), (TParam7)Convert.ChangeType(args[6], typeof(TParam7)), (TParam8)Convert.ChangeType(args[7], typeof(TParam8)), (TParam9)Convert.ChangeType(args[8], typeof(TParam9)), (TParam10)Convert.ChangeType(args[9], typeof(TParam10)), (TParam11)Convert.ChangeType(args[10], typeof(TParam11)), (TParam12)Convert.ChangeType(args[11], typeof(TParam12)), (TParam13)Convert.ChangeType(args[12], typeof(TParam13)), (TParam14)Convert.ChangeType(args[13], typeof(TParam14)));
       }
 
       public void WhenCalled<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8, TParam9, TParam10, TParam11, TParam12, TParam13, TParam14, TParam15>(Action<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8, TParam9, TParam10, TParam11, TParam12, TParam13, TParam14, TParam15> whenCalled) 
       {
-         this.whenCalledAction = (args) => whenCalled((TParam1)args[0], (TParam2)args[1], (TParam3)args[2], (TParam4)args[3], (TParam5)args[4], (TParam6)args[5], (TParam7)args[6], (TParam8)args[7], (TParam9)args[8], (TParam10)args[9], (TParam11)args[10], (TParam12)args[11], (TParam13)args[12], (TParam14)args[13], (TParam15)args[14]);
+         this.whenCalledAction = (args) => whenCalled((TParam1)Convert.ChangeType(args[0], typeof(TParam1)), (TParam2)Convert.ChangeType(args[1], typeof(TParam2)), (TParam3)Convert.ChangeType(args[2], typeof(TParam3)), (TParam4)Convert.ChangeType(args[3], typeof(TParam4)), (TParam5)Convert.ChangeType(args[4], typeof(TParam5)), (TParam6)Convert.ChangeType(args[5], typeof(TParam6)), (TParam7)Convert.ChangeType(args[6], typeof(TParam7)), (TParam8)Convert.ChangeType(args[7], typeof(TParam8)), (TParam9)Convert.ChangeType(args[8], typeof(TParam9)), (TParam10)Convert.ChangeType(args[9], typeof(TParam10)), (TParam11)Convert.ChangeType(args[10], typeof(TParam11)), (TParam12)Convert.ChangeType(args[11], typeof(TParam12)), (TParam13)Convert.ChangeType(args[12], typeof(TParam13)), (TParam14)Convert.ChangeType(args[13], typeof(TParam14)), (TParam15)Convert.ChangeType(args[14], typeof(TParam15)));
       }
 
       public void WhenCalled<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8, TParam9, TParam10, TParam11, TParam12, TParam13, TParam14, TParam15, TParam16>(Action<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8, TParam9, TParam10, TParam11, TParam12, TParam13, TParam14, TParam15, TParam16> whenCalled) 
       {
-         this.whenCalledAction = (args) => whenCalled((TParam1)args[0], (TParam2)args[1], (TParam3)args[2], (TParam4)args[3], (TParam5)args[4], (TParam6)args[5], (TParam7)args[6], (TParam8)args[7], (TParam9)args[8], (TParam10)args[9], (TParam11)args[10], (TParam12)args[11], (TParam13)args[12], (TParam14)args[13], (TParam15)args[14], (TParam16)args[15]);
+         this.whenCalledAction = (args) => whenCalled((TParam1)Convert.ChangeType(args[0], typeof(TParam1)), (TParam2)Convert.ChangeType(args[1], typeof(TParam2)), (TParam3)Convert.ChangeType(args[2], typeof(TParam3)), (TParam4)Convert.ChangeType(args[3], typeof(TParam4)), (TParam5)Convert.ChangeType(args[4], typeof(TParam5)), (TParam6)Convert.ChangeType(args[5], typeof(TParam6)), (TParam7)Convert.ChangeType(args[6], typeof(TParam7)), (TParam8)Convert.ChangeType(args[7], typeof(TParam8)), (TParam9)Convert.ChangeType(args[8], typeof(TParam9)), (TParam10)Convert.ChangeType(args[9], typeof(TParam10)), (TParam11)Convert.ChangeType(args[10], typeof(TParam11)), (TParam12)Convert.ChangeType(args[11], typeof(TParam12)), (TParam13)Convert.ChangeType(args[12], typeof(TParam13)), (TParam14)Convert.ChangeType(args[13], typeof(TParam14)), (TParam15)Convert.ChangeType(args[14], typeof(TParam15)), (TParam16)Convert.ChangeType(args[15], typeof(TParam16)));
       }
 
       #endregion Action Overloads

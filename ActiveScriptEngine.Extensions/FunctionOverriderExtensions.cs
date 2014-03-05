@@ -159,8 +159,5 @@
          engine.AddObject(functionName, overrider);
       }
 
-   
-
-
-   }
+      }
 }
