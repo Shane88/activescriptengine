@@ -3,6 +3,9 @@
    using System;
    using System.Globalization;
 
+   /// <summary>
+   /// Provides useful extension methods when using the ActiveScriptEngine.
+   /// </summary>
    public static class ActiveScriptEngineExtensions
    {
       /// <summary>

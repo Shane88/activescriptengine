@@ -1,9 +1,9 @@
 ﻿namespace ActiveXScriptLib
 {
-    using Interop.ActiveXScript;
-    using System;
-    using System.Runtime.InteropServices;
-    using EXCEPINFO = System.Runtime.InteropServices.ComTypes.EXCEPINFO;
+   using System;
+   using System.Runtime.InteropServices;
+   using Interop.ActiveXScript;
+   using EXCEPINFO = System.Runtime.InteropServices.ComTypes.EXCEPINFO;
 
     internal class ActiveScriptSite : IActiveScriptSite
     {
@@ -24,13 +24,13 @@
             if (mask == ScriptInfoFlags.IUnknown)
             {
                 // Look up list of host objects.
-                if (scriptEngine.hostObjects.ContainsKey(name))
+                if (scriptEngine.HostObjects.ContainsKey(name))
                 {
-                    pUnkItem = Marshal.GetIUnknownForObject(scriptEngine.hostObjects[name]);
+                    pUnkItem = Marshal.GetIUnknownForObject(scriptEngine.HostObjects[name]);
                 }
                 else
                 {
-                    object disp = scriptEngine.activeScript.GetScriptDispatch(name);
+                    object disp = scriptEngine.ActiveScript.GetScriptDispatch(name);
                     pUnkItem = Marshal.GetIUnknownForObject(disp);
                 }
             }

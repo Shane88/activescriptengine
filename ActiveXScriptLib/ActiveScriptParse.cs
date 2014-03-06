@@ -10,25 +10,6 @@
         private IActiveScriptParse64 activeScriptParse64;
         private bool is64Bit;
 
-        public static ActiveScriptParse MakeActiveScriptParse(object activeScriptParse)
-        {
-            IActiveScriptParse64 parser64 = activeScriptParse as IActiveScriptParse64;
-
-            if (parser64 != null)
-            {
-                return new ActiveScriptParse(parser64);
-            }
-
-            IActiveScriptParse32 parser32 = activeScriptParse as IActiveScriptParse32;
-
-            if (parser32 != null)
-            {
-                return new ActiveScriptParse(parser32);
-            }
-
-            throw new ArgumentException("Unable to get parser interface", "activeScriptParse");
-        }
-
         public ActiveScriptParse(IActiveScriptParse32 activeScriptParse)
         {
             if (activeScriptParse == null)
@@ -49,6 +30,25 @@
             this.activeScriptParse64 = activeScriptParse;
 
             this.is64Bit = true;
+        }
+
+        public static ActiveScriptParse MakeActiveScriptParse(object activeScriptParse)
+        {
+           IActiveScriptParse64 parser64 = activeScriptParse as IActiveScriptParse64;
+
+           if (parser64 != null)
+           {
+              return new ActiveScriptParse(parser64);
+           }
+
+           IActiveScriptParse32 parser32 = activeScriptParse as IActiveScriptParse32;
+
+           if (parser32 != null)
+           {
+              return new ActiveScriptParse(parser32);
+           }
+
+           throw new ArgumentException("Unable to get parser interface", "activeScriptParse");
         }
 
         public void InitNew()
