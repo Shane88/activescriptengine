@@ -12,6 +12,11 @@ namespace ActiveXScriptLib.Extensions
    {
       public static void OverrideGlobalFunction(this ActiveScriptEngine engine, string functionName, Action<object[]> action)
       {
+         if (engine == null)
+         {
+            throw new ArgumentNullException("engine");
+         }
+
          var overrider = new FunctionOverrider();
          overrider.WhenCalled(action);
          engine.AddObject(functionName, overrider);
@@ -19,6 +24,11 @@ namespace ActiveXScriptLib.Extensions
 
       public static void OverrideGlobalFunction(this ActiveScriptEngine engine, string functionName, Func<object[], object> func)
       {
+         if (engine == null)
+         {
+            throw new ArgumentNullException("engine");
+         }
+
          var overrider = new FunctionOverrider();
          overrider.WhenCalled(func);
          engine.AddObject(functionName, overrider);
@@ -34,7 +44,12 @@ namespace ActiveXScriptLib.Extensions
       {";
 
          string methodBodyPrefix = 
-      @"   var overrider = new FunctionOverrider();
+      @"   if (engine == null)
+         {
+            throw new ArgumentNullException(""engine"");
+         }
+      
+         var overrider = new FunctionOverrider();
          overrider.WhenCalled(func);
          engine.AddObject(functionName, overrider);";
 
@@ -45,8 +60,8 @@ namespace ActiveXScriptLib.Extensions
          
          for (int y = 1; y <= i; y++)
          {
-            methodSigPrefix += "TParam" + y.ToString();
-            methodSigMiddle += "TParam" + y.ToString();
+            methodSigPrefix += "T" + y.ToString();
+            methodSigMiddle += "T" + y.ToString();
 
             if (y < i)
             {
@@ -75,7 +90,12 @@ namespace ActiveXScriptLib.Extensions
       {";
 
          string methodBodyPrefix = 
-      @"   var overrider = new FunctionOverrider();
+      @"   if (engine == null)
+         {
+            throw new ArgumentNullException(""engine"");
+         }
+         
+         var overrider = new FunctionOverrider();
          overrider.WhenCalled(action);
          engine.AddObject(functionName, overrider);";
 
@@ -86,8 +106,8 @@ namespace ActiveXScriptLib.Extensions
          
          for (int y = 1; y <= i; y++)
          {
-            methodSigPrefix += "TParam" + y.ToString();
-            methodSigMiddle += "TParam" + y.ToString();
+            methodSigPrefix += "T" + y.ToString();
+            methodSigMiddle += "T" + y.ToString();
 
             if (y < i)
             {

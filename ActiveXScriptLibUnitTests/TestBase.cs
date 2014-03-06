@@ -86,7 +86,7 @@
             "End Function";
 
       public VBScriptTestBase()
-         : base(VBScript.ProgID)
+         : base(VBScript.ProgId)
       {
 
       }
@@ -100,7 +100,7 @@
             "}";
 
       public JScriptTestBase()
-         : base(JScript.ProgID)
+         : base(JScript.ProgId)
       {
 
       }

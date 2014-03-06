@@ -1,6 +1,8 @@
 ﻿namespace ActiveXScriptLib.Extensions
 {
    using System;
+   using System.Diagnostics.CodeAnalysis;
+   using System.Globalization;
    using System.Runtime.InteropServices;
 
    [ComVisible(true)]
@@ -9,184 +11,186 @@
       private Action<object[]> whenCalledAction;
       private Func<object[], object> whenCalledFunction;
 
-      public void WhenCalled(Action<object[]> whenCalled)
+      public void WhenCalled(Action<object[]> whenActionIsCalled)
       {
-         this.whenCalledAction = whenCalled;
+         this.whenCalledAction = whenActionIsCalled;
       }
 
-      public void WhenCalled(Func<object[], object> whenCalled)
+      public void WhenCalled(Func<object[], object> whenFunctionIsCalled)
       {
-         this.whenCalledFunction = whenCalled;
+         this.whenCalledFunction = whenFunctionIsCalled;
       }
 
       #region Func Overloads
 
-      public void WhenCalled<TParam1>(Func<TParam1, object> whenCalled) 
+      public void WhenCalled<T1>(Func<T1, object> whenFunctionIsCalled) 
       {
-         this.whenCalledFunction = (args) => whenCalled((TParam1)Convert.ChangeType(args[0], typeof(TParam1)));
+         this.whenCalledFunction = (args) => whenFunctionIsCalled((T1)Convert.ChangeType(args[0], typeof(T1), CultureInfo.InvariantCulture));
       }
 
-      public void WhenCalled<TParam1, TParam2>(Func<TParam1, TParam2, object> whenCalled) 
+      public void WhenCalled<T1, T2>(Func<T1, T2, object> whenFunctionIsCalled) 
       {
-         this.whenCalledFunction = (args) => whenCalled((TParam1)Convert.ChangeType(args[0], typeof(TParam1)), (TParam2)Convert.ChangeType(args[1], typeof(TParam2)));
+         this.whenCalledFunction = (args) => whenFunctionIsCalled((T1)Convert.ChangeType(args[0], typeof(T1), CultureInfo.InvariantCulture), (T2)Convert.ChangeType(args[1], typeof(T2), CultureInfo.InvariantCulture));
       }
 
-      public void WhenCalled<TParam1, TParam2, TParam3>(Func<TParam1, TParam2, TParam3, object> whenCalled) 
+      public void WhenCalled<T1, T2, T3>(Func<T1, T2, T3, object> whenFunctionIsCalled) 
       {
-         this.whenCalledFunction = (args) => whenCalled((TParam1)Convert.ChangeType(args[0], typeof(TParam1)), (TParam2)Convert.ChangeType(args[1], typeof(TParam2)), (TParam3)Convert.ChangeType(args[2], typeof(TParam3)));
+         this.whenCalledFunction = (args) => whenFunctionIsCalled((T1)Convert.ChangeType(args[0], typeof(T1), CultureInfo.InvariantCulture), (T2)Convert.ChangeType(args[1], typeof(T2), CultureInfo.InvariantCulture), (T3)Convert.ChangeType(args[2], typeof(T3), CultureInfo.InvariantCulture));
       }
 
-      public void WhenCalled<TParam1, TParam2, TParam3, TParam4>(Func<TParam1, TParam2, TParam3, TParam4, object> whenCalled) 
+      public void WhenCalled<T1, T2, T3, T4>(Func<T1, T2, T3, T4, object> whenFunctionIsCalled) 
       {
-         this.whenCalledFunction = (args) => whenCalled((TParam1)Convert.ChangeType(args[0], typeof(TParam1)), (TParam2)Convert.ChangeType(args[1], typeof(TParam2)), (TParam3)Convert.ChangeType(args[2], typeof(TParam3)), (TParam4)Convert.ChangeType(args[3], typeof(TParam4)));
+         this.whenCalledFunction = (args) => whenFunctionIsCalled((T1)Convert.ChangeType(args[0], typeof(T1), CultureInfo.InvariantCulture), (T2)Convert.ChangeType(args[1], typeof(T2), CultureInfo.InvariantCulture), (T3)Convert.ChangeType(args[2], typeof(T3), CultureInfo.InvariantCulture), (T4)Convert.ChangeType(args[3], typeof(T4), CultureInfo.InvariantCulture));
       }
 
-      public void WhenCalled<TParam1, TParam2, TParam3, TParam4, TParam5>(Func<TParam1, TParam2, TParam3, TParam4, TParam5, object> whenCalled) 
+      public void WhenCalled<T1, T2, T3, T4, T5>(Func<T1, T2, T3, T4, T5, object> whenFunctionIsCalled) 
       {
-         this.whenCalledFunction = (args) => whenCalled((TParam1)Convert.ChangeType(args[0], typeof(TParam1)), (TParam2)Convert.ChangeType(args[1], typeof(TParam2)), (TParam3)Convert.ChangeType(args[2], typeof(TParam3)), (TParam4)Convert.ChangeType(args[3], typeof(TParam4)), (TParam5)Convert.ChangeType(args[4], typeof(TParam5)));
+         this.whenCalledFunction = (args) => whenFunctionIsCalled((T1)Convert.ChangeType(args[0], typeof(T1), CultureInfo.InvariantCulture), (T2)Convert.ChangeType(args[1], typeof(T2), CultureInfo.InvariantCulture), (T3)Convert.ChangeType(args[2], typeof(T3), CultureInfo.InvariantCulture), (T4)Convert.ChangeType(args[3], typeof(T4), CultureInfo.InvariantCulture), (T5)Convert.ChangeType(args[4], typeof(T5), CultureInfo.InvariantCulture));
       }
 
-      public void WhenCalled<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6>(Func<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, object> whenCalled) 
+      public void WhenCalled<T1, T2, T3, T4, T5, T6>(Func<T1, T2, T3, T4, T5, T6, object> whenFunctionIsCalled) 
       {
-         this.whenCalledFunction = (args) => whenCalled((TParam1)Convert.ChangeType(args[0], typeof(TParam1)), (TParam2)Convert.ChangeType(args[1], typeof(TParam2)), (TParam3)Convert.ChangeType(args[2], typeof(TParam3)), (TParam4)Convert.ChangeType(args[3], typeof(TParam4)), (TParam5)Convert.ChangeType(args[4], typeof(TParam5)), (TParam6)Convert.ChangeType(args[5], typeof(TParam6)));
+         this.whenCalledFunction = (args) => whenFunctionIsCalled((T1)Convert.ChangeType(args[0], typeof(T1), CultureInfo.InvariantCulture), (T2)Convert.ChangeType(args[1], typeof(T2), CultureInfo.InvariantCulture), (T3)Convert.ChangeType(args[2], typeof(T3), CultureInfo.InvariantCulture), (T4)Convert.ChangeType(args[3], typeof(T4), CultureInfo.InvariantCulture), (T5)Convert.ChangeType(args[4], typeof(T5), CultureInfo.InvariantCulture), (T6)Convert.ChangeType(args[5], typeof(T6), CultureInfo.InvariantCulture));
       }
 
-      public void WhenCalled<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7>(Func<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, object> whenCalled) 
+      public void WhenCalled<T1, T2, T3, T4, T5, T6, T7>(Func<T1, T2, T3, T4, T5, T6, T7, object> whenFunctionIsCalled) 
       {
-         this.whenCalledFunction = (args) => whenCalled((TParam1)Convert.ChangeType(args[0], typeof(TParam1)), (TParam2)Convert.ChangeType(args[1], typeof(TParam2)), (TParam3)Convert.ChangeType(args[2], typeof(TParam3)), (TParam4)Convert.ChangeType(args[3], typeof(TParam4)), (TParam5)Convert.ChangeType(args[4], typeof(TParam5)), (TParam6)Convert.ChangeType(args[5], typeof(TParam6)), (TParam7)Convert.ChangeType(args[6], typeof(TParam7)));
+         this.whenCalledFunction = (args) => whenFunctionIsCalled((T1)Convert.ChangeType(args[0], typeof(T1), CultureInfo.InvariantCulture), (T2)Convert.ChangeType(args[1], typeof(T2), CultureInfo.InvariantCulture), (T3)Convert.ChangeType(args[2], typeof(T3), CultureInfo.InvariantCulture), (T4)Convert.ChangeType(args[3], typeof(T4), CultureInfo.InvariantCulture), (T5)Convert.ChangeType(args[4], typeof(T5), CultureInfo.InvariantCulture), (T6)Convert.ChangeType(args[5], typeof(T6), CultureInfo.InvariantCulture), (T7)Convert.ChangeType(args[6], typeof(T7), CultureInfo.InvariantCulture));
       }
 
-      public void WhenCalled<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8>(Func<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8, object> whenCalled) 
+      public void WhenCalled<T1, T2, T3, T4, T5, T6, T7, T8>(Func<T1, T2, T3, T4, T5, T6, T7, T8, object> whenFunctionIsCalled) 
       {
-         this.whenCalledFunction = (args) => whenCalled((TParam1)Convert.ChangeType(args[0], typeof(TParam1)), (TParam2)Convert.ChangeType(args[1], typeof(TParam2)), (TParam3)Convert.ChangeType(args[2], typeof(TParam3)), (TParam4)Convert.ChangeType(args[3], typeof(TParam4)), (TParam5)Convert.ChangeType(args[4], typeof(TParam5)), (TParam6)Convert.ChangeType(args[5], typeof(TParam6)), (TParam7)Convert.ChangeType(args[6], typeof(TParam7)), (TParam8)Convert.ChangeType(args[7], typeof(TParam8)));
+         this.whenCalledFunction = (args) => whenFunctionIsCalled((T1)Convert.ChangeType(args[0], typeof(T1), CultureInfo.InvariantCulture), (T2)Convert.ChangeType(args[1], typeof(T2), CultureInfo.InvariantCulture), (T3)Convert.ChangeType(args[2], typeof(T3), CultureInfo.InvariantCulture), (T4)Convert.ChangeType(args[3], typeof(T4), CultureInfo.InvariantCulture), (T5)Convert.ChangeType(args[4], typeof(T5), CultureInfo.InvariantCulture), (T6)Convert.ChangeType(args[5], typeof(T6), CultureInfo.InvariantCulture), (T7)Convert.ChangeType(args[6], typeof(T7), CultureInfo.InvariantCulture), (T8)Convert.ChangeType(args[7], typeof(T8), CultureInfo.InvariantCulture));
       }
 
-      public void WhenCalled<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8, TParam9>(Func<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8, TParam9, object> whenCalled) 
+      public void WhenCalled<T1, T2, T3, T4, T5, T6, T7, T8, T9>(Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, object> whenFunctionIsCalled) 
       {
-         this.whenCalledFunction = (args) => whenCalled((TParam1)Convert.ChangeType(args[0], typeof(TParam1)), (TParam2)Convert.ChangeType(args[1], typeof(TParam2)), (TParam3)Convert.ChangeType(args[2], typeof(TParam3)), (TParam4)Convert.ChangeType(args[3], typeof(TParam4)), (TParam5)Convert.ChangeType(args[4], typeof(TParam5)), (TParam6)Convert.ChangeType(args[5], typeof(TParam6)), (TParam7)Convert.ChangeType(args[6], typeof(TParam7)), (TParam8)Convert.ChangeType(args[7], typeof(TParam8)), (TParam9)Convert.ChangeType(args[8], typeof(TParam9)));
+         this.whenCalledFunction = (args) => whenFunctionIsCalled((T1)Convert.ChangeType(args[0], typeof(T1), CultureInfo.InvariantCulture), (T2)Convert.ChangeType(args[1], typeof(T2), CultureInfo.InvariantCulture), (T3)Convert.ChangeType(args[2], typeof(T3), CultureInfo.InvariantCulture), (T4)Convert.ChangeType(args[3], typeof(T4), CultureInfo.InvariantCulture), (T5)Convert.ChangeType(args[4], typeof(T5), CultureInfo.InvariantCulture), (T6)Convert.ChangeType(args[5], typeof(T6), CultureInfo.InvariantCulture), (T7)Convert.ChangeType(args[6], typeof(T7), CultureInfo.InvariantCulture), (T8)Convert.ChangeType(args[7], typeof(T8), CultureInfo.InvariantCulture), (T9)Convert.ChangeType(args[8], typeof(T9), CultureInfo.InvariantCulture));
       }
 
-      public void WhenCalled<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8, TParam9, TParam10>(Func<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8, TParam9, TParam10, object> whenCalled) 
+      public void WhenCalled<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10>(Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, object> whenFunctionIsCalled) 
       {
-         this.whenCalledFunction = (args) => whenCalled((TParam1)Convert.ChangeType(args[0], typeof(TParam1)), (TParam2)Convert.ChangeType(args[1], typeof(TParam2)), (TParam3)Convert.ChangeType(args[2], typeof(TParam3)), (TParam4)Convert.ChangeType(args[3], typeof(TParam4)), (TParam5)Convert.ChangeType(args[4], typeof(TParam5)), (TParam6)Convert.ChangeType(args[5], typeof(TParam6)), (TParam7)Convert.ChangeType(args[6], typeof(TParam7)), (TParam8)Convert.ChangeType(args[7], typeof(TParam8)), (TParam9)Convert.ChangeType(args[8], typeof(TParam9)), (TParam10)Convert.ChangeType(args[9], typeof(TParam10)));
+         this.whenCalledFunction = (args) => whenFunctionIsCalled((T1)Convert.ChangeType(args[0], typeof(T1), CultureInfo.InvariantCulture), (T2)Convert.ChangeType(args[1], typeof(T2), CultureInfo.InvariantCulture), (T3)Convert.ChangeType(args[2], typeof(T3), CultureInfo.InvariantCulture), (T4)Convert.ChangeType(args[3], typeof(T4), CultureInfo.InvariantCulture), (T5)Convert.ChangeType(args[4], typeof(T5), CultureInfo.InvariantCulture), (T6)Convert.ChangeType(args[5], typeof(T6), CultureInfo.InvariantCulture), (T7)Convert.ChangeType(args[6], typeof(T7), CultureInfo.InvariantCulture), (T8)Convert.ChangeType(args[7], typeof(T8), CultureInfo.InvariantCulture), (T9)Convert.ChangeType(args[8], typeof(T9), CultureInfo.InvariantCulture), (T10)Convert.ChangeType(args[9], typeof(T10), CultureInfo.InvariantCulture));
       }
 
-      public void WhenCalled<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8, TParam9, TParam10, TParam11>(Func<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8, TParam9, TParam10, TParam11, object> whenCalled) 
+      public void WhenCalled<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11>(Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, object> whenFunctionIsCalled) 
       {
-         this.whenCalledFunction = (args) => whenCalled((TParam1)Convert.ChangeType(args[0], typeof(TParam1)), (TParam2)Convert.ChangeType(args[1], typeof(TParam2)), (TParam3)Convert.ChangeType(args[2], typeof(TParam3)), (TParam4)Convert.ChangeType(args[3], typeof(TParam4)), (TParam5)Convert.ChangeType(args[4], typeof(TParam5)), (TParam6)Convert.ChangeType(args[5], typeof(TParam6)), (TParam7)Convert.ChangeType(args[6], typeof(TParam7)), (TParam8)Convert.ChangeType(args[7], typeof(TParam8)), (TParam9)Convert.ChangeType(args[8], typeof(TParam9)), (TParam10)Convert.ChangeType(args[9], typeof(TParam10)), (TParam11)Convert.ChangeType(args[10], typeof(TParam11)));
+         this.whenCalledFunction = (args) => whenFunctionIsCalled((T1)Convert.ChangeType(args[0], typeof(T1), CultureInfo.InvariantCulture), (T2)Convert.ChangeType(args[1], typeof(T2), CultureInfo.InvariantCulture), (T3)Convert.ChangeType(args[2], typeof(T3), CultureInfo.InvariantCulture), (T4)Convert.ChangeType(args[3], typeof(T4), CultureInfo.InvariantCulture), (T5)Convert.ChangeType(args[4], typeof(T5), CultureInfo.InvariantCulture), (T6)Convert.ChangeType(args[5], typeof(T6), CultureInfo.InvariantCulture), (T7)Convert.ChangeType(args[6], typeof(T7), CultureInfo.InvariantCulture), (T8)Convert.ChangeType(args[7], typeof(T8), CultureInfo.InvariantCulture), (T9)Convert.ChangeType(args[8], typeof(T9), CultureInfo.InvariantCulture), (T10)Convert.ChangeType(args[9], typeof(T10), CultureInfo.InvariantCulture), (T11)Convert.ChangeType(args[10], typeof(T11), CultureInfo.InvariantCulture));
       }
 
-      public void WhenCalled<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8, TParam9, TParam10, TParam11, TParam12>(Func<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8, TParam9, TParam10, TParam11, TParam12, object> whenCalled) 
+      public void WhenCalled<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12>(Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, object> whenFunctionIsCalled) 
       {
-         this.whenCalledFunction = (args) => whenCalled((TParam1)Convert.ChangeType(args[0], typeof(TParam1)), (TParam2)Convert.ChangeType(args[1], typeof(TParam2)), (TParam3)Convert.ChangeType(args[2], typeof(TParam3)), (TParam4)Convert.ChangeType(args[3], typeof(TParam4)), (TParam5)Convert.ChangeType(args[4], typeof(TParam5)), (TParam6)Convert.ChangeType(args[5], typeof(TParam6)), (TParam7)Convert.ChangeType(args[6], typeof(TParam7)), (TParam8)Convert.ChangeType(args[7], typeof(TParam8)), (TParam9)Convert.ChangeType(args[8], typeof(TParam9)), (TParam10)Convert.ChangeType(args[9], typeof(TParam10)), (TParam11)Convert.ChangeType(args[10], typeof(TParam11)), (TParam12)Convert.ChangeType(args[11], typeof(TParam12)));
+         this.whenCalledFunction = (args) => whenFunctionIsCalled((T1)Convert.ChangeType(args[0], typeof(T1), CultureInfo.InvariantCulture), (T2)Convert.ChangeType(args[1], typeof(T2), CultureInfo.InvariantCulture), (T3)Convert.ChangeType(args[2], typeof(T3), CultureInfo.InvariantCulture), (T4)Convert.ChangeType(args[3], typeof(T4), CultureInfo.InvariantCulture), (T5)Convert.ChangeType(args[4], typeof(T5), CultureInfo.InvariantCulture), (T6)Convert.ChangeType(args[5], typeof(T6), CultureInfo.InvariantCulture), (T7)Convert.ChangeType(args[6], typeof(T7), CultureInfo.InvariantCulture), (T8)Convert.ChangeType(args[7], typeof(T8), CultureInfo.InvariantCulture), (T9)Convert.ChangeType(args[8], typeof(T9), CultureInfo.InvariantCulture), (T10)Convert.ChangeType(args[9], typeof(T10), CultureInfo.InvariantCulture), (T11)Convert.ChangeType(args[10], typeof(T11), CultureInfo.InvariantCulture), (T12)Convert.ChangeType(args[11], typeof(T12), CultureInfo.InvariantCulture));
       }
 
-      public void WhenCalled<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8, TParam9, TParam10, TParam11, TParam12, TParam13>(Func<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8, TParam9, TParam10, TParam11, TParam12, TParam13, object> whenCalled) 
+      public void WhenCalled<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13>(Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, object> whenFunctionIsCalled) 
       {
-         this.whenCalledFunction = (args) => whenCalled((TParam1)Convert.ChangeType(args[0], typeof(TParam1)), (TParam2)Convert.ChangeType(args[1], typeof(TParam2)), (TParam3)Convert.ChangeType(args[2], typeof(TParam3)), (TParam4)Convert.ChangeType(args[3], typeof(TParam4)), (TParam5)Convert.ChangeType(args[4], typeof(TParam5)), (TParam6)Convert.ChangeType(args[5], typeof(TParam6)), (TParam7)Convert.ChangeType(args[6], typeof(TParam7)), (TParam8)Convert.ChangeType(args[7], typeof(TParam8)), (TParam9)Convert.ChangeType(args[8], typeof(TParam9)), (TParam10)Convert.ChangeType(args[9], typeof(TParam10)), (TParam11)Convert.ChangeType(args[10], typeof(TParam11)), (TParam12)Convert.ChangeType(args[11], typeof(TParam12)), (TParam13)Convert.ChangeType(args[12], typeof(TParam13)));
+         this.whenCalledFunction = (args) => whenFunctionIsCalled((T1)Convert.ChangeType(args[0], typeof(T1), CultureInfo.InvariantCulture), (T2)Convert.ChangeType(args[1], typeof(T2), CultureInfo.InvariantCulture), (T3)Convert.ChangeType(args[2], typeof(T3), CultureInfo.InvariantCulture), (T4)Convert.ChangeType(args[3], typeof(T4), CultureInfo.InvariantCulture), (T5)Convert.ChangeType(args[4], typeof(T5), CultureInfo.InvariantCulture), (T6)Convert.ChangeType(args[5], typeof(T6), CultureInfo.InvariantCulture), (T7)Convert.ChangeType(args[6], typeof(T7), CultureInfo.InvariantCulture), (T8)Convert.ChangeType(args[7], typeof(T8), CultureInfo.InvariantCulture), (T9)Convert.ChangeType(args[8], typeof(T9), CultureInfo.InvariantCulture), (T10)Convert.ChangeType(args[9], typeof(T10), CultureInfo.InvariantCulture), (T11)Convert.ChangeType(args[10], typeof(T11), CultureInfo.InvariantCulture), (T12)Convert.ChangeType(args[11], typeof(T12), CultureInfo.InvariantCulture), (T13)Convert.ChangeType(args[12], typeof(T13), CultureInfo.InvariantCulture));
       }
 
-      public void WhenCalled<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8, TParam9, TParam10, TParam11, TParam12, TParam13, TParam14>(Func<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8, TParam9, TParam10, TParam11, TParam12, TParam13, TParam14, object> whenCalled) 
+      public void WhenCalled<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14>(Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, object> whenFunctionIsCalled) 
       {
-         this.whenCalledFunction = (args) => whenCalled((TParam1)Convert.ChangeType(args[0], typeof(TParam1)), (TParam2)Convert.ChangeType(args[1], typeof(TParam2)), (TParam3)Convert.ChangeType(args[2], typeof(TParam3)), (TParam4)Convert.ChangeType(args[3], typeof(TParam4)), (TParam5)Convert.ChangeType(args[4], typeof(TParam5)), (TParam6)Convert.ChangeType(args[5], typeof(TParam6)), (TParam7)Convert.ChangeType(args[6], typeof(TParam7)), (TParam8)Convert.ChangeType(args[7], typeof(TParam8)), (TParam9)Convert.ChangeType(args[8], typeof(TParam9)), (TParam10)Convert.ChangeType(args[9], typeof(TParam10)), (TParam11)Convert.ChangeType(args[10], typeof(TParam11)), (TParam12)Convert.ChangeType(args[11], typeof(TParam12)), (TParam13)Convert.ChangeType(args[12], typeof(TParam13)), (TParam14)Convert.ChangeType(args[13], typeof(TParam14)));
+         this.whenCalledFunction = (args) => whenFunctionIsCalled((T1)Convert.ChangeType(args[0], typeof(T1), CultureInfo.InvariantCulture), (T2)Convert.ChangeType(args[1], typeof(T2), CultureInfo.InvariantCulture), (T3)Convert.ChangeType(args[2], typeof(T3), CultureInfo.InvariantCulture), (T4)Convert.ChangeType(args[3], typeof(T4), CultureInfo.InvariantCulture), (T5)Convert.ChangeType(args[4], typeof(T5), CultureInfo.InvariantCulture), (T6)Convert.ChangeType(args[5], typeof(T6), CultureInfo.InvariantCulture), (T7)Convert.ChangeType(args[6], typeof(T7), CultureInfo.InvariantCulture), (T8)Convert.ChangeType(args[7], typeof(T8), CultureInfo.InvariantCulture), (T9)Convert.ChangeType(args[8], typeof(T9), CultureInfo.InvariantCulture), (T10)Convert.ChangeType(args[9], typeof(T10), CultureInfo.InvariantCulture), (T11)Convert.ChangeType(args[10], typeof(T11), CultureInfo.InvariantCulture), (T12)Convert.ChangeType(args[11], typeof(T12), CultureInfo.InvariantCulture), (T13)Convert.ChangeType(args[12], typeof(T13), CultureInfo.InvariantCulture), (T14)Convert.ChangeType(args[13], typeof(T14), CultureInfo.InvariantCulture));
       }
 
-      public void WhenCalled<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8, TParam9, TParam10, TParam11, TParam12, TParam13, TParam14, TParam15>(Func<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8, TParam9, TParam10, TParam11, TParam12, TParam13, TParam14, TParam15, object> whenCalled) 
+      public void WhenCalled<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15>(Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, object> whenFunctionIsCalled) 
       {
-         this.whenCalledFunction = (args) => whenCalled((TParam1)Convert.ChangeType(args[0], typeof(TParam1)), (TParam2)Convert.ChangeType(args[1], typeof(TParam2)), (TParam3)Convert.ChangeType(args[2], typeof(TParam3)), (TParam4)Convert.ChangeType(args[3], typeof(TParam4)), (TParam5)Convert.ChangeType(args[4], typeof(TParam5)), (TParam6)Convert.ChangeType(args[5], typeof(TParam6)), (TParam7)Convert.ChangeType(args[6], typeof(TParam7)), (TParam8)Convert.ChangeType(args[7], typeof(TParam8)), (TParam9)Convert.ChangeType(args[8], typeof(TParam9)), (TParam10)Convert.ChangeType(args[9], typeof(TParam10)), (TParam11)Convert.ChangeType(args[10], typeof(TParam11)), (TParam12)Convert.ChangeType(args[11], typeof(TParam12)), (TParam13)Convert.ChangeType(args[12], typeof(TParam13)), (TParam14)Convert.ChangeType(args[13], typeof(TParam14)), (TParam15)Convert.ChangeType(args[14], typeof(TParam15)));
+         this.whenCalledFunction = (args) => whenFunctionIsCalled((T1)Convert.ChangeType(args[0], typeof(T1), CultureInfo.InvariantCulture), (T2)Convert.ChangeType(args[1], typeof(T2), CultureInfo.InvariantCulture), (T3)Convert.ChangeType(args[2], typeof(T3), CultureInfo.InvariantCulture), (T4)Convert.ChangeType(args[3], typeof(T4), CultureInfo.InvariantCulture), (T5)Convert.ChangeType(args[4], typeof(T5), CultureInfo.InvariantCulture), (T6)Convert.ChangeType(args[5], typeof(T6), CultureInfo.InvariantCulture), (T7)Convert.ChangeType(args[6], typeof(T7), CultureInfo.InvariantCulture), (T8)Convert.ChangeType(args[7], typeof(T8), CultureInfo.InvariantCulture), (T9)Convert.ChangeType(args[8], typeof(T9), CultureInfo.InvariantCulture), (T10)Convert.ChangeType(args[9], typeof(T10), CultureInfo.InvariantCulture), (T11)Convert.ChangeType(args[10], typeof(T11), CultureInfo.InvariantCulture), (T12)Convert.ChangeType(args[11], typeof(T12), CultureInfo.InvariantCulture), (T13)Convert.ChangeType(args[12], typeof(T13), CultureInfo.InvariantCulture), (T14)Convert.ChangeType(args[13], typeof(T14), CultureInfo.InvariantCulture), (T15)Convert.ChangeType(args[14], typeof(T15), CultureInfo.InvariantCulture));
       }
 
-      public void WhenCalled<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8, TParam9, TParam10, TParam11, TParam12, TParam13, TParam14, TParam15, TParam16>(Func<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8, TParam9, TParam10, TParam11, TParam12, TParam13, TParam14, TParam15, TParam16, object> whenCalled) 
+      public void WhenCalled<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16>(Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, object> whenFunctionIsCalled) 
       {
-         this.whenCalledFunction = (args) => whenCalled((TParam1)Convert.ChangeType(args[0], typeof(TParam1)), (TParam2)Convert.ChangeType(args[1], typeof(TParam2)), (TParam3)Convert.ChangeType(args[2], typeof(TParam3)), (TParam4)Convert.ChangeType(args[3], typeof(TParam4)), (TParam5)Convert.ChangeType(args[4], typeof(TParam5)), (TParam6)Convert.ChangeType(args[5], typeof(TParam6)), (TParam7)Convert.ChangeType(args[6], typeof(TParam7)), (TParam8)Convert.ChangeType(args[7], typeof(TParam8)), (TParam9)Convert.ChangeType(args[8], typeof(TParam9)), (TParam10)Convert.ChangeType(args[9], typeof(TParam10)), (TParam11)Convert.ChangeType(args[10], typeof(TParam11)), (TParam12)Convert.ChangeType(args[11], typeof(TParam12)), (TParam13)Convert.ChangeType(args[12], typeof(TParam13)), (TParam14)Convert.ChangeType(args[13], typeof(TParam14)), (TParam15)Convert.ChangeType(args[14], typeof(TParam15)), (TParam16)Convert.ChangeType(args[15], typeof(TParam16)));
+         this.whenCalledFunction = (args) => whenFunctionIsCalled((T1)Convert.ChangeType(args[0], typeof(T1), CultureInfo.InvariantCulture), (T2)Convert.ChangeType(args[1], typeof(T2), CultureInfo.InvariantCulture), (T3)Convert.ChangeType(args[2], typeof(T3), CultureInfo.InvariantCulture), (T4)Convert.ChangeType(args[3], typeof(T4), CultureInfo.InvariantCulture), (T5)Convert.ChangeType(args[4], typeof(T5), CultureInfo.InvariantCulture), (T6)Convert.ChangeType(args[5], typeof(T6), CultureInfo.InvariantCulture), (T7)Convert.ChangeType(args[6], typeof(T7), CultureInfo.InvariantCulture), (T8)Convert.ChangeType(args[7], typeof(T8), CultureInfo.InvariantCulture), (T9)Convert.ChangeType(args[8], typeof(T9), CultureInfo.InvariantCulture), (T10)Convert.ChangeType(args[9], typeof(T10), CultureInfo.InvariantCulture), (T11)Convert.ChangeType(args[10], typeof(T11), CultureInfo.InvariantCulture), (T12)Convert.ChangeType(args[11], typeof(T12), CultureInfo.InvariantCulture), (T13)Convert.ChangeType(args[12], typeof(T13), CultureInfo.InvariantCulture), (T14)Convert.ChangeType(args[13], typeof(T14), CultureInfo.InvariantCulture), (T15)Convert.ChangeType(args[14], typeof(T15), CultureInfo.InvariantCulture), (T16)Convert.ChangeType(args[15], typeof(T16), CultureInfo.InvariantCulture));
       }
 
       #endregion Func Overloads
       
             #region Action Overloads
 
-      public void WhenCalled<TParam1>(Action<TParam1> whenCalled) 
+      public void WhenCalled<T1>(Action<T1> whenActionIsCalled) 
       {
-         this.whenCalledAction = (args) => whenCalled((TParam1)Convert.ChangeType(args[0], typeof(TParam1)));
+         this.whenCalledAction = (args) => whenActionIsCalled((T1)Convert.ChangeType(args[0], typeof(T1), CultureInfo.InvariantCulture));
       }
 
-      public void WhenCalled<TParam1, TParam2>(Action<TParam1, TParam2> whenCalled) 
+      public void WhenCalled<T1, T2>(Action<T1, T2> whenActionIsCalled) 
       {
-         this.whenCalledAction = (args) => whenCalled((TParam1)Convert.ChangeType(args[0], typeof(TParam1)), (TParam2)Convert.ChangeType(args[1], typeof(TParam2)));
+         this.whenCalledAction = (args) => whenActionIsCalled((T1)Convert.ChangeType(args[0], typeof(T1), CultureInfo.InvariantCulture), (T2)Convert.ChangeType(args[1], typeof(T2), CultureInfo.InvariantCulture));
       }
 
-      public void WhenCalled<TParam1, TParam2, TParam3>(Action<TParam1, TParam2, TParam3> whenCalled) 
+      public void WhenCalled<T1, T2, T3>(Action<T1, T2, T3> whenActionIsCalled) 
       {
-         this.whenCalledAction = (args) => whenCalled((TParam1)Convert.ChangeType(args[0], typeof(TParam1)), (TParam2)Convert.ChangeType(args[1], typeof(TParam2)), (TParam3)Convert.ChangeType(args[2], typeof(TParam3)));
+         this.whenCalledAction = (args) => whenActionIsCalled((T1)Convert.ChangeType(args[0], typeof(T1), CultureInfo.InvariantCulture), (T2)Convert.ChangeType(args[1], typeof(T2), CultureInfo.InvariantCulture), (T3)Convert.ChangeType(args[2], typeof(T3), CultureInfo.InvariantCulture));
       }
 
-      public void WhenCalled<TParam1, TParam2, TParam3, TParam4>(Action<TParam1, TParam2, TParam3, TParam4> whenCalled) 
+      public void WhenCalled<T1, T2, T3, T4>(Action<T1, T2, T3, T4> whenActionIsCalled) 
       {
-         this.whenCalledAction = (args) => whenCalled((TParam1)Convert.ChangeType(args[0], typeof(TParam1)), (TParam2)Convert.ChangeType(args[1], typeof(TParam2)), (TParam3)Convert.ChangeType(args[2], typeof(TParam3)), (TParam4)Convert.ChangeType(args[3], typeof(TParam4)));
+         this.whenCalledAction = (args) => whenActionIsCalled((T1)Convert.ChangeType(args[0], typeof(T1), CultureInfo.InvariantCulture), (T2)Convert.ChangeType(args[1], typeof(T2), CultureInfo.InvariantCulture), (T3)Convert.ChangeType(args[2], typeof(T3), CultureInfo.InvariantCulture), (T4)Convert.ChangeType(args[3], typeof(T4), CultureInfo.InvariantCulture));
       }
 
-      public void WhenCalled<TParam1, TParam2, TParam3, TParam4, TParam5>(Action<TParam1, TParam2, TParam3, TParam4, TParam5> whenCalled) 
+      public void WhenCalled<T1, T2, T3, T4, T5>(Action<T1, T2, T3, T4, T5> whenActionIsCalled) 
       {
-         this.whenCalledAction = (args) => whenCalled((TParam1)Convert.ChangeType(args[0], typeof(TParam1)), (TParam2)Convert.ChangeType(args[1], typeof(TParam2)), (TParam3)Convert.ChangeType(args[2], typeof(TParam3)), (TParam4)Convert.ChangeType(args[3], typeof(TParam4)), (TParam5)Convert.ChangeType(args[4], typeof(TParam5)));
+         this.whenCalledAction = (args) => whenActionIsCalled((T1)Convert.ChangeType(args[0], typeof(T1), CultureInfo.InvariantCulture), (T2)Convert.ChangeType(args[1], typeof(T2), CultureInfo.InvariantCulture), (T3)Convert.ChangeType(args[2], typeof(T3), CultureInfo.InvariantCulture), (T4)Convert.ChangeType(args[3], typeof(T4), CultureInfo.InvariantCulture), (T5)Convert.ChangeType(args[4], typeof(T5), CultureInfo.InvariantCulture));
       }
 
-      public void WhenCalled<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6>(Action<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6> whenCalled) 
+      public void WhenCalled<T1, T2, T3, T4, T5, T6>(Action<T1, T2, T3, T4, T5, T6> whenActionIsCalled) 
       {
-         this.whenCalledAction = (args) => whenCalled((TParam1)Convert.ChangeType(args[0], typeof(TParam1)), (TParam2)Convert.ChangeType(args[1], typeof(TParam2)), (TParam3)Convert.ChangeType(args[2], typeof(TParam3)), (TParam4)Convert.ChangeType(args[3], typeof(TParam4)), (TParam5)Convert.ChangeType(args[4], typeof(TParam5)), (TParam6)Convert.ChangeType(args[5], typeof(TParam6)));
+         this.whenCalledAction = (args) => whenActionIsCalled((T1)Convert.ChangeType(args[0], typeof(T1), CultureInfo.InvariantCulture), (T2)Convert.ChangeType(args[1], typeof(T2), CultureInfo.InvariantCulture), (T3)Convert.ChangeType(args[2], typeof(T3), CultureInfo.InvariantCulture), (T4)Convert.ChangeType(args[3], typeof(T4), CultureInfo.InvariantCulture), (T5)Convert.ChangeType(args[4], typeof(T5), CultureInfo.InvariantCulture), (T6)Convert.ChangeType(args[5], typeof(T6), CultureInfo.InvariantCulture));
       }
 
-      public void WhenCalled<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7>(Action<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7> whenCalled) 
+      public void WhenCalled<T1, T2, T3, T4, T5, T6, T7>(Action<T1, T2, T3, T4, T5, T6, T7> whenActionIsCalled) 
       {
-         this.whenCalledAction = (args) => whenCalled((TParam1)Convert.ChangeType(args[0], typeof(TParam1)), (TParam2)Convert.ChangeType(args[1], typeof(TParam2)), (TParam3)Convert.ChangeType(args[2], typeof(TParam3)), (TParam4)Convert.ChangeType(args[3], typeof(TParam4)), (TParam5)Convert.ChangeType(args[4], typeof(TParam5)), (TParam6)Convert.ChangeType(args[5], typeof(TParam6)), (TParam7)Convert.ChangeType(args[6], typeof(TParam7)));
+         this.whenCalledAction = (args) => whenActionIsCalled((T1)Convert.ChangeType(args[0], typeof(T1), CultureInfo.InvariantCulture), (T2)Convert.ChangeType(args[1], typeof(T2), CultureInfo.InvariantCulture), (T3)Convert.ChangeType(args[2], typeof(T3), CultureInfo.InvariantCulture), (T4)Convert.ChangeType(args[3], typeof(T4), CultureInfo.InvariantCulture), (T5)Convert.ChangeType(args[4], typeof(T5), CultureInfo.InvariantCulture), (T6)Convert.ChangeType(args[5], typeof(T6), CultureInfo.InvariantCulture), (T7)Convert.ChangeType(args[6], typeof(T7), CultureInfo.InvariantCulture));
       }
 
-      public void WhenCalled<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8>(Action<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8> whenCalled) 
+      public void WhenCalled<T1, T2, T3, T4, T5, T6, T7, T8>(Action<T1, T2, T3, T4, T5, T6, T7, T8> whenActionIsCalled) 
       {
-         this.whenCalledAction = (args) => whenCalled((TParam1)Convert.ChangeType(args[0], typeof(TParam1)), (TParam2)Convert.ChangeType(args[1], typeof(TParam2)), (TParam3)Convert.ChangeType(args[2], typeof(TParam3)), (TParam4)Convert.ChangeType(args[3], typeof(TParam4)), (TParam5)Convert.ChangeType(args[4], typeof(TParam5)), (TParam6)Convert.ChangeType(args[5], typeof(TParam6)), (TParam7)Convert.ChangeType(args[6], typeof(TParam7)), (TParam8)Convert.ChangeType(args[7], typeof(TParam8)));
+         this.whenCalledAction = (args) => whenActionIsCalled((T1)Convert.ChangeType(args[0], typeof(T1), CultureInfo.InvariantCulture), (T2)Convert.ChangeType(args[1], typeof(T2), CultureInfo.InvariantCulture), (T3)Convert.ChangeType(args[2], typeof(T3), CultureInfo.InvariantCulture), (T4)Convert.ChangeType(args[3], typeof(T4), CultureInfo.InvariantCulture), (T5)Convert.ChangeType(args[4], typeof(T5), CultureInfo.InvariantCulture), (T6)Convert.ChangeType(args[5], typeof(T6), CultureInfo.InvariantCulture), (T7)Convert.ChangeType(args[6], typeof(T7), CultureInfo.InvariantCulture), (T8)Convert.ChangeType(args[7], typeof(T8), CultureInfo.InvariantCulture));
       }
 
-      public void WhenCalled<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8, TParam9>(Action<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8, TParam9> whenCalled) 
+      public void WhenCalled<T1, T2, T3, T4, T5, T6, T7, T8, T9>(Action<T1, T2, T3, T4, T5, T6, T7, T8, T9> whenActionIsCalled) 
       {
-         this.whenCalledAction = (args) => whenCalled((TParam1)Convert.ChangeType(args[0], typeof(TParam1)), (TParam2)Convert.ChangeType(args[1], typeof(TParam2)), (TParam3)Convert.ChangeType(args[2], typeof(TParam3)), (TParam4)Convert.ChangeType(args[3], typeof(TParam4)), (TParam5)Convert.ChangeType(args[4], typeof(TParam5)), (TParam6)Convert.ChangeType(args[5], typeof(TParam6)), (TParam7)Convert.ChangeType(args[6], typeof(TParam7)), (TParam8)Convert.ChangeType(args[7], typeof(TParam8)), (TParam9)Convert.ChangeType(args[8], typeof(TParam9)));
+         this.whenCalledAction = (args) => whenActionIsCalled((T1)Convert.ChangeType(args[0], typeof(T1), CultureInfo.InvariantCulture), (T2)Convert.ChangeType(args[1], typeof(T2), CultureInfo.InvariantCulture), (T3)Convert.ChangeType(args[2], typeof(T3), CultureInfo.InvariantCulture), (T4)Convert.ChangeType(args[3], typeof(T4), CultureInfo.InvariantCulture), (T5)Convert.ChangeType(args[4], typeof(T5), CultureInfo.InvariantCulture), (T6)Convert.ChangeType(args[5], typeof(T6), CultureInfo.InvariantCulture), (T7)Convert.ChangeType(args[6], typeof(T7), CultureInfo.InvariantCulture), (T8)Convert.ChangeType(args[7], typeof(T8), CultureInfo.InvariantCulture), (T9)Convert.ChangeType(args[8], typeof(T9), CultureInfo.InvariantCulture));
       }
 
-      public void WhenCalled<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8, TParam9, TParam10>(Action<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8, TParam9, TParam10> whenCalled) 
+      public void WhenCalled<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10>(Action<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10> whenActionIsCalled) 
       {
-         this.whenCalledAction = (args) => whenCalled((TParam1)Convert.ChangeType(args[0], typeof(TParam1)), (TParam2)Convert.ChangeType(args[1], typeof(TParam2)), (TParam3)Convert.ChangeType(args[2], typeof(TParam3)), (TParam4)Convert.ChangeType(args[3], typeof(TParam4)), (TParam5)Convert.ChangeType(args[4], typeof(TParam5)), (TParam6)Convert.ChangeType(args[5], typeof(TParam6)), (TParam7)Convert.ChangeType(args[6], typeof(TParam7)), (TParam8)Convert.ChangeType(args[7], typeof(TParam8)), (TParam9)Convert.ChangeType(args[8], typeof(TParam9)), (TParam10)Convert.ChangeType(args[9], typeof(TParam10)));
+         this.whenCalledAction = (args) => whenActionIsCalled((T1)Convert.ChangeType(args[0], typeof(T1), CultureInfo.InvariantCulture), (T2)Convert.ChangeType(args[1], typeof(T2), CultureInfo.InvariantCulture), (T3)Convert.ChangeType(args[2], typeof(T3), CultureInfo.InvariantCulture), (T4)Convert.ChangeType(args[3], typeof(T4), CultureInfo.InvariantCulture), (T5)Convert.ChangeType(args[4], typeof(T5), CultureInfo.InvariantCulture), (T6)Convert.ChangeType(args[5], typeof(T6), CultureInfo.InvariantCulture), (T7)Convert.ChangeType(args[6], typeof(T7), CultureInfo.InvariantCulture), (T8)Convert.ChangeType(args[7], typeof(T8), CultureInfo.InvariantCulture), (T9)Convert.ChangeType(args[8], typeof(T9), CultureInfo.InvariantCulture), (T10)Convert.ChangeType(args[9], typeof(T10), CultureInfo.InvariantCulture));
       }
 
-      public void WhenCalled<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8, TParam9, TParam10, TParam11>(Action<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8, TParam9, TParam10, TParam11> whenCalled) 
+      public void WhenCalled<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11>(Action<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11> whenActionIsCalled) 
       {
-         this.whenCalledAction = (args) => whenCalled((TParam1)Convert.ChangeType(args[0], typeof(TParam1)), (TParam2)Convert.ChangeType(args[1], typeof(TParam2)), (TParam3)Convert.ChangeType(args[2], typeof(TParam3)), (TParam4)Convert.ChangeType(args[3], typeof(TParam4)), (TParam5)Convert.ChangeType(args[4], typeof(TParam5)), (TParam6)Convert.ChangeType(args[5], typeof(TParam6)), (TParam7)Convert.ChangeType(args[6], typeof(TParam7)), (TParam8)Convert.ChangeType(args[7], typeof(TParam8)), (TParam9)Convert.ChangeType(args[8], typeof(TParam9)), (TParam10)Convert.ChangeType(args[9], typeof(TParam10)), (TParam11)Convert.ChangeType(args[10], typeof(TParam11)));
+         this.whenCalledAction = (args) => whenActionIsCalled((T1)Convert.ChangeType(args[0], typeof(T1), CultureInfo.InvariantCulture), (T2)Convert.ChangeType(args[1], typeof(T2), CultureInfo.InvariantCulture), (T3)Convert.ChangeType(args[2], typeof(T3), CultureInfo.InvariantCulture), (T4)Convert.ChangeType(args[3], typeof(T4), CultureInfo.InvariantCulture), (T5)Convert.ChangeType(args[4], typeof(T5), CultureInfo.InvariantCulture), (T6)Convert.ChangeType(args[5], typeof(T6), CultureInfo.InvariantCulture), (T7)Convert.ChangeType(args[6], typeof(T7), CultureInfo.InvariantCulture), (T8)Convert.ChangeType(args[7], typeof(T8), CultureInfo.InvariantCulture), (T9)Convert.ChangeType(args[8], typeof(T9), CultureInfo.InvariantCulture), (T10)Convert.ChangeType(args[9], typeof(T10), CultureInfo.InvariantCulture), (T11)Convert.ChangeType(args[10], typeof(T11), CultureInfo.InvariantCulture));
       }
 
-      public void WhenCalled<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8, TParam9, TParam10, TParam11, TParam12>(Action<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8, TParam9, TParam10, TParam11, TParam12> whenCalled) 
+      public void WhenCalled<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12>(Action<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12> whenActionIsCalled) 
       {
-         this.whenCalledAction = (args) => whenCalled((TParam1)Convert.ChangeType(args[0], typeof(TParam1)), (TParam2)Convert.ChangeType(args[1], typeof(TParam2)), (TParam3)Convert.ChangeType(args[2], typeof(TParam3)), (TParam4)Convert.ChangeType(args[3], typeof(TParam4)), (TParam5)Convert.ChangeType(args[4], typeof(TParam5)), (TParam6)Convert.ChangeType(args[5], typeof(TParam6)), (TParam7)Convert.ChangeType(args[6], typeof(TParam7)), (TParam8)Convert.ChangeType(args[7], typeof(TParam8)), (TParam9)Convert.ChangeType(args[8], typeof(TParam9)), (TParam10)Convert.ChangeType(args[9], typeof(TParam10)), (TParam11)Convert.ChangeType(args[10], typeof(TParam11)), (TParam12)Convert.ChangeType(args[11], typeof(TParam12)));
+         this.whenCalledAction = (args) => whenActionIsCalled((T1)Convert.ChangeType(args[0], typeof(T1), CultureInfo.InvariantCulture), (T2)Convert.ChangeType(args[1], typeof(T2), CultureInfo.InvariantCulture), (T3)Convert.ChangeType(args[2], typeof(T3), CultureInfo.InvariantCulture), (T4)Convert.ChangeType(args[3], typeof(T4), CultureInfo.InvariantCulture), (T5)Convert.ChangeType(args[4], typeof(T5), CultureInfo.InvariantCulture), (T6)Convert.ChangeType(args[5], typeof(T6), CultureInfo.InvariantCulture), (T7)Convert.ChangeType(args[6], typeof(T7), CultureInfo.InvariantCulture), (T8)Convert.ChangeType(args[7], typeof(T8), CultureInfo.InvariantCulture), (T9)Convert.ChangeType(args[8], typeof(T9), CultureInfo.InvariantCulture), (T10)Convert.ChangeType(args[9], typeof(T10), CultureInfo.InvariantCulture), (T11)Convert.ChangeType(args[10], typeof(T11), CultureInfo.InvariantCulture), (T12)Convert.ChangeType(args[11], typeof(T12), CultureInfo.InvariantCulture));
       }
 
-      public void WhenCalled<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8, TParam9, TParam10, TParam11, TParam12, TParam13>(Action<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8, TParam9, TParam10, TParam11, TParam12, TParam13> whenCalled) 
+      public void WhenCalled<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13>(Action<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13> whenActionIsCalled) 
       {
-         this.whenCalledAction = (args) => whenCalled((TParam1)Convert.ChangeType(args[0], typeof(TParam1)), (TParam2)Convert.ChangeType(args[1], typeof(TParam2)), (TParam3)Convert.ChangeType(args[2], typeof(TParam3)), (TParam4)Convert.ChangeType(args[3], typeof(TParam4)), (TParam5)Convert.ChangeType(args[4], typeof(TParam5)), (TParam6)Convert.ChangeType(args[5], typeof(TParam6)), (TParam7)Convert.ChangeType(args[6], typeof(TParam7)), (TParam8)Convert.ChangeType(args[7], typeof(TParam8)), (TParam9)Convert.ChangeType(args[8], typeof(TParam9)), (TParam10)Convert.ChangeType(args[9], typeof(TParam10)), (TParam11)Convert.ChangeType(args[10], typeof(TParam11)), (TParam12)Convert.ChangeType(args[11], typeof(TParam12)), (TParam13)Convert.ChangeType(args[12], typeof(TParam13)));
+         this.whenCalledAction = (args) => whenActionIsCalled((T1)Convert.ChangeType(args[0], typeof(T1), CultureInfo.InvariantCulture), (T2)Convert.ChangeType(args[1], typeof(T2), CultureInfo.InvariantCulture), (T3)Convert.ChangeType(args[2], typeof(T3), CultureInfo.InvariantCulture), (T4)Convert.ChangeType(args[3], typeof(T4), CultureInfo.InvariantCulture), (T5)Convert.ChangeType(args[4], typeof(T5), CultureInfo.InvariantCulture), (T6)Convert.ChangeType(args[5], typeof(T6), CultureInfo.InvariantCulture), (T7)Convert.ChangeType(args[6], typeof(T7), CultureInfo.InvariantCulture), (T8)Convert.ChangeType(args[7], typeof(T8), CultureInfo.InvariantCulture), (T9)Convert.ChangeType(args[8], typeof(T9), CultureInfo.InvariantCulture), (T10)Convert.ChangeType(args[9], typeof(T10), CultureInfo.InvariantCulture), (T11)Convert.ChangeType(args[10], typeof(T11), CultureInfo.InvariantCulture), (T12)Convert.ChangeType(args[11], typeof(T12), CultureInfo.InvariantCulture), (T13)Convert.ChangeType(args[12], typeof(T13), CultureInfo.InvariantCulture));
       }
 
-      public void WhenCalled<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8, TParam9, TParam10, TParam11, TParam12, TParam13, TParam14>(Action<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8, TParam9, TParam10, TParam11, TParam12, TParam13, TParam14> whenCalled) 
+      public void WhenCalled<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14>(Action<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14> whenActionIsCalled) 
       {
-         this.whenCalledAction = (args) => whenCalled((TParam1)Convert.ChangeType(args[0], typeof(TParam1)), (TParam2)Convert.ChangeType(args[1], typeof(TParam2)), (TParam3)Convert.ChangeType(args[2], typeof(TParam3)), (TParam4)Convert.ChangeType(args[3], typeof(TParam4)), (TParam5)Convert.ChangeType(args[4], typeof(TParam5)), (TParam6)Convert.ChangeType(args[5], typeof(TParam6)), (TParam7)Convert.ChangeType(args[6], typeof(TParam7)), (TParam8)Convert.ChangeType(args[7], typeof(TParam8)), (TParam9)Convert.ChangeType(args[8], typeof(TParam9)), (TParam10)Convert.ChangeType(args[9], typeof(TParam10)), (TParam11)Convert.ChangeType(args[10], typeof(TParam11)), (TParam12)Convert.ChangeType(args[11], typeof(TParam12)), (TParam13)Convert.ChangeType(args[12], typeof(TParam13)), (TParam14)Convert.ChangeType(args[13], typeof(TParam14)));
+         this.whenCalledAction = (args) => whenActionIsCalled((T1)Convert.ChangeType(args[0], typeof(T1), CultureInfo.InvariantCulture), (T2)Convert.ChangeType(args[1], typeof(T2), CultureInfo.InvariantCulture), (T3)Convert.ChangeType(args[2], typeof(T3), CultureInfo.InvariantCulture), (T4)Convert.ChangeType(args[3], typeof(T4), CultureInfo.InvariantCulture), (T5)Convert.ChangeType(args[4], typeof(T5), CultureInfo.InvariantCulture), (T6)Convert.ChangeType(args[5], typeof(T6), CultureInfo.InvariantCulture), (T7)Convert.ChangeType(args[6], typeof(T7), CultureInfo.InvariantCulture), (T8)Convert.ChangeType(args[7], typeof(T8), CultureInfo.InvariantCulture), (T9)Convert.ChangeType(args[8], typeof(T9), CultureInfo.InvariantCulture), (T10)Convert.ChangeType(args[9], typeof(T10), CultureInfo.InvariantCulture), (T11)Convert.ChangeType(args[10], typeof(T11), CultureInfo.InvariantCulture), (T12)Convert.ChangeType(args[11], typeof(T12), CultureInfo.InvariantCulture), (T13)Convert.ChangeType(args[12], typeof(T13), CultureInfo.InvariantCulture), (T14)Convert.ChangeType(args[13], typeof(T14), CultureInfo.InvariantCulture));
       }
 
-      public void WhenCalled<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8, TParam9, TParam10, TParam11, TParam12, TParam13, TParam14, TParam15>(Action<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8, TParam9, TParam10, TParam11, TParam12, TParam13, TParam14, TParam15> whenCalled) 
+      public void WhenCalled<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15>(Action<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15> whenActionIsCalled) 
       {
-         this.whenCalledAction = (args) => whenCalled((TParam1)Convert.ChangeType(args[0], typeof(TParam1)), (TParam2)Convert.ChangeType(args[1], typeof(TParam2)), (TParam3)Convert.ChangeType(args[2], typeof(TParam3)), (TParam4)Convert.ChangeType(args[3], typeof(TParam4)), (TParam5)Convert.ChangeType(args[4], typeof(TParam5)), (TParam6)Convert.ChangeType(args[5], typeof(TParam6)), (TParam7)Convert.ChangeType(args[6], typeof(TParam7)), (TParam8)Convert.ChangeType(args[7], typeof(TParam8)), (TParam9)Convert.ChangeType(args[8], typeof(TParam9)), (TParam10)Convert.ChangeType(args[9], typeof(TParam10)), (TParam11)Convert.ChangeType(args[10], typeof(TParam11)), (TParam12)Convert.ChangeType(args[11], typeof(TParam12)), (TParam13)Convert.ChangeType(args[12], typeof(TParam13)), (TParam14)Convert.ChangeType(args[13], typeof(TParam14)), (TParam15)Convert.ChangeType(args[14], typeof(TParam15)));
+         this.whenCalledAction = (args) => whenActionIsCalled((T1)Convert.ChangeType(args[0], typeof(T1), CultureInfo.InvariantCulture), (T2)Convert.ChangeType(args[1], typeof(T2), CultureInfo.InvariantCulture), (T3)Convert.ChangeType(args[2], typeof(T3), CultureInfo.InvariantCulture), (T4)Convert.ChangeType(args[3], typeof(T4), CultureInfo.InvariantCulture), (T5)Convert.ChangeType(args[4], typeof(T5), CultureInfo.InvariantCulture), (T6)Convert.ChangeType(args[5], typeof(T6), CultureInfo.InvariantCulture), (T7)Convert.ChangeType(args[6], typeof(T7), CultureInfo.InvariantCulture), (T8)Convert.ChangeType(args[7], typeof(T8), CultureInfo.InvariantCulture), (T9)Convert.ChangeType(args[8], typeof(T9), CultureInfo.InvariantCulture), (T10)Convert.ChangeType(args[9], typeof(T10), CultureInfo.InvariantCulture), (T11)Convert.ChangeType(args[10], typeof(T11), CultureInfo.InvariantCulture), (T12)Convert.ChangeType(args[11], typeof(T12), CultureInfo.InvariantCulture), (T13)Convert.ChangeType(args[12], typeof(T13), CultureInfo.InvariantCulture), (T14)Convert.ChangeType(args[13], typeof(T14), CultureInfo.InvariantCulture), (T15)Convert.ChangeType(args[14], typeof(T15), CultureInfo.InvariantCulture));
       }
 
-      public void WhenCalled<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8, TParam9, TParam10, TParam11, TParam12, TParam13, TParam14, TParam15, TParam16>(Action<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8, TParam9, TParam10, TParam11, TParam12, TParam13, TParam14, TParam15, TParam16> whenCalled) 
+      public void WhenCalled<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16>(Action<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16> whenActionIsCalled) 
       {
-         this.whenCalledAction = (args) => whenCalled((TParam1)Convert.ChangeType(args[0], typeof(TParam1)), (TParam2)Convert.ChangeType(args[1], typeof(TParam2)), (TParam3)Convert.ChangeType(args[2], typeof(TParam3)), (TParam4)Convert.ChangeType(args[3], typeof(TParam4)), (TParam5)Convert.ChangeType(args[4], typeof(TParam5)), (TParam6)Convert.ChangeType(args[5], typeof(TParam6)), (TParam7)Convert.ChangeType(args[6], typeof(TParam7)), (TParam8)Convert.ChangeType(args[7], typeof(TParam8)), (TParam9)Convert.ChangeType(args[8], typeof(TParam9)), (TParam10)Convert.ChangeType(args[9], typeof(TParam10)), (TParam11)Convert.ChangeType(args[10], typeof(TParam11)), (TParam12)Convert.ChangeType(args[11], typeof(TParam12)), (TParam13)Convert.ChangeType(args[12], typeof(TParam13)), (TParam14)Convert.ChangeType(args[13], typeof(TParam14)), (TParam15)Convert.ChangeType(args[14], typeof(TParam15)), (TParam16)Convert.ChangeType(args[15], typeof(TParam16)));
+         this.whenCalledAction = (args) => whenActionIsCalled((T1)Convert.ChangeType(args[0], typeof(T1), CultureInfo.InvariantCulture), (T2)Convert.ChangeType(args[1], typeof(T2), CultureInfo.InvariantCulture), (T3)Convert.ChangeType(args[2], typeof(T3), CultureInfo.InvariantCulture), (T4)Convert.ChangeType(args[3], typeof(T4), CultureInfo.InvariantCulture), (T5)Convert.ChangeType(args[4], typeof(T5), CultureInfo.InvariantCulture), (T6)Convert.ChangeType(args[5], typeof(T6), CultureInfo.InvariantCulture), (T7)Convert.ChangeType(args[6], typeof(T7), CultureInfo.InvariantCulture), (T8)Convert.ChangeType(args[7], typeof(T8), CultureInfo.InvariantCulture), (T9)Convert.ChangeType(args[8], typeof(T9), CultureInfo.InvariantCulture), (T10)Convert.ChangeType(args[9], typeof(T10), CultureInfo.InvariantCulture), (T11)Convert.ChangeType(args[10], typeof(T11), CultureInfo.InvariantCulture), (T12)Convert.ChangeType(args[11], typeof(T12), CultureInfo.InvariantCulture), (T13)Convert.ChangeType(args[12], typeof(T13), CultureInfo.InvariantCulture), (T14)Convert.ChangeType(args[13], typeof(T14), CultureInfo.InvariantCulture), (T15)Convert.ChangeType(args[14], typeof(T15), CultureInfo.InvariantCulture), (T16)Convert.ChangeType(args[15], typeof(T16), CultureInfo.InvariantCulture));
       }
 
       #endregion Action Overloads
-         
+               
+      [SuppressMessage("Microsoft.Design", "CA1043:UseIntegralOrStringArgumentForIndexers",
+         Justification="This is not a typical indexer and is actually used to fake a default function in script")]
       public object this[params object[] args]
       {
          get

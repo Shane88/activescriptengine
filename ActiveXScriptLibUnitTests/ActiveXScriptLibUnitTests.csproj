@@ -58,6 +58,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="ActiveScriptEngine_Tests.cs" />
     <Compile Include="ActiveScriptExtensions.cs" />
     <Compile Include="JScriptBasicTests.cs" />
     <Compile Include="FunctionOverrider_Tests.cs" />

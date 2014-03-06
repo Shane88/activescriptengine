@@ -2,9 +2,9 @@
 {
     using System;
 
-    public class JScript
+    public static class JScript
     {
-        public const string ProgID = "JScript";
+        public const string ProgId = "JScript";
 
         public const object Undefined = null;
 

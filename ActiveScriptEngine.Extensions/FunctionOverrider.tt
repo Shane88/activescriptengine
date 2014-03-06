@@ -4,6 +4,8 @@
 namespace ActiveXScriptLib.Extensions
 {
    using System;
+   using System.Diagnostics.CodeAnalysis;
+   using System.Globalization;
    using System.Runtime.InteropServices;
 
    [ComVisible(true)]
@@ -12,14 +14,14 @@ namespace ActiveXScriptLib.Extensions
       private Action<object[]> whenCalledAction;
       private Func<object[], object> whenCalledFunction;
 
-      public void WhenCalled(Action<object[]> whenCalled)
+      public void WhenCalled(Action<object[]> whenActionIsCalled)
       {
-         this.whenCalledAction = whenCalled;
+         this.whenCalledAction = whenActionIsCalled;
       }
 
-      public void WhenCalled(Func<object[], object> whenCalled)
+      public void WhenCalled(Func<object[], object> whenFunctionIsCalled)
       {
-         this.whenCalledFunction = whenCalled;
+         this.whenCalledFunction = whenFunctionIsCalled;
       }
 
       <# 
@@ -31,19 +33,19 @@ namespace ActiveXScriptLib.Extensions
       {
          string methodSigPrefix = "public void WhenCalled<";
          string methodSigMiddle = "(Func<";
-         string methodSigSuffix = @", object> whenCalled) 
+         string methodSigSuffix = @", object> whenFunctionIsCalled) 
 {";
 
-         string methodBodyPrefix = "   this.whenCalledFunction = (args) => whenCalled(";
+         string methodBodyPrefix = "   this.whenCalledFunction = (args) => whenFunctionIsCalled(";
          string methodBodyMiddle = "";
          string methodBodySuffix = @");
 }" + Environment.NewLine;
          
          for (int y = 1; y <= i; y++)
          {
-            methodSigPrefix += "TParam" + y.ToString();
-            methodSigMiddle += "TParam" + y.ToString();
-            methodBodyMiddle += "(TParam" + y.ToString() + ")Convert.ChangeType(args[" + (y-1).ToString() + "], typeof(TParam" + y.ToString() + "))";
+            methodSigPrefix += "T" + y.ToString();
+            methodSigMiddle += "T" + y.ToString();
+            methodBodyMiddle += "(T" + y.ToString() + ")Convert.ChangeType(args[" + (y-1).ToString() + "], typeof(T" + y.ToString() + "), CultureInfo.InvariantCulture)";
 
             if (y < i)
             {
@@ -69,19 +71,19 @@ namespace ActiveXScriptLib.Extensions
       {
          string methodSigPrefix = "public void WhenCalled<";
          string methodSigMiddle = "(Action<";
-         string methodSigSuffix = @"> whenCalled) 
+         string methodSigSuffix = @"> whenActionIsCalled) 
 {";
 
-         string methodBodyPrefix = "   this.whenCalledAction = (args) => whenCalled(";
+         string methodBodyPrefix = "   this.whenCalledAction = (args) => whenActionIsCalled(";
          string methodBodyMiddle = "";
          string methodBodySuffix = @");
 }" + Environment.NewLine;
          
          for (int y = 1; y <= i; y++)
          {
-            methodSigPrefix += "TParam" + y.ToString();
-            methodSigMiddle += "TParam" + y.ToString();
-            methodBodyMiddle += "(TParam" + y.ToString() + ")Convert.ChangeType(args[" + (y-1).ToString() + "], typeof(TParam" + y.ToString() + "))";
+            methodSigPrefix += "T" + y.ToString();
+            methodSigMiddle += "T" + y.ToString();
+            methodBodyMiddle += "(T" + y.ToString() + ")Convert.ChangeType(args[" + (y-1).ToString() + "], typeof(T" + y.ToString() + "), CultureInfo.InvariantCulture)";
 
             if (y < i)
             {
@@ -100,7 +102,9 @@ namespace ActiveXScriptLib.Extensions
 
       #>
    <# ClearIndent(); #>
-
+      
+      <# WriteLine(@"[SuppressMessage(""Microsoft.Design"", ""CA1043:UseIntegralOrStringArgumentForIndexers"",
+         Justification=""This is not a typical indexer and is actually used to fake a default function in script"")]"); #>
       public object this[params object[] args]
       {
          get

@@ -5,6 +5,7 @@
     using System.Collections.Generic;
     using System.Runtime.InteropServices;
     using EXCEPINFO = System.Runtime.InteropServices.ComTypes.EXCEPINFO;
+    using System.Diagnostics.CodeAnalysis;
 
     [ComVisible(true)]
     public class ScriptErrorInfo
@@ -66,6 +67,8 @@
             Description = excep.bstrDescription;
         }
 
+        [SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes",
+           Justification="This method should never throw as it is just attempting to provide some insight into a script error.")]
         private void ExtractSourceText(IActiveScriptError error, ulong cookie, IDictionary<ulong, ScriptInfo> scripts)
         {
             if (error == null || scripts == null)

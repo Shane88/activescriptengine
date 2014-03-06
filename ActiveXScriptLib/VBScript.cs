@@ -4,7 +4,7 @@
 
     public static class VBScript
     {
-        public const string ProgID = "VBScript";
+        public const string ProgId = "VBScript";
 
         public const object Empty = null;
 
