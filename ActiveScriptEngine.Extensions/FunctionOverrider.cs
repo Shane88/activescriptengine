@@ -11,6 +11,26 @@
       private Action<object[]> whenCalledAction;
       private Func<object[], object> whenCalledFunction;
 
+      [SuppressMessage("Microsoft.Design", "CA1043:UseIntegralOrStringArgumentForIndexers",
+         Justification = "This is not a typical indexer and is actually used to fake a default function in script")]
+      public object this[params object[] args]
+      {
+         get
+         {
+            if (this.whenCalledAction != null)
+            {
+               this.whenCalledAction(args);
+            }
+
+            if (this.whenCalledFunction != null)
+            {
+               return this.whenCalledFunction(args);
+            }
+
+            return null;
+         }
+      }
+
       public void WhenCalled(Action<object[]> whenActionIsCalled)
       {
          this.whenCalledAction = whenActionIsCalled;
@@ -188,25 +208,5 @@
       }
 
       #endregion Action Overloads
-               
-      [SuppressMessage("Microsoft.Design", "CA1043:UseIntegralOrStringArgumentForIndexers",
-         Justification="This is not a typical indexer and is actually used to fake a default function in script")]
-      public object this[params object[] args]
-      {
-         get
-         {
-            if (this.whenCalledAction != null)
-            {
-               this.whenCalledAction(args);
-            }
-
-            if (this.whenCalledFunction != null)
-            {
-               return this.whenCalledFunction(args);
-            }
-
-            return null;
-         }
-      }
    }
 }

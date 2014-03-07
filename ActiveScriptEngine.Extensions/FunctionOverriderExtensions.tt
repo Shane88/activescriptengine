@@ -36,27 +36,29 @@ namespace ActiveXScriptLib.Extensions
 
       <# 
 
-      for (int i = 1; i <= 10; i++)
+      PushIndent("      ");
+
+      for (int i = 1; i <= 16; i++)
       {
          string methodSigPrefix = "public static void OverrideGlobalFunction<";
          string methodSigMiddle = "(this ActiveScriptEngine engine, string functionName, Func<";
          string methodSigSuffix = @", object> func) 
-      {";
+{";
 
          string methodBodyPrefix = 
       @"   if (engine == null)
-         {
-            throw new ArgumentNullException(""engine"");
-         }
+   {
+      throw new ArgumentNullException(""engine"");
+   }
       
-         var overrider = new FunctionOverrider();
-         overrider.WhenCalled(func);
-         engine.AddObject(functionName, overrider);";
+   var overrider = new FunctionOverrider();
+   overrider.WhenCalled(func);
+   engine.AddObject(functionName, overrider);";
 
 
          string methodBodyMiddle = "";
          string methodBodySuffix = @"
-      }" + Environment.NewLine;
+}" + Environment.NewLine;
          
          for (int y = 1; y <= i; y++)
          {
@@ -72,37 +74,30 @@ namespace ActiveXScriptLib.Extensions
          
          methodSigPrefix += ">";
          
-   #>
-   <#=methodSigPrefix + methodSigMiddle + methodSigSuffix #>
-      <#= methodBodyPrefix + methodBodyMiddle + methodBodySuffix #>
-   <#
+         WriteLine(methodSigPrefix + methodSigMiddle + methodSigSuffix);
+         WriteLine(methodBodyPrefix + methodBodyMiddle + methodBodySuffix);
       }
 
-      #>
-
-            <# 
-
-      for (int i = 1; i <= 10; i++)
+      for (int i = 1; i <= 16; i++)
       {
          string methodSigPrefix = "public static void OverrideGlobalFunction<";
          string methodSigMiddle = "(this ActiveScriptEngine engine, string functionName, Action<";
          string methodSigSuffix = @"> action) 
-      {";
+{";
 
          string methodBodyPrefix = 
       @"   if (engine == null)
-         {
-            throw new ArgumentNullException(""engine"");
-         }
+   {
+      throw new ArgumentNullException(""engine"");
+   }
          
-         var overrider = new FunctionOverrider();
-         overrider.WhenCalled(action);
-         engine.AddObject(functionName, overrider);";
-
+   var overrider = new FunctionOverrider();
+   overrider.WhenCalled(action);
+   engine.AddObject(functionName, overrider);";
 
          string methodBodyMiddle = "";
          string methodBodySuffix = @"
-      }" + Environment.NewLine;
+}" + Environment.NewLine;
          
          for (int y = 1; y <= i; y++)
          {
@@ -115,15 +110,21 @@ namespace ActiveXScriptLib.Extensions
                methodSigMiddle += ", ";
             }
          }
-         
+
          methodSigPrefix += ">";
-         
-   #>
-   <#=methodSigPrefix + methodSigMiddle + methodSigSuffix #>
-      <#= methodBodyPrefix + methodBodyMiddle + methodBodySuffix #>
-   <#
+   
+         WriteLine(methodSigPrefix + methodSigMiddle + methodSigSuffix);
+
+         if (i == 16)
+         {
+            WriteLine(methodBodyPrefix + methodBodyMiddle + Environment.NewLine + "}");
+         }
+         else
+         {
+            WriteLine(methodBodyPrefix + methodBodyMiddle + methodBodySuffix);
+         }
       }
 
-      #>
+      ClearIndent(); #>
    }
 }
