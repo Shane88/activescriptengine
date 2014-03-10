@@ -74,13 +74,13 @@
     <Compile Include="VBScript_GenericEvaluate_Tests.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ActiveScriptEngine.Extensions\ActiveXScriptLib.Extensions.csproj">
+    <ProjectReference Include="..\ActiveScriptEngine.Extensions\ActiveScriptEngine.Extensions.csproj">
       <Project>{243ba0f8-a0a9-4fa2-8569-acd69da07f72}</Project>
-      <Name>ActiveXScriptLib.Extensions</Name>
+      <Name>ActiveScriptEngine.Extensions</Name>
     </ProjectReference>
-    <ProjectReference Include="..\ActiveXScriptLib\ActiveXScriptLib.csproj">
+    <ProjectReference Include="..\ActiveXScriptLib\ActiveScriptEngine.csproj">
       <Project>{55bef42e-813c-4832-955f-99acbd676616}</Project>
-      <Name>ActiveXScriptLib</Name>
+      <Name>ActiveScriptEngine</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

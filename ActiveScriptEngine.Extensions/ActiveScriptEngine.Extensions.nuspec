@@ -3,14 +3,13 @@
   <metadata>
     <id>ActiveScriptEngine.Extensions</id>
     <version>$version$</version>
-    <title>$title$</title>
+    <title>ActiveScriptEngine.Extensions</title>
     <authors>$author$</authors>
     <owners>$author$</owners>
     <licenseUrl>https://bitbucket.org/Shane88/activescriptengine/raw/28122df04a649589efb59726dced97daaf6cbc9b/License.txt</licenseUrl>
     <projectUrl>https://bitbucket.org/Shane88/activescriptengine</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>$description$</description>
-    <releaseNotes>Summary of changes made in this release of the package.</releaseNotes>
     <copyright>Copyright 2014</copyright>
     <tags>ActiveScriptEngine Active Script Engine VBScript JScript ActiveScript ActiveX Host ScriptHost ActiveScriptEngine.Extensions</tags>
     

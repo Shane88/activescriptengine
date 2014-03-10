@@ -53,9 +53,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ActiveXScriptLib\ActiveXScriptLib.csproj">
+    <ProjectReference Include="..\ActiveXScriptLib\ActiveScriptEngine.csproj">
       <Project>{55bef42e-813c-4832-955f-99acbd676616}</Project>
-      <Name>ActiveXScriptLib</Name>
+      <Name>ActiveScriptEngine</Name>
     </ProjectReference>
     <ProjectReference Include="..\Interop.ActiveXScript\Interop.ActiveXScript.csproj">
       <Project>{a1acb104-2d1f-49b9-a2da-f1f2c57c907c}</Project>
