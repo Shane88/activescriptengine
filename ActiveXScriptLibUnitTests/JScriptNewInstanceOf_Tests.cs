@@ -4,6 +4,7 @@
    using FluentAssertions;
    using Microsoft.VisualStudio.TestTools.UnitTesting;
 
+   [TestClass]
    public class JScriptNewInstanceOf_Tests : JScriptTestBase
    {
       [TestInitialize]
@@ -13,8 +14,10 @@
             // Define a class like this
             function Person(){
                // Add object properties like this
-               this.Name = "";
+               this.Name = '';
             }");
+
+         scriptEngine.Start();
       }
 
       [TestMethod]

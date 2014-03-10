@@ -2,7 +2,7 @@
 {
    using System;
 
-   public static class FunctionOverriderExtensions
+   public static class OverrideGlobalFunctionExtensions
    {
       public static void OverrideGlobalFunction(this ActiveScriptEngine engine, string functionName, Action<object[]> action)
       {

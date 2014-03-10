@@ -1,5 +1,7 @@
 ﻿namespace ActiveXScriptLibUnitTests
 {
+   using System;
+   using ActiveXScriptLib;
    using ActiveXScriptLib.Extensions;
    using FluentAssertions;
    using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -15,6 +17,21 @@
                  Public Name
                  Public DateOfBirth
               End Class");
+
+         scriptEngine.Start();
+      }
+
+      [TestMethod]
+      public void When_NewInstanceOf_is_called_with_a_null_engine()
+      {
+         // Arrange.
+         ActiveScriptEngine engine = null;
+
+         // Act.
+         Action action = () => engine.NewInstanceOf("Person");
+
+         // Assert.
+         action.ShouldThrow<ArgumentNullException>();
       }
 
       [TestMethod]

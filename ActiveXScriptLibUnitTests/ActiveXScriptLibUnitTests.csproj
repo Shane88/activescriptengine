@@ -71,6 +71,7 @@
     <Compile Include="SimpleHostObject.cs" />
     <Compile Include="VBScriptByRefParamsTests.cs" />
     <Compile Include="VBScriptNamespaceTests.cs" />
+    <Compile Include="VBScript_GenericEvaluate_Tests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ActiveScriptEngine.Extensions\ActiveXScriptLib.Extensions.csproj">

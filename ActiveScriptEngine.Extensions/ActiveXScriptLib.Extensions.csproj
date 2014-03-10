@@ -44,10 +44,10 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>FunctionOverrider.tt</DependentUpon>
     </Compile>
-    <Compile Include="FunctionOverriderExtensions.cs">
+    <Compile Include="OverrideGlobalFunctionExtensions.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>FunctionOverriderExtensions.tt</DependentUpon>
+      <DependentUpon>OverrideGlobalFunctionExtensions.tt</DependentUpon>
     </Compile>
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -67,9 +67,9 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>FunctionOverrider.cs</LastGenOutput>
     </None>
-    <None Include="FunctionOverriderExtensions.tt">
+    <None Include="OverrideGlobalFunctionExtensions.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>FunctionOverriderExtensions.cs</LastGenOutput>
+      <LastGenOutput>OverrideGlobalFunctionExtensions.cs</LastGenOutput>
     </None>
   </ItemGroup>
   <ItemGroup>

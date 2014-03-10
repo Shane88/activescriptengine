@@ -14,7 +14,7 @@
       /// <param name="engine">The ActiveScriptEngine to create the instance from.</param>
       /// <param name="className">The name of the class to create an instance of.</param>
       /// <returns>The created instance.</returns>
-      public static object NewInstanceOf(this ActiveScriptEngine engine, string className)
+      public static dynamic NewInstanceOf(this ActiveScriptEngine engine, string className)
       {
          if (engine == null)
          {
