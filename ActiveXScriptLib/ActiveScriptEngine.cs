@@ -224,8 +224,40 @@
             throw new ArgumentException("object with that name already exists", "name");
          }
 
-         hostObjects.Add(name, value);
+         if (Marshal.IsComObject(value) ||
+            IsComVisibleDotNetObject(value) ||
+            value is ComProxy)
+         {
+            hostObjects.Add(name, value);
+         }
+         else
+         {
+            ComProxy proxy = new ComProxy(value);
+            hostObjects.Add(name, proxy);
+         }
+
          activeScript.AddNamedItem(name, ScriptItemFlags.IsSource | ScriptItemFlags.IsVisible);
+      }
+
+      private static bool IsComVisibleDotNetObject(object value)
+      {
+         bool comVisible = false;
+
+         Type type = value.GetType();
+
+         var comVisibleAttributes = 
+            type.GetCustomAttributes(typeof(ComVisibleAttribute), false) as ComVisibleAttribute[];
+
+         if (comVisibleAttributes != null)
+         {
+            foreach (var comAttribute in comVisibleAttributes)
+            {
+               comVisible = comAttribute.Value;
+               break;
+            }
+         }
+
+         return comVisible;
       }
 
       /// <summary>

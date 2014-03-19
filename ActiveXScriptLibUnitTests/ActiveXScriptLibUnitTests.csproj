@@ -63,6 +63,7 @@
     <Compile Include="JScriptBasicTests.cs" />
     <Compile Include="FunctionOverrider_Tests.cs" />
     <Compile Include="JScriptNewInstanceOf_Tests.cs" />
+    <Compile Include="VBScriptComProxyTests.cs" />
     <Compile Include="VBScriptNewInstanceOf_Tests.cs" />
     <Compile Include="TestBase.cs" />
     <Compile Include="VBScriptAddObjectTests.cs" />

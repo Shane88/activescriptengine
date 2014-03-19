@@ -41,6 +41,7 @@
     <Compile Include="ActiveScriptEngine.cs" />
     <Compile Include="ActiveScriptParse.cs" />
     <Compile Include="ActiveScriptSite.cs" />
+    <Compile Include="ComProxy.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="InvalidActiveScriptClassException.cs" />
     <Compile Include="JScript.cs" />
