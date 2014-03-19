@@ -19,16 +19,18 @@
       private string scriptToParse;
       private string progId;
 
+      /// <summary>
+      /// Initializes a new instance of the ActiveScriptEngine class using the specified progId.
+      /// The specified progId must represent a class that implements the native IActiveScript interface.
+      /// </summary>
+      /// <param name="progId">The progId of the COM Component to create.</param>
+      /// <exception cref="ArgumentException">progId is null or empty.</exception>
+      /// <exception cref="COMException">The specified ProgID is not registered</exception>
       public ActiveScriptEngine(string progId)
       {
-         if (progId == null)
-         {
-            throw new ArgumentNullException("progId");
-         }
-
          if (string.IsNullOrEmpty(progId))
          {
-            throw new ArgumentException("progID must not be empty");
+            throw new ArgumentException("progID must not be empty", "progId");
          }
 
          Type type = Type.GetTypeFromProgID(progId, true);
@@ -41,6 +43,14 @@
          this.progId = progId;
       }
 
+      /// <summary>
+      /// Initializes a new instance of the ActiveScriptEngine class using the specified IActiveScript instance.
+      /// If the supplied object is not an IActiveScript instance then a InvalidActiveScriptClassException exception
+      /// will be thrown.
+      /// </summary>
+      /// <param name="activeScriptInstance">The IActiveScript instance.</param>
+      /// <exception cref="InvalidActiveScriptClassException">activeScriptInstance does not implement
+      /// IActiveScript interface.</exception>
       public ActiveScriptEngine(object activeScriptInstance)
       {
          if (activeScriptInstance == null)
@@ -58,8 +68,17 @@
          Dispose(false);
       }
 
+      /// <summary>
+      /// Raised when a error occurs inside the script context.
+      /// Note when using dynamic dispatch to invoke a method on a script object,
+      /// if a error occurs inside the script this event handler will be raised
+      /// before the exception is thrown back to the caller.
+      /// </summary>
       public event ScriptErrorOccurredEventHandler ScriptErrorOccurred;
 
+      /// <summary>
+      /// Gets the ProgId that was used to create the internal IActiveScript instance.
+      /// </summary>
       public string ProgId
       {
          get
@@ -68,6 +87,9 @@
          }
       }
 
+      /// <summary>
+      /// Gets the last error that occurred inside the script engine context.
+      /// </summary>
       public ScriptErrorInfo LastError { get; internal set; }
 
       /// <summary>
@@ -81,6 +103,9 @@
          }
       }
 
+      /// <summary>
+      /// Gets the IActiveScript instance used by this engine internally.
+      /// </summary>
       internal IActiveScript ActiveScript
       {
          get
@@ -89,6 +114,11 @@
          }
       }
 
+      /// <summary>
+      /// Gets the Dictionary of objects that have been added to the script engine context.
+      /// The key represents the alias of the object inside the script context,
+      /// the value is the actual object.
+      /// </summary>
       internal Dictionary<string, object> HostObjects
       {
          get
@@ -288,7 +318,7 @@
 
          ulong cookie = (ulong)scripts.Count;
 
-         IntPtr pResult = Marshal.AllocCoTaskMem(1024);
+         IntPtr result = Marshal.AllocCoTaskMem(1024);
 
          try
          {
@@ -300,17 +330,17 @@
                 sourceContext: cookie,
                 startingLineNumber: 1u,
                 flags: ScriptTextFlags.IsExpression,
-                pVarResult: pResult,
+                pVarResult: result,
                 excepInfo: out exceptionInfo);
 
-            if (pResult != IntPtr.Zero)
+            if (result != IntPtr.Zero)
             {
-               return Marshal.GetObjectForNativeVariant(pResult);
+               return Marshal.GetObjectForNativeVariant(result);
             }
          }
          finally
          {
-            Marshal.FreeCoTaskMem(pResult);
+            Marshal.FreeCoTaskMem(result);
          }
 
          return null;
@@ -345,6 +375,10 @@
          return hostObjects.ContainsKey(name);
       }
 
+      /// <summary>
+      /// Used by ActiveScriptSite to signal error events to this engine.
+      /// </summary>
+      /// <param name="error">The script error object from the IActiveScriptSite instance.</param>
       internal void OnScriptError(IActiveScriptError error)
       {
          this.LastError = new ScriptErrorInfo(error, this.scripts);
@@ -362,6 +396,10 @@
          }
       }
 
+      /// <summary>
+      /// Disposes the internal IActiveScript engine instance.
+      /// </summary>
+      /// <param name="managedDispose">Whether to dispose only managed resources.</param>
       protected virtual void Dispose(bool managedDispose)
       {
          if (activeScript != null)
@@ -387,6 +425,10 @@
          }
       }
 
+      /// <summary>
+      /// Initialises this script engine instance with the required internal components.
+      /// </summary>
+      /// <param name="activeScriptObject">The IActiveScript instance to initialise this script engine with.</param>
       private void Initialise(object activeScriptObject)
       {
          IActiveScript activeScriptInstance = activeScriptObject as IActiveScript;
