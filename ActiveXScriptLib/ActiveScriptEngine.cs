@@ -17,7 +17,6 @@
 
       private Dictionary<ulong, ScriptInfo> scripts;
       private string scriptToParse;
-      private string progId;
 
       /// <summary>
       /// Initializes a new instance of the ActiveScriptEngine class using the specified progId.
@@ -40,7 +39,7 @@
          object activeScriptInstance = Activator.CreateInstance(type);
 
          this.Initialise(activeScriptInstance);
-         this.progId = progId;
+         this.ProgId = progId;
       }
 
       /// <summary>
@@ -79,13 +78,7 @@
       /// <summary>
       /// Gets the ProgId that was used to create the internal IActiveScript instance.
       /// </summary>
-      public string ProgId
-      {
-         get
-         {
-            return this.progId;
-         }
-      }
+      public string ProgId { get; private set; }
 
       /// <summary>
       /// Gets the last error that occurred inside the script engine context.
@@ -99,7 +92,8 @@
       {
          get
          {
-            return activeScript.GetScriptState() == ScriptState.Started;
+            ScriptState scriptState = activeScript.GetScriptState();
+            return scriptState == ScriptState.Started || scriptState == ScriptState.Connected;
          }
       }
 

@@ -59,5 +59,21 @@
          // Assert.
          engine.ProgId.Should().Be(null);
       }
+
+      [TestMethod]
+      public void When_ActiveScriptEngine_is_connected_it_IsRunning()
+      {
+         // Arrange.
+         ActiveScriptEngine engine = new ActiveScriptEngine(VBScript.ProgId);
+
+         bool isRunningBeforeStart = engine.IsRunning;
+
+         // Act.
+         engine.Start();
+
+         // Assert.
+         isRunningBeforeStart.Should().BeFalse();
+         engine.IsRunning.Should().BeTrue();
+      }
    }
 }
