@@ -1,6 +1,7 @@
 ﻿namespace ActiveXScriptLibUnitTests
 {
    using System;
+   using System.Collections.Generic;
    using System.Runtime.InteropServices;
    using ActiveXScriptLib;
    using ActiveXScriptLib.Extensions;
@@ -184,6 +185,63 @@
 
          // Assert.
          action.ShouldThrow<RuntimeBinderException>();
+      }
+
+      [TestMethod]
+      public void When_a_GenericDictionary_is_added()
+      {
+         // Arrange.
+         var dictionary = new Dictionary<int, string>();
+
+         scriptEngine.Start();
+
+         scriptEngine.AddObject("values", dictionary);
+
+         dictionary.Add(1, "One");
+
+         // Act.
+         scriptEngine.AddCode("values.Add 2, \"Two\"");
+
+         int count = scriptEngine.Evaluate<int>("values.Count");
+
+         // Assert.
+         count.Should().Be(2);
+      }
+
+      [TestMethod]
+      public void When_a_GenericDictionary_is_passed_as_a_parameter()
+      {
+         // Arrange.
+         var dictionary = new Dictionary<int, string>();
+
+         scriptEngine.Start();
+         
+         dictionary.Add(1, "One");
+         
+
+         scriptEngine.AddCode(@"
+Public Function PrintValues(values)
+
+   values.Add 2, ""Two""
+
+   Dim oEnum
+   Set oEnum = values
+
+   WScript.Echo TypeName(oEnum)
+
+   Dim val
+   For Each val In oEnum
+      WScript.Echo val
+   Next
+
+   PrintValues = values.Count
+End Function");
+
+         // Act.
+         int count = script.PrintValues(new ComProxy(dictionary));
+
+         // Assert.
+         count.Should().Be(2);
       }
    }
 }

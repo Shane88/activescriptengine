@@ -1,9 +1,13 @@
 ﻿namespace ActiveXScriptLib
 {
    using System;
+   using System.Collections;
+   using System.Diagnostics;
    using System.Globalization;
    using System.Reflection;
+   using System.Runtime.InteropServices;
 
+   [DebuggerDisplay("ComProxy for {UnderlyingSystemType}")]
    public class ComProxy : IReflect
    {
       private object actualValue;
@@ -89,7 +93,80 @@
          CultureInfo culture,
          string[] namedParameters)
       {
-         return UnderlyingSystemType.InvokeMember(name, invokeAttr, binder, actualValue, args, modifiers, culture, namedParameters);
+         object returnValue = null;
+
+         if (name == "[DISPID=-4]")
+         {
+            IEnumerable enumerator = actualValue as IEnumerable;
+
+            if (enumerator != null)
+            {
+               //return new ComProxy(enumerator.GetEnumerator() as IEnumerator);
+               return enumerator.GetEnumerator() as IEnumerator;
+            }
+         }
+         else
+         {
+            returnValue =
+               UnderlyingSystemType.InvokeMember(name, invokeAttr, binder, actualValue, args, modifiers, culture, namedParameters);
+         }
+
+         if (ShouldWrapObject(returnValue))
+         {
+            return new ComProxy(returnValue);
+         }
+
+         return returnValue;
+      }
+
+      public static bool ShouldWrapObject(object value)
+      {
+         return value != null && 
+            !Marshal.IsComObject(value) &&
+            !ComProxy.IsComVisibleDotNetObject(value) &&
+            !(value is ComProxy);
+      }
+
+      public static bool IsComVisibleDotNetObject(object value)
+      {
+         bool? comVisible = null;
+
+         Type type = value.GetType();
+
+         if (value is IReflect)
+         {
+            return true;
+         }
+
+         var comVisibleAttributes = 
+            type.GetCustomAttributes(typeof(ComVisibleAttribute), false) as ComVisibleAttribute[];
+
+         if (comVisibleAttributes != null)
+         {
+            foreach (var comAttribute in comVisibleAttributes)
+            {
+               comVisible = comAttribute.Value;
+               break;
+            }
+         }
+
+         if (!comVisible.HasValue ||
+            (comVisible.HasValue && !comVisible.Value))
+         {
+            comVisibleAttributes =
+               type.Assembly.GetCustomAttributes(typeof(ComVisibleAttribute), false) as ComVisibleAttribute[];
+
+            if (comVisibleAttributes != null)
+            {
+               foreach (var comAttribute in comVisibleAttributes)
+               {
+                  comVisible = comAttribute.Value;
+                  break;
+               }
+            }
+         }
+
+         return comVisible ?? false;
       }
    }
 }

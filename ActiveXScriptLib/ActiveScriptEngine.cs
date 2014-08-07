@@ -3,6 +3,7 @@
    using System;
    using System.Collections.Generic;
    using System.Diagnostics;
+   using System.Reflection;
    using System.Runtime.InteropServices;
    using Interop.ActiveXScript;
    using EXCEPINFO = System.Runtime.InteropServices.ComTypes.EXCEPINFO;
@@ -224,40 +225,17 @@
             throw new ArgumentException("object with that name already exists", "name");
          }
 
-         if (Marshal.IsComObject(value) ||
-            IsComVisibleDotNetObject(value) ||
-            value is ComProxy)
-         {
-            hostObjects.Add(name, value);
-         }
-         else
+         if (ComProxy.ShouldWrapObject(value))
          {
             ComProxy proxy = new ComProxy(value);
             hostObjects.Add(name, proxy);
          }
-
-         activeScript.AddNamedItem(name, ScriptItemFlags.IsSource | ScriptItemFlags.IsVisible);
-      }
-
-      private static bool IsComVisibleDotNetObject(object value)
-      {
-         bool comVisible = false;
-
-         Type type = value.GetType();
-
-         var comVisibleAttributes = 
-            type.GetCustomAttributes(typeof(ComVisibleAttribute), false) as ComVisibleAttribute[];
-
-         if (comVisibleAttributes != null)
+         else
          {
-            foreach (var comAttribute in comVisibleAttributes)
-            {
-               comVisible = comAttribute.Value;
-               break;
-            }
+            hostObjects.Add(name, value);
          }
 
-         return comVisible;
+         activeScript.AddNamedItem(name, ScriptItemFlags.IsSource | ScriptItemFlags.IsVisible);
       }
 
       /// <summary>
