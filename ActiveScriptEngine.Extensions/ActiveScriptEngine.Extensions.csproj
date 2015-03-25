@@ -38,7 +38,9 @@
     <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ActiveScriptEngineBuilder.cs" />
     <Compile Include="ActiveScriptEngineExtensions.cs" />
+    <Compile Include="CreateObjectFactory.cs" />
     <Compile Include="FunctionOverrider.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

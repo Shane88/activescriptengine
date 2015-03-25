@@ -5,6 +5,7 @@
    using ActiveXScriptLib;
    using FluentAssertions;
    using Microsoft.VisualStudio.TestTools.UnitTesting;
+   using ActiveXScriptLib.Extensions;
 
    [TestClass]
    public class ActiveScriptEngine_Tests
