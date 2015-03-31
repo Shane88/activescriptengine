@@ -22,7 +22,7 @@
                   testObject.Name = "Hello World!";
                })
             .AddCode("Public Sub Print(text) \n WScript.Echo text \n End Sub")
-            .AddCodeFile(@"..\..\MyAwesomeCode.vbs")
+            .AddCodeFiles(@"..\..\*.vbs")
             .AddCreateObjectHook(
                factory =>
                {
