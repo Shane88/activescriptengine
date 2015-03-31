@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.30110.0
+VisualStudioVersion = 12.0.31101.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Interop.ActiveXScript", "Interop.ActiveXScript\Interop.ActiveXScript.csproj", "{A1ACB104-2D1F-49B9-A2DA-F1F2C57C907C}"
 EndProject
@@ -12,9 +12,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ActiveScriptEngine.Extensions", "ActiveScriptEngine.Extensions\ActiveScriptEngine.Extensions.csproj", "{243BA0F8-A0A9-4FA2-8569-ACD69DA07F72}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{F35CAFEC-A8EB-4C65-AF5A-412B32B4299E}"
-	ProjectSection(SolutionItems) = preProject
-		.nuget\packages.config = .nuget\packages.config
-	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

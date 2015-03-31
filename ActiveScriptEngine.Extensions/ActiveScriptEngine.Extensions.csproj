@@ -79,9 +79,8 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>cd $(ProjectDir)
-$(SolutionDir)packages\NuGet.CommandLine.2.8.0\tools\nuget.exe spec -NonInteractive
-$(SolutionDir)packages\NuGet.CommandLine.2.8.0\tools\nuget pack $(ProjectPath) -Prop Configuration=Release -OutputDirectory $(OutDir) -NonInteractive</PostBuildEvent>
+    <PostBuildEvent>
+    </PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
