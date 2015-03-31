@@ -11,8 +11,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ActiveXScriptLibUnitTests",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ActiveScriptEngine.Extensions", "ActiveScriptEngine.Extensions\ActiveScriptEngine.Extensions.csproj", "{243BA0F8-A0A9-4FA2-8569-ACD69DA07F72}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{F35CAFEC-A8EB-4C65-AF5A-412B32B4299E}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
