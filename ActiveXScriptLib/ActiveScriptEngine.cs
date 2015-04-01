@@ -23,8 +23,8 @@
       /// The specified progId must represent a class that implements the native IActiveScript interface.
       /// </summary>
       /// <param name="progId">The progId of the COM Component to create.</param>
-      /// <exception cref="ArgumentException">progId is null or empty.</exception>
-      /// <exception cref="COMException">The specified ProgID is not registered</exception>
+      /// <exception cref="System.ArgumentException">progId is null or empty.</exception>
+      /// <exception cref="System.Runtime.InteropServices.COMException">The specified ProgID is not registered.</exception>
       public ActiveScriptEngine(string progId)
       {
          if (string.IsNullOrEmpty(progId))
@@ -32,7 +32,7 @@
             throw new ArgumentException("progID must not be empty", "progId");
          }
 
-         Type type = Type.GetTypeFromProgID(progId, true);
+         Type type = Type.GetTypeFromProgID(progId, throwOnError: true);
 
          Debug.Assert(type != null, "Type should be valid at this point as the above line will throw if the progId is invalid");
 

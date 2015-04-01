@@ -9,6 +9,7 @@
    {
       private Dictionary<string, object> objectFactories = new Dictionary<string, object>();
 
+      // TODO: Should consider making this take a factory so it can be deferred like the rest of the api.
       public CreateObjectFactory AddHook(string name, object value)
       {
          objectFactories.Add(name, value);
