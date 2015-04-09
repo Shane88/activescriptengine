@@ -27,6 +27,18 @@
          return this;
       }
 
+      public ActiveScriptEngineBuilder UseVBScript()
+      {
+         scriptLanguageProgId = VBScript.ProgId;
+         return this;
+      }
+
+      public ActiveScriptEngineBuilder UseJScript()
+      {
+         scriptLanguageProgId = JScript.ProgId;
+         return this;
+      }
+
       /// <summary>
       /// Allows custom configuration of the ActiveScriptEngine being built.
       /// </summary>

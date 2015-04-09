@@ -7,13 +7,12 @@
    [ComVisible(true)]
    public class CreateObjectFactory
    {
-      private Dictionary<string, object> objectFactories = new Dictionary<string, object>();
+      internal Dictionary<string, object> objectFactories = new Dictionary<string, object>();
 
       // TODO: Should consider making this take a factory so it can be deferred like the rest of the api.
-      public CreateObjectFactory AddHook(string name, object value)
+      public InterceptAs Intercept(string name)
       {
-         objectFactories.Add(name, value);
-         return this;
+         return new InterceptAs(this, name);
       }
 
       public object this[string name]
@@ -30,9 +29,27 @@
       }
    }
 
+   public class InterceptAs
+   {
+      private readonly CreateObjectFactory _factory;
+      private readonly string _name;
+
+      public InterceptAs(CreateObjectFactory factory, string name)
+      {
+         _factory = factory;
+         _name = name;
+      }
+
+      public CreateObjectFactory With(object value)
+      {
+         _factory.objectFactories.Add(_name, value);
+         return _factory;
+      }
+   }
+
    public static class ActiveScriptEngineBuilderCreateObjectFactoryExtensions
    {
-      public static ActiveScriptEngineBuilder AddCreateObjectHook(this ActiveScriptEngineBuilder builder, Action<CreateObjectFactory> factory)
+      public static ActiveScriptEngineBuilder InterceptCreateObject(this ActiveScriptEngineBuilder builder, Action<CreateObjectFactory> factory)
       {
          builder.Configure(engine => ConfigureCreateObjectHookImpl(engine, factory));
          return builder;
