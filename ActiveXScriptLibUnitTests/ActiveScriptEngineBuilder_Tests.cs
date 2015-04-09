@@ -30,12 +30,17 @@
                   factory.AddHook("Blah", hostObject);
                   factory.AddHook("blah2", hostObject);
                })
+
             .StartEngineOnBuild()
+
+            .OnStart(script => script.WScript.Echo("Echo from OnStart"))
+            .RunCodeOnStart("WScript.Echo \"Echo from RunCodeOnStart\"")
+
             .Build();
 
-         dynamic script = scriptEngine.GetScriptHandle();
+         dynamic script2 = scriptEngine.GetScriptHandle();
 
-         script.Print("Hello World");
+         script2.Print("Echo from after engine is built");
       }
 
       [ComVisible(true)]

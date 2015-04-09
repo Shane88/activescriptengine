@@ -10,6 +10,8 @@
       private readonly List<CodeBlock> codeBlocks = new List<CodeBlock>();
       private readonly List<Action<ActiveScriptEngine>> configurationActions = new List<Action<ActiveScriptEngine>>();
       private readonly Dictionary<string, Func<object>> objectFactories = new Dictionary<string, Func<object>>();
+      private readonly List<object> actionsToRunOnStart = new List<object>();
+
       private string scriptLanguageProgId = VBScript.ProgId;
       private bool shouldStart;
 
@@ -45,9 +47,11 @@
       /// <param name="searchPattern">The search pattern of the files to add.</param>
       /// <param name="namespaceName">The namespace that the code files should be added to. If not specified they will be added to the root namespace.</param>
       /// <returns>This ActiveScriptEngineBuilder to allow for fluent method calls.</returns>
-      public ActiveScriptEngineBuilder AddCodeFiles(string searchPattern, string namespaceName = null)
+      public ActiveScriptEngineBuilder AddCodeFiles(string searchPattern, string namespaceName = null, string rootDirectory = null)
       {
-         IEnumerable<string> filePaths = FindFiles(searchPattern);
+         IEnumerable<string> filePaths = rootDirectory == null ?
+            FindFiles(searchPattern) :
+            FindFiles(searchPattern, rootDirectory);
 
          foreach (string filePath in filePaths)
          {
@@ -154,6 +158,7 @@
          if (shouldStart)
          {
             engine.Start();
+            RunActionsOnStart(engine);
          }
 
          return engine;
@@ -214,6 +219,39 @@
          }
       }
 
+      private void RunActionsOnStart(ActiveScriptEngine engine)
+      {
+         foreach (object action in actionsToRunOnStart)
+         {
+            string code = action as string;
+
+            if (code != null)
+            {
+               HandleAddCodeOnStart(engine, code);
+               continue;
+            }
+
+            Action<dynamic> actionOnStart = action as Action<dynamic>;
+
+            if (actionOnStart != null)
+            {
+               HandleActionOnStart(engine, actionOnStart);
+               continue;
+            }
+         }
+      }
+
+      private void HandleActionOnStart(ActiveScriptEngine engine, Action<dynamic> actionOnStart)
+      {
+         dynamic scriptHandle = engine.GetScriptHandle();
+         actionOnStart(scriptHandle);
+      }
+
+      private void HandleAddCodeOnStart(ActiveScriptEngine engine, string code)
+      {
+         engine.AddCode(code);
+      }
+
       public ActiveScriptEngineBuilder LogErrorsToTrace()
       {
          return LogErrorsTo(errorText => Trace.WriteLine(errorText));
@@ -225,6 +263,20 @@
             engine =>
                engine.ScriptErrorOccurred += (sender, error) =>
                   logAction(FormatErrorInfo(error)));
+      }
+
+      public ActiveScriptEngineBuilder RunCodeOnStart(string code)
+      {
+         this.StartEngineOnBuild();
+         actionsToRunOnStart.Add(code);
+         return this;
+      }
+
+      public ActiveScriptEngineBuilder OnStart(Action<dynamic> onStartAction)
+      {
+         this.StartEngineOnBuild();
+         actionsToRunOnStart.Add(onStartAction);
+         return this;
       }
 
       private static string FormatErrorInfo(ScriptErrorInfo error)
