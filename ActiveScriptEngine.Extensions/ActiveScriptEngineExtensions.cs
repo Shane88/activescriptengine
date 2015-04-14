@@ -32,7 +32,7 @@
       /// <summary>
       /// Provides a generic overload for engine.Evaluate.
       /// This method will invoke Convert.ChangeType on the returned value to try convert it to type T.
-      /// This provides a more easier way to get the value of a type you want.
+      /// This provides an easier way to get the value of a type you want.
       /// </summary>
       /// <typeparam name="T">The Type to convert the returned value of Evaluate to.</typeparam>
       /// <param name="engine">The ActiveScriptEngine to invoke Evaluate on.</param>

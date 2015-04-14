@@ -4,6 +4,7 @@
    using System.Runtime.InteropServices;
    using ActiveXScriptLib;
    using ActiveXScriptLib.Extensions;
+   using ActiveXScriptLib.Extensions.Builder;
    using Microsoft.VisualStudio.TestTools.UnitTesting;
 
    [TestClass]
@@ -31,12 +32,21 @@
             .AddCode("Public Sub Print(text) \n WScript.Echo text \n End Sub")
             .AddCodeFiles(@"..\..\*.vbs") // Wild cards can be used here.
 
+            /*
+            .AddFilesFromIni(ini => ini
+               .IniFilePath(@"..\..\Scripts")
+               .Section("TestScript")
+               .AddPathToken("SHARED:").ThatResolvesTo("SHARED\\")
+               .AddPathToken("COMMON:").ThatResolvesTo("COMMON\\"))
+            */
+
             // Intercept CreateObject calls from the script and instead return the objects defined here.
             .InterceptCreateObject(factory => factory
-                  .Intercept("gHost").With(hostObject)
-                  .Intercept("Blah").With(hostObject)
-                  .Intercept("blah2").With(hostObject))
-            
+               .Intercept("gHost").With(hostObject)
+               .Intercept("Blah").With(hostObject)
+               .Intercept("blah2").With(hostObject)
+               .Intercept("TestObject").With<TestObject>())
+
             // Specify that we want the engine to be started as soon as we build.
             .StartEngineOnBuild()
 
@@ -50,6 +60,10 @@
          dynamic script2 = scriptEngine.GetScriptHandle();
 
          script2.Print("Echo from after engine is built");
+
+         dynamic gHost = script2.TestCreateObject("gHost");
+
+         gHost.Echo("Hello from gHost");
       }
 
       [ComVisible(true)]

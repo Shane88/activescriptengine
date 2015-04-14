@@ -42,16 +42,16 @@
     <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ActiveScriptEngineBuilder.cs" />
-    <Compile Include="ActiveScriptEngineBuilderIniFileExtensions.cs" />
+    <Compile Include="Builder\ActiveScriptEngineBuilder.cs" />
+    <Compile Include="Builder\ActiveScriptEngineBuilderIniFileExtensions.cs" />
     <Compile Include="ActiveScriptEngineExtensions.cs" />
-    <Compile Include="CreateObjectFactory.cs" />
+    <Compile Include="Builder\CreateObjectFactory.cs" />
     <Compile Include="FunctionOverrider.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>FunctionOverrider.tt</DependentUpon>
     </Compile>
-    <Compile Include="IniOptions.cs" />
+    <Compile Include="Builder\IniOptions.cs" />
     <Compile Include="OverrideGlobalFunctionExtensions.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -103,7 +103,7 @@
     -->
   <Target Name="AfterBuild" Condition="'$(Configuration)' == 'Release'">
     <ItemGroup>
-      <InputAssemblies Include="$(OutputPath)\ActiveXScriptLib.Extensions.dll" />
+      <InputAssemblies Include="$(OutputPath)\$(AssemblyName).dll" />
       <InputAssemblies Include="$(OutputPath)\INIFileParser.dll" />
     </ItemGroup>
     <ItemGroup>

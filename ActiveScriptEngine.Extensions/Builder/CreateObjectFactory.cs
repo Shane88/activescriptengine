@@ -1,4 +1,4 @@
-﻿namespace ActiveXScriptLib.Extensions
+﻿namespace ActiveXScriptLib.Extensions.Builder
 {
    using System;
    using System.Collections.Generic;
@@ -7,21 +7,37 @@
    [ComVisible(true)]
    public class CreateObjectFactory
    {
-      internal Dictionary<string, object> objectFactories = new Dictionary<string, object>();
+      internal Dictionary<string, Func<object>> objectFactories = new Dictionary<string, Func<object>>(StringComparer.OrdinalIgnoreCase);
+      internal Dictionary<string, object> builtObjects = new Dictionary<string, object>();
 
-      // TODO: Should consider making this take a factory so it can be deferred like the rest of the api.
-      public InterceptAs Intercept(string name)
+      public InterceptWith Intercept(string name)
       {
-         return new InterceptAs(this, name);
+         return new InterceptWith(this, name);
       }
 
       public object this[string name]
       {
          get
          {
+            if (builtObjects.ContainsKey(name))
+            {
+               return builtObjects[name];
+            }
+
             if (objectFactories.ContainsKey(name))
             {
-               return objectFactories[name];
+               // On first request of the object, build it.
+               Func<object> factory = objectFactories[name];
+
+               object instance = factory();
+
+               // Cache built objects in another dictionary.
+               builtObjects.Add(name, instance);
+
+               // Don't need the factory any more.
+               objectFactories.Remove(name);
+
+               return instance;
             }
 
             return Activator.CreateInstance(Type.GetTypeFromProgID(name));
@@ -29,20 +45,45 @@
       }
    }
 
-   public class InterceptAs
+   public class InterceptWith
    {
       private readonly CreateObjectFactory _factory;
       private readonly string _name;
 
-      public InterceptAs(CreateObjectFactory factory, string name)
+      public InterceptWith(CreateObjectFactory factory, string name)
       {
          _factory = factory;
          _name = name;
       }
 
-      public CreateObjectFactory With(object value)
+      public CreateObjectFactory With<T>() where T : class, new()
       {
-         _factory.objectFactories.Add(_name, value);
+         _factory.objectFactories.Add(_name, () => new T());
+         return _factory;
+      }
+
+      public CreateObjectFactory With<T>(T value)
+      {
+         _factory.objectFactories.Add(_name, () => value);
+         return _factory;
+      }
+
+      public CreateObjectFactory With<T>(Action<T> configurationAction) where T : class, new()
+      {
+         Func<object> factory = () =>
+         {
+            T instance = new T();
+            configurationAction(instance);
+            return instance;
+         };
+
+         _factory.objectFactories.Add(_name, factory);
+         return _factory;
+      }
+
+      public CreateObjectFactory With<T>(Func<T> objectFactory) where T : class
+      {
+         _factory.objectFactories.Add(_name, objectFactory);
          return _factory;
       }
    }
